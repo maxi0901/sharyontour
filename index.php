@@ -9,8 +9,8 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 <section class="hero reveal">
   <div class="container">
     <p class="hero-label">SHARY ON TOUR</p>
-    <h1>POP-ART VON <span>SHARYAR AZHDARI</span></h1>
-    <p class="subline">Cinematic street-art energy für Events, Live-Erlebnisse und Sammler mit Anspruch.</p>
+    <h1>TOUR <span>2025</span></h1>
+    <p class="subline">Pop-Art live erleben — Events, Ausstellungen und Sammler-Kunst von Sharyar Azhdari.</p>
     <div class="cta-row">
       <a class="btn btn-primary" href="#events">EVENTS ENTDECKEN</a>
       <a class="btn btn-secondary" href="#newsletter">TICKET SICHERN</a>
@@ -19,8 +19,12 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 </section>
 <section class="container reveal intro-block">
   <p class="kicker">ORIGINALE POP-ART VON SHARY</p>
-  <h2>POP-ART VON <span>SHARYAR AZHDARI</span></h2>
+  <h2>POP-ART VON <span class="text-pink">SHARYAR</span> <span class="text-green">AZHDARI</span></h2>
   <p class="lead center">Moderne, urbane Kunst mit starker Farbe, Emotion und internationaler Präsenz — ideal für Sammler und Designliebhaber.</p>
+  <div class="cta-row" style="justify-content:center;margin-top:1.8rem;">
+    <a class="btn btn-dark" href="https://s-art.work" target="_blank" rel="noopener">s-art.work</a>
+  </div>
+  <span class="deco-square" aria-hidden="true"></span>
 </section>
 <section class="container reveal location-highlight">
   <h2>Aktueller Standort</h2>
