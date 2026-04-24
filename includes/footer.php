@@ -1,14 +1,19 @@
 </main>
 <footer class="site-footer">
   <div class="container footer-grid">
-    <div>
-      <h4>S-ART / Shary on Tour</h4>
-      <p>Pop-Art trifft Container-Kultur. Laut. Modern. Echt.</p>
+    <div class="footer-brand">
+      <h4>S-ART / SHARY ON TOUR</h4>
+      <p>Pop-Art trifft Container-Kultur: laut, modern und urban inszeniert.</p>
     </div>
-    <div>
+    <div class="footer-links">
       <a href="/impressum.php">Impressum</a>
       <a href="/datenschutz.php">Datenschutz</a>
       <a href="/admin/index.php">Admin</a>
+    </div>
+    <div class="footer-social" aria-label="Social Links">
+      <a href="#" aria-label="Instagram">IG</a>
+      <a href="#" aria-label="TikTok">TT</a>
+      <a href="#" aria-label="YouTube">YT</a>
     </div>
   </div>
 </footer>
