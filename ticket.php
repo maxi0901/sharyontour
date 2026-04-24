@@ -1,35 +1,26 @@
 <?php
-
-declare(strict_types=1);
-
-require_once __DIR__ . '/includes/functions.php';
-
+$pageTitle = 'Digitales Ticket';
+require __DIR__ . '/includes/header.php';
 $token = trim((string) ($_GET['token'] ?? ''));
 $ticket = null;
 if ($token !== '') {
-    $stmt = db()->prepare('SELECT * FROM newsletter_subscribers WHERE ticket_token = :token LIMIT 1');
-    $stmt->execute(['token' => $token]);
-    $ticket = $stmt->fetch();
+    $ticket = fetchOne('SELECT * FROM newsletter_subscribers WHERE ticket_token=:token LIMIT 1', ['token' => $token]);
 }
-
-$currentPage = '';
-$pageTitle = 'Digitales Ticket | S-Art';
-require __DIR__ . '/includes/header.php';
 ?>
-<section class="section container reveal">
-<?php if ($ticket): ?>
-  <div class="ticket-wrap">
-    <div class="ticket-head">
-      <h1 class="section-title">S-Art Digital Ticket</h1>
-      <div class="ticket-id">Ticket-ID: <?= e(substr($ticket['ticket_token'], 0, 12)) ?></div>
-    </div>
-    <p><strong>Gast:</strong> <?= e($ticket['first_name'] ?: $ticket['email']) ?></p>
-    <p><strong>E-Mail:</strong> <?= e($ticket['email']) ?></p>
-    <p><strong>Hinweis:</strong> Kein Kauf erforderlich. Dieses Ticket dient zur Registrierung für Tour-Updates und Eventzugang nach Verfügbarkeit.</p>
-    <p><strong>Tour-Hinweis:</strong> Details zu kommenden Stops findest du auf der Tour-Seite.</p>
-  </div>
-<?php else: ?>
-  <div class="alert alert-error">Ticket nicht gefunden oder ungültiger Token.</div>
-<?php endif; ?>
+<section class="container page-intro reveal">
+  <h1>Dein S-ART Ticket</h1>
+  <?php if (!empty($_GET['msg'])): ?><p class="flash"><?= e((string) $_GET['msg']) ?></p><?php endif; ?>
+  <?php if ($ticket): ?>
+    <article class="ticket-card">
+      <p class="meta">Ticket-ID: <?= e($ticket['ticket_token']) ?></p>
+      <h2><?= e($ticket['first_name'] ?: $ticket['email']) ?></h2>
+      <p>Kein Kauf erforderlich.</p>
+      <p>Dieses Ticket wurde automatisch nach Newsletter-Anmeldung erstellt.</p>
+      <p>Zeige dieses Ticket bei Tour-Events vor.</p>
+      <a class="btn btn-blue" href="/index.php">Zurück zur Startseite</a>
+    </article>
+  <?php else: ?>
+    <p>Ticket nicht gefunden.</p>
+  <?php endif; ?>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>

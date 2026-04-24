@@ -1,30 +1,19 @@
 <?php
-
-declare(strict_types=1);
-
-require_once __DIR__ . '/includes/functions.php';
-
-$currentPage = 'artworks';
-$pageTitle = 'Kunstwerke | S-Art';
-$stmt = db()->query('SELECT * FROM artworks WHERE is_visible = 1 ORDER BY sort_order ASC, created_at DESC');
-$artworks = $stmt->fetchAll();
-
+$pageTitle = 'Kunstwerke';
 require __DIR__ . '/includes/header.php';
+$artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_order ASC, created_at DESC");
 ?>
-<section class="section container reveal">
-  <h1 class="section-title">Kunstwerke / Galerie</h1>
-  <div class="grid art-grid">
-<?php foreach ($artworks as $art): ?>
-    <article class="card art-card">
-      <img src="<?= e($art['image_path'] ?: '/assets/img/placeholder-artwork.jpg') ?>" alt="<?= e($art['title']) ?>" />
+<section class="container page-intro reveal"><h1>Kunstwerke</h1><p>Galerie aller sichtbaren Arbeiten.</p></section>
+<section class="container reveal">
+  <div class="card-grid artworks">
+    <?php foreach ($artworks as $art): ?>
+    <article class="card artwork-card">
+      <img src="<?= e($art['image_path']) ?>" alt="<?= e($art['title']) ?>">
       <h3><?= e($art['title']) ?></h3>
+      <p class="meta"><?= e($art['collection_name']) ?><?= $art['year'] ? ' · ' . e($art['year']) : '' ?></p>
       <p><?= e($art['description']) ?></p>
-      <p class="art-meta">Collection: <?= e($art['collection_name']) ?> · <?= e((string) $art['year']) ?></p>
     </article>
-<?php endforeach; ?>
-<?php if (!$artworks): ?>
-    <p>Noch keine Kunstwerke veröffentlicht.</p>
-<?php endif; ?>
+    <?php endforeach; ?>
   </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>

@@ -1,31 +1,8 @@
 <?php
-
-declare(strict_types=1);
-
-require_once __DIR__ . '/includes/functions.php';
-
-$currentPage = 'past';
 $pageTitle = 'Vergangene Events';
-$pastEvents = fetch_events('past', 24);
-
 require __DIR__ . '/includes/header.php';
+$events = fetchAll("SELECT * FROM events WHERE status='past' ORDER BY event_date DESC");
 ?>
-<section class="section container reveal">
-  <h1 class="section-title">Vergangene Events</h1>
-  <div class="grid events">
-<?php foreach ($pastEvents as $event): ?>
-    <article class="card">
-      <h3><?= e($event['title']) ?></h3>
-      <p><?= e($event['event_date']) ?> · <?= e($event['city']) ?></p>
-      <p><?= e($event['description_long'] ?: $event['description_short']) ?></p>
-      <?php if (!empty($event['image_path'])): ?>
-        <img src="<?= e($event['image_path']) ?>" alt="<?= e($event['title']) ?>" style="width:100%;border:2px solid var(--ink);" />
-      <?php endif; ?>
-    </article>
-<?php endforeach; ?>
-<?php if (!$pastEvents): ?>
-    <p>Archivdaten folgen mit den nächsten Updates.</p>
-<?php endif; ?>
-  </div>
-</section>
+<section class="container page-intro reveal"><h1>Vergangene Events</h1></section>
+<section class="container reveal"><div class="card-grid"><?php foreach ($events as $event): ?><article class="card"><?php if ($event['image_path']): ?><img src="<?= e($event['image_path']) ?>" alt="<?= e($event['title']) ?>"><?php endif; ?><p class="meta"><?= formatDate($event['event_date']) ?> · <?= e($event['city']) ?></p><h3><?= e($event['title']) ?></h3><p><?= e($event['description_short']) ?></p></article><?php endforeach; ?></div></section>
 <?php require __DIR__ . '/includes/footer.php'; ?>
