@@ -21,12 +21,17 @@ require_once __DIR__ . '/csrf.php';
       <span class="logo-sub">SHARY ON TOUR</span>
     </a>
     <div class="header-actions">
-      <a class="icon-btn cart-btn" href="/booking.php" aria-label="Ticket und Booking">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      <a class="icon-btn brush-btn" href="/booking.php" aria-label="Ticket und Booking">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- brush handle -->
+          <path d="M3 21c3 0 7-1 7-8V5c0-.6-.4-1-1-1H5c-.6 0-1 .4-1 1v3"/>
+          <!-- bristle body -->
+          <path d="M9 3c0 0 2 1 2 4"/>
+          <!-- ferrule -->
+          <path d="M3 9h6"/>
+          <!-- paint blob -->
+          <path d="M1 18c0 1.7 1.3 3 3 3 2.3 0 3-1.3 3-3C7 15.3 4 14 4 14S1 15.3 1 18z" fill="currentColor" opacity="0.7"/>
         </svg>
-        <span class="cart-badge">0</span>
       </a>
       <button class="nav-toggle icon-btn" aria-label="Navigation öffnen" aria-expanded="false">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
@@ -35,11 +40,11 @@ require_once __DIR__ . '/csrf.php';
       </button>
     </div>
     <nav class="main-nav">
-      <a class="<?= isActivePage('index.php') ?>" href="/index.php">Start</a>
+      <a class="<?= isActivePage('index.php') ?>" href="/index.php">Home</a>
+      <a class="<?= isActivePage('tour.php') ?>" href="/tour.php">Events</a>
       <a class="<?= isActivePage('kunstwerke.php') ?>" href="/kunstwerke.php">Kunstwerke</a>
-      <a class="<?= isActivePage('tour.php') ?>" href="/tour.php">Tour</a>
-      <a class="<?= isActivePage('vergangene-events.php') ?>" href="/vergangene-events.php">Archiv</a>
-      <a class="<?= isActivePage('booking.php') ?>" href="/booking.php">Booking</a>
+      <a class="<?= isActivePage('vergangene-events.php') ?>" href="/vergangene-events.php">Über Shary</a>
+      <a class="<?= isActivePage('booking.php') ?>" href="/booking.php">Kontakt</a>
     </nav>
   </div>
 </header>
