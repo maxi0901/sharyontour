@@ -1,28 +1,15 @@
 <?php
-
-declare(strict_types=1);
-
-require_once __DIR__ . '/includes/functions.php';
-
-$currentPage = 'booking';
-$pageTitle = 'Booking | S-Art Tour';
-
+$pageTitle = 'Booking';
 require __DIR__ . '/includes/header.php';
 ?>
-<section class="section container reveal">
-  <h1 class="section-title">Booking & Kontakt</h1>
-  <p>Für Kooperationen, Presse und Venue-Anfragen: <a href="mailto:booking@example.com">booking@example.com</a></p>
-  <form class="form-grid" method="post" action="#" onsubmit="event.preventDefault();alert('Danke! Bitte nutze aktuell die E-Mail-Adresse.');">
-    <label>Name
-      <input type="text" name="name" />
-    </label>
-    <label>E-Mail
-      <input type="email" name="email" />
-    </label>
-    <label style="grid-column: 1 / -1;">Nachricht
-      <textarea name="message"></textarea>
-    </label>
-    <button type="submit">Anfrage senden</button>
-  </form>
+<section class="container page-intro reveal">
+  <h1>Booking / Tour-Stopp anfragen</h1>
+  <div class="highlight-card">
+    <p>Du willst S-ART in deiner Stadt oder Location?</p>
+    <p><a href="mailto:booking@sharyontour.example">booking@sharyontour.example</a></p>
+    <p><a href="tel:+49123456789">+49 123 456789</a></p>
+    <p><a href="#">Instagram</a> · <a href="#">TikTok</a> · <a href="#">LinkedIn</a></p>
+    <a class="btn btn-pink" href="mailto:booking@sharyontour.example?subject=Tour-Stopp%20anfragen">Tour-Stopp anfragen</a>
+  </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>

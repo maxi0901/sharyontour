@@ -2,15 +2,20 @@
 
 declare(strict_types=1);
 
-/**
- * Database connection configuration for Netcup-compatible shared hosting.
- * Adjust values via environment variables or host-level include overrides.
- */
-return [
-    'host' => getenv('DB_HOST') ?: 'localhost',
-    'port' => (int) (getenv('DB_PORT') ?: 3306),
-    'dbname' => getenv('DB_NAME') ?: 'sharyontour',
-    'username' => getenv('DB_USER') ?: 'root',
-    'password' => getenv('DB_PASS') ?: '',
-    'charset' => 'utf8mb4',
+$dsn = getenv('DB_DSN') ?: 'mysql:host=127.0.0.1;port=3306;dbname=shary_on_tour;charset=utf8mb4';
+$dbUser = getenv('DB_USER') ?: 'root';
+$dbPass = getenv('DB_PASS') ?: '';
+
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
 ];
+
+try {
+    $pdo = new PDO($dsn, $dbUser, $dbPass, $options);
+} catch (PDOException $exception) {
+    error_log('Database connection failed: ' . $exception->getMessage());
+    http_response_code(500);
+    exit('Temporär nicht verfügbar. Bitte später erneut versuchen.');
+}
