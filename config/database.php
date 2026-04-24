@@ -1,10 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
-$dsn = getenv('DB_DSN') ?: 'mysql:host=127.0.0.1;port=3306;dbname=shary_on_tour;charset=utf8mb4';
-$dbUser = getenv('DB_USER') ?: 'root';
-$dbPass = getenv('DB_PASS') ?: '';
+$host = '10.35.233.136';
+$port = 3306;
+$db = 'k275333_S-Art';
+$user = 'k275333_Maxim';
+$pass = getenv('DB_PASS') ?: 'CHANGE_ME';
+
+$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -13,9 +16,9 @@ $options = [
 ];
 
 try {
-    $pdo = new PDO($dsn, $dbUser, $dbPass, $options);
-} catch (PDOException $exception) {
-    error_log('Database connection failed: ' . $exception->getMessage());
-    http_response_code(500);
-    exit('Temporär nicht verfügbar. Bitte später erneut versuchen.');
+    $pdo = new PDO($dsn, $user, $pass, $options);
+    echo 'DB connected successfully';
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    die('Database connection failed.');
 }
