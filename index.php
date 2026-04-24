@@ -8,12 +8,12 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 ?>
 <section class="hero reveal">
   <div class="container">
-    <p class="kicker">Urban Art Experience</p>
-    <h1>SHARY ON TOUR</h1>
-    <p class="subline">Zwei Container. Zwei Kunstwerke. Eine Tour.</p>
+    <p class="kicker">ORIGINALE POP-ART VON SHARY</p>
+    <h1>POP-ART VON <span>SHARYAR AZHDARI</span></h1>
+    <p class="subline">Moderne, urbane Kunst mit starker Farbe, Emotion und internationaler Präsenz.</p>
     <div class="cta-row">
-      <a class="btn btn-pink" href="#events">Aktuelle Events ansehen</a>
-      <a class="btn btn-outline" href="#newsletter">Ticket sichern</a>
+      <a class="btn btn-pink" href="#events">SHOP ENTDECKEN</a>
+      <a class="btn btn-outline" href="#newsletter">TICKET SICHERN</a>
     </div>
   </div>
 </section>
@@ -32,6 +32,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 <section class="container reveal">
   <h2>Die Idee</h2>
   <p class="lead">S-ART bringt Kunst aus der Galerie direkt in die Stadt. Zwei mobile Container werden zur Bühne für mutige Werke, Begegnungen und Live-Events.</p>
+  <span class="accent-block" aria-hidden="true"></span>
 </section>
 <section class="container reveal" id="events">
   <h2>Aktuelle Events</h2>
