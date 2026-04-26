@@ -2,20 +2,41 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <h4>S-ART</h4>
-      <p>Pop-Art trifft Container-Kultur: laut, modern und urban inszeniert.</p>
+      <div style="font-family:'Anton',sans-serif;font-size:1.9rem;color:var(--red);line-height:.85;letter-spacing:.02em;">S-<span style="text-decoration:line-through;text-decoration-thickness:2px;">ART</span></div>
+      <div style="font-size:.6rem;letter-spacing:.32em;color:#f8f8f8c9;margin-top:.2rem;">SHARY ON TOUR</div>
+      <p style="margin-top:.5rem;">Pop-Art trifft Container-Kultur: laut, modern und urban inszeniert.</p>
     </div>
     <div class="footer-links">
       <a href="/impressum.php">Impressum</a>
       <a href="/datenschutz.php">Datenschutz</a>
+      <a href="/datenschutz.php">AGB</a>
       <a href="/booking.php">Kontakt</a>
-      <a href="/admin/index.php">Admin</a>
     </div>
     <div class="footer-social" aria-label="Social Links">
-      <a href="#" aria-label="Instagram">IG</a>
-      <a href="#" aria-label="TikTok">TT</a>
-      <a href="#" aria-label="YouTube">YT</a>
-      <a href="mailto:booking@sharyontour.example" aria-label="E-Mail">@</a>
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20.06 12 20.06 12 20.06s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+          <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="mailto:booking@sharyontour.example" aria-label="E-Mail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </a>
     </div>
   </div>
 </footer>

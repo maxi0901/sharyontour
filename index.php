@@ -15,8 +15,10 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
       <h1>POP-ART VON <span class="text-pink">SHARYAR</span> <span class="text-green">AZHDARI</span></h1>
       <p class="subline">Cinematic Street-Art Energy für Events, Live-Erlebnisse und Sammler mit Anspruch.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#events">EVENTS ENTDECKEN</a>
-        <a class="btn btn-ghost" href="#newsletter">TICKET SICHERN</a>
+        <a class="btn btn-primary" href="#events">EVENTS ENTDECKEN &nbsp;→</a>
+        <a class="btn btn-ghost" href="#newsletter">TICKET SICHERN &nbsp;
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </a>
       </div>
     </div>
     <div class="hero-art reveal" aria-hidden="true">
@@ -28,14 +30,24 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 <?php if ($currentLocation): ?>
 <section class="container section-compact reveal">
   <article class="location-strip neon-frame">
-    <div class="location-main">
+    <div class="location-left">
       <p class="meta">AKTUELLER STANDORT</p>
-      <h2><?= e($currentLocation['title']) ?></h2>
-      <p><?= e($currentLocation['address']) ?></p>
-      <p class="date"><?= formatDate($currentLocation['date_from']) ?><?= $currentLocation['date_to'] ? ' – ' . formatDate($currentLocation['date_to']) : '' ?></p>
+      <div class="location-inner">
+        <div class="location-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div class="location-main">
+          <h2><?= e($currentLocation['title']) ?></h2>
+          <p><?= e($currentLocation['address']) ?></p>
+          <p class="date"><?= formatDate($currentLocation['date_from']) ?><?= $currentLocation['date_to'] ? ' – ' . formatDate($currentLocation['date_to']) : '' ?></p>
+        </div>
+      </div>
     </div>
     <?php if (!empty($currentLocation['google_maps_url'])): ?>
-      <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($currentLocation['google_maps_url']) ?>">AUF GOOGLE MAPS ÖFFNEN</a>
+      <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($currentLocation['google_maps_url']) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
     <?php endif; ?>
   </article>
 </section>
@@ -89,21 +101,30 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 
 <section class="container" id="newsletter">
   <div class="newsletter-box reveal neon-frame">
-    <div>
-      <p class="meta">GRATIS TICKET + NEWSLETTER</p>
-      <h2>Exklusive Vorverkaufs-Infos direkt in dein Postfach</h2>
-      <p>Erhalte Pop-up Termine, neue Werke und digitale Ticket-Freischaltung.</p>
+    <div class="newsletter-left">
+      <div class="newsletter-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="26" height="26" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <div>
+        <h2>GRATIS TICKET + NEWSLETTER</h2>
+        <p>Erhalte exklusive Vorverkaufs-Infos, Pop-up Termine und digitale Ticket-Freischaltung.</p>
+      </div>
     </div>
     <form method="post" action="/newsletter-submit.php" class="newsletter-form">
       <?= csrfField() ?>
       <input type="hidden" name="source" value="homepage">
-      <input type="email" name="email" placeholder="Deine E-Mail-Adresse" required>
-      <input type="text" name="first_name" placeholder="Vorname (optional)">
+      <input type="hidden" name="first_name" value="">
+      <div class="newsletter-email-row">
+        <input type="email" name="email" placeholder="Deine E-Mail-Adresse" required>
+        <button class="btn btn-primary" type="submit">JETZT ANMELDEN</button>
+      </div>
       <label class="check">
         <input type="checkbox" name="consent_privacy" value="1" required>
-        Ich stimme der Datenschutzerklärung zu.
+        Ich stimme der <a href="/datenschutz.php" style="color:var(--pink)">Datenschutzerklärung</a> zu.
       </label>
-      <button class="btn btn-primary" type="submit">JETZT ANMELDEN</button>
     </form>
   </div>
 </section>
