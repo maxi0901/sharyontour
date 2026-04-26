@@ -30,10 +30,10 @@ require_once __DIR__ . '/csrf.php';
     </nav>
 
     <div class="header-actions">
-      <a class="icon-btn" href="/booking.php" aria-label="Ticket und Booking" style="border-color: rgba(255,35,72,.5);">
+      <a class="icon-btn brush-btn" href="/kunstwerke.php" aria-label="Kunstwerke" style="border-color: rgba(255,35,72,.5);">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M16.2 7.8l-2.1 6.3-6.3 2.1 2.1-6.3 6.3-2.1z" fill="#ff2348" stroke="none"/>
+          <path d="M18.37 2.63 14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 1 0-3-3z"/>
+          <path d="M9 8c-2 2.5-2 5-2 5-3 0-5-2-5-2 1 1.5 2 2 2 4a2 2 0 0 0 4 0c0-1.5.5-2 1-3"/>
         </svg>
       </a>
       <button class="nav-toggle icon-btn" aria-label="Navigation öffnen" aria-controls="mainNav" aria-expanded="false">

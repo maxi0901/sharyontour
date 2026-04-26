@@ -12,7 +12,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
   <div class="container hero-layout">
     <div class="hero-copy reveal">
       <p class="kicker">SHARY ON TOUR</p>
-      <h1>POP-ART VON <span class="text-pink">SHARYAR</span> <span class="text-green">AZHDARI</span></h1>
+      <h1>POP-ART VON<br><span class="text-pink">SHARYAR</span><br><span class="text-green">AZHDARI</span></h1>
       <p class="subline">Cinematic Street-Art Energy für Events, Live-Erlebnisse und Sammler mit Anspruch.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#events">EVENTS ENTDECKEN &nbsp;→</a>
@@ -58,7 +58,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
     <h2>AKTUELLE EVENTS</h2>
     <a href="/tour.php">ALLE EVENTS ANSEHEN →</a>
   </div>
-  <div class="card-grid reveal-group">
+  <div class="card-grid events-scroll reveal-group">
     <?php foreach ($events as $event): ?>
       <article class="card event-card reveal">
         <div class="card-media">
@@ -77,6 +77,12 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
     <?php if (empty($events)): ?>
       <p class="muted">Neue Events werden bald bekannt gegeben.</p>
     <?php endif; ?>
+  </div>
+  <div class="event-dots">
+    <span class="event-dot is-active"></span>
+    <span class="event-dot"></span>
+    <span class="event-dot"></span>
+    <span class="event-dot"></span>
   </div>
 </section>
 
