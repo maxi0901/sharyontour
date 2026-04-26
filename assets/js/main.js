@@ -39,6 +39,14 @@
     });
   }
 
+  document.querySelectorAll('.carousel-btn[data-scroll]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const wrap = btn.closest('.carousel-wrap');
+      const target = wrap && wrap.querySelector('.' + btn.dataset.scroll);
+      if (target) target.scrollBy({ left: target.clientWidth, behavior: 'smooth' });
+    });
+  });
+
   document.querySelectorAll('.artwork-card').forEach((card) => {
     card.addEventListener('mousemove', (event) => {
       if (window.matchMedia('(max-width: 900px)').matches) return;

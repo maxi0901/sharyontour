@@ -446,6 +446,10 @@ label { display: grid; gap: .3rem; font-size: .9rem; color: #dfe1e8; }
 }
 
 @media (max-width: 760px) {
+  .carousel-btn { display: none; }
+  .carousel-wrap > .card-grid,
+  .carousel-wrap > .artworks-grid { flex: none; width: 100%; }
+
   .main-nav {
     position: absolute;
     top: calc(100% + 8px);
@@ -696,6 +700,63 @@ label { display: grid; gap: .3rem; font-size: .9rem; color: #dfe1e8; }
 .location-strip.neon-frame {
   animation: neon-pulse 3.5s ease-in-out infinite;
 }
+
+/* ---- CAROUSEL NAVIGATION ---- */
+.carousel-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.carousel-wrap > .card-grid,
+.carousel-wrap > .artworks-grid {
+  flex: 1;
+  min-width: 0;
+}
+.carousel-btn {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.25);
+  background: linear-gradient(180deg, #1c1c26, #121218);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s;
+}
+.carousel-btn:hover {
+  border-color: rgba(255,35,72,.65);
+  box-shadow: 0 0 22px rgba(255,35,72,.35);
+}
+/* Artworks scrollable carousel */
+.carousel-wrap .artworks-grid {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: .8rem;
+}
+.carousel-wrap .artworks-grid::-webkit-scrollbar { display: none; }
+.carousel-wrap .artworks-grid .artwork-card {
+  flex: 0 0 calc((100% - 5 * .8rem) / 6);
+  scroll-snap-align: start;
+}
+/* Events carousel desktop: scroll overflow */
+.carousel-wrap .card-grid {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.carousel-wrap .card-grid::-webkit-scrollbar { display: none; }
+
+/* ---- COMPASS ICON ---- */
+.compass-btn svg polygon {
+  fill: var(--red);
+  stroke: none;
+  opacity: .9;
+}
+.compass-btn:hover svg polygon { opacity: 1; }
 
 /* ---- SECTION HEADING SPRAY LINE (for non-h2 pages) ---- */
 .spray-line {

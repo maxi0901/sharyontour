@@ -4,7 +4,7 @@ require __DIR__ . '/includes/header.php';
 
 $currentLocation = fetchOne("SELECT * FROM tour_locations WHERE status='current' ORDER BY date_from DESC LIMIT 1");
 $events = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY event_date ASC LIMIT 3");
-$artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_order ASC, created_at DESC LIMIT 6");
+$artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_order ASC, created_at DESC LIMIT 12");
 ?>
 
 <section class="hero" id="top">
@@ -58,25 +58,32 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
     <h2>AKTUELLE EVENTS</h2>
     <a href="/tour.php">ALLE EVENTS ANSEHEN →</a>
   </div>
-  <div class="card-grid events-scroll reveal-group">
-    <?php foreach ($events as $event): ?>
-      <article class="card event-card reveal">
-        <div class="card-media">
-          <?php if (!empty($event['image_path'])): ?>
-            <img src="<?= e($event['image_path']) ?>" alt="<?= e($event['title']) ?>" loading="lazy">
-          <?php else: ?>
-            <div class="media-fallback"></div>
-          <?php endif; ?>
-        </div>
-        <p class="meta"><?= formatDate($event['event_date']) ?> · <?= e($event['city']) ?></p>
-        <h3><?= e($event['title']) ?></h3>
-        <p><?= e($event['description_short']) ?></p>
-        <a class="text-link" href="/booking.php">Tickets &amp; Infos ↗</a>
-      </article>
-    <?php endforeach; ?>
-    <?php if (empty($events)): ?>
-      <p class="muted">Neue Events werden bald bekannt gegeben.</p>
-    <?php endif; ?>
+  <div class="carousel-wrap reveal-group">
+    <div class="card-grid events-scroll">
+      <?php foreach ($events as $event): ?>
+        <article class="card event-card reveal">
+          <div class="card-media">
+            <?php if (!empty($event['image_path'])): ?>
+              <img src="<?= e($event['image_path']) ?>" alt="<?= e($event['title']) ?>" loading="lazy">
+            <?php else: ?>
+              <div class="media-fallback"></div>
+            <?php endif; ?>
+          </div>
+          <p class="meta"><?= formatDate($event['event_date']) ?> · <?= e($event['city']) ?></p>
+          <h3><?= e($event['title']) ?></h3>
+          <p><?= e($event['description_short']) ?></p>
+          <a class="text-link" href="/booking.php">Tickets &amp; Infos ↗</a>
+        </article>
+      <?php endforeach; ?>
+      <?php if (empty($events)): ?>
+        <p class="muted">Neue Events werden bald bekannt gegeben.</p>
+      <?php endif; ?>
+    </div>
+    <button class="carousel-btn" data-scroll="events-scroll" aria-label="Weitere Events anzeigen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
   </div>
   <div class="event-dots">
     <span class="event-dot is-active"></span>
@@ -91,17 +98,24 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
     <h2>AUSGEWÄHLTE KUNSTWERKE</h2>
     <a href="/kunstwerke.php">ALLE KUNSTWERKE ANSEHEN →</a>
   </div>
-  <div class="artworks-grid reveal-group">
-    <?php foreach ($artworks as $art): ?>
-      <article class="artwork-card reveal">
-        <div class="artwork-img-wrap">
-          <img src="<?= e($art['image_path']) ?>" alt="<?= e($art['title']) ?>" loading="lazy">
-        </div>
-      </article>
-    <?php endforeach; ?>
-    <?php if (empty($artworks)): ?>
-      <p class="muted">Kunstwerke werden in Kürze hinzugefügt.</p>
-    <?php endif; ?>
+  <div class="carousel-wrap reveal-group">
+    <div class="artworks-grid artworks-scroll">
+      <?php foreach ($artworks as $art): ?>
+        <article class="artwork-card reveal">
+          <div class="artwork-img-wrap">
+            <img src="<?= e($art['image_path']) ?>" alt="<?= e($art['title']) ?>" loading="lazy">
+          </div>
+        </article>
+      <?php endforeach; ?>
+      <?php if (empty($artworks)): ?>
+        <p class="muted">Kunstwerke werden in Kürze hinzugefügt.</p>
+      <?php endif; ?>
+    </div>
+    <button class="carousel-btn" data-scroll="artworks-scroll" aria-label="Weitere Kunstwerke anzeigen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
   </div>
 </section>
 
