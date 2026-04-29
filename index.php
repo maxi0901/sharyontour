@@ -22,7 +22,9 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
       </div>
     </div>
     <div class="hero-art reveal" aria-hidden="true">
-      <div class="hero-art-portrait"></div>
+      <div class="hero-art-portrait">
+        <img src="/assets/img/selfportrait.jpg" alt="Selbstporträt von Shary" loading="eager">
+      </div>
       <div class="hero-art-splatter"></div>
       <span class="hero-tag">S-ART</span>
       <span class="hero-tag-drip" aria-hidden="true"></span>
