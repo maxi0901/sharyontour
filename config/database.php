@@ -5,7 +5,7 @@ $host = '10.35.233.136';
 $port = 3306;
 $db = 'k275333_S-Art';
 $user = 'k275333_Maxim';
-$pass = getenv('DB_PASS') ?: 'CHANGE_ME';
+$pass = getenv('DB_PASS') ?: 'Tokarski12.';
 
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
