@@ -22,7 +22,14 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
       </div>
     </div>
     <div class="hero-art reveal" aria-hidden="true">
+      <div class="hero-art-portrait"></div>
+      <div class="hero-art-splatter"></div>
       <span class="hero-tag">S-ART</span>
+      <span class="hero-tag-drip" aria-hidden="true"></span>
+      <svg class="hero-signature" viewBox="0 0 220 90" aria-hidden="true">
+        <path d="M14 60 C 28 22, 52 18, 70 50 C 80 70, 96 70, 108 50 C 122 28, 142 28, 158 52 C 170 70, 188 64, 204 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M30 72 L 196 72" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
     </div>
   </div>
 </section>
