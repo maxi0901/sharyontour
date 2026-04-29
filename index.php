@@ -1,4 +1,6 @@
 <?php
+require __DIR__ . '/config/bootstrap.php';
+
 $pageTitle = 'S-ART / Shary on Tour';
 require __DIR__ . '/includes/header.php';
 
