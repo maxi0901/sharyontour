@@ -4,13 +4,13 @@ require __DIR__ . '/includes/header.php';
 $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_order ASC, created_at DESC");
 ?>
 
-<section class="container page-intro reveal">
+<section class="section container page-intro reveal">
   <p class="kicker">KOLLEKTION</p>
   <h1>Kunstwerke</h1>
   <p class="subline">Pop-Art trifft Street-Art Energy – die gesamte Kollektion von Sharyar Azhdari.</p>
 </section>
 
-<section class="container reveal">
+<section class="section container reveal">
   <div class="artworks-grid">
     <?php foreach ($artworks as $art): ?>
       <article class="artwork-card">
@@ -22,10 +22,10 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
           <?php endif; ?>
         </div>
         <?php if (!empty($art['title'])): ?>
-          <div style="padding: .6rem .75rem .75rem;">
-            <h3 style="font-size: .95rem; margin-bottom: .2rem;"><?= e($art['title']) ?></h3>
+          <div class="artwork-content">
+            <h3 class="artwork-title"><?= e($art['title']) ?></h3>
             <?php if (!empty($art['collection_name']) || !empty($art['year'])): ?>
-              <p class="meta" style="font-size: .72rem; margin: 0;"><?= e($art['collection_name'] ?? '') ?><?= (!empty($art['collection_name']) && !empty($art['year'])) ? ' · ' : '' ?><?= e($art['year'] ?? '') ?></p>
+              <p class="meta artwork-meta"><?= e($art['collection_name'] ?? '') ?><?= (!empty($art['collection_name']) && !empty($art['year'])) ? ' · ' : '' ?><?= e($art['year'] ?? '') ?></p>
             <?php endif; ?>
           </div>
         <?php endif; ?>
@@ -37,7 +37,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
   </div>
 </section>
 
-<section class="container" id="newsletter">
+<section class="section container" id="newsletter">
   <div class="newsletter-box reveal neon-frame">
     <div class="newsletter-left">
       <div class="newsletter-icon-box">
@@ -61,7 +61,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
       </div>
       <label class="check">
         <input type="checkbox" name="consent_privacy" value="1" required>
-        Ich stimme der <a href="/datenschutz.php" style="color:var(--pink)">Datenschutzerklärung</a> zu.
+        Ich stimme der <a href="/datenschutz.php" class="privacy-link">Datenschutzerklärung</a> zu.
       </label>
     </form>
   </div>

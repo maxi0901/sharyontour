@@ -7,7 +7,7 @@ $events = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY event_
 $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_order ASC, created_at DESC LIMIT 12");
 ?>
 
-<section class="hero" id="top">
+<section class="section hero" id="hero">
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="container hero-layout">
     <div class="hero-copy reveal">
@@ -28,7 +28,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 </section>
 
 <?php if ($currentLocation): ?>
-<section class="container section-compact reveal">
+<section class="section container section-compact reveal" id="location">
   <article class="location-strip neon-frame">
     <div class="location-left">
       <p class="meta">AKTUELLER STANDORT</p>
@@ -53,7 +53,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 </section>
 <?php endif; ?>
 
-<section class="container" id="events">
+<section class="section container" id="events">
   <div class="section-heading reveal">
     <h2>AKTUELLE EVENTS</h2>
     <a href="/tour.php">ALLE EVENTS ANSEHEN →</a>
@@ -93,7 +93,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
   </div>
 </section>
 
-<section class="container">
+<section class="section container" id="artworks">
   <div class="section-heading reveal">
     <h2>AUSGEWÄHLTE KUNSTWERKE</h2>
     <a href="/kunstwerke.php">ALLE KUNSTWERKE ANSEHEN →</a>
@@ -119,7 +119,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
   </div>
 </section>
 
-<section class="container" id="newsletter">
+<section class="section container" id="newsletter">
   <div class="newsletter-box reveal neon-frame">
     <div class="newsletter-left">
       <div class="newsletter-icon-box">
@@ -143,7 +143,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
       </div>
       <label class="check">
         <input type="checkbox" name="consent_privacy" value="1" required>
-        Ich stimme der <a href="/datenschutz.php" style="color:var(--pink)">Datenschutzerklärung</a> zu.
+        Ich stimme der <a href="/datenschutz.php" class="privacy-link">Datenschutzerklärung</a> zu.
       </label>
     </form>
   </div>

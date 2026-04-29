@@ -2,9 +2,9 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <div style="font-family:'Anton',sans-serif;font-size:1.9rem;color:var(--red);line-height:.85;letter-spacing:.02em;">S-<span style="text-decoration:line-through;text-decoration-thickness:2px;">ART</span></div>
-      <div style="font-size:.6rem;letter-spacing:.32em;color:#f8f8f8c9;margin-top:.2rem;">SHARY ON TOUR</div>
-      <p style="margin-top:.5rem;">Pop-Art trifft Container-Kultur: laut, modern und urban inszeniert.</p>
+      <div class="footer-brand-mark">S-<span class="logo-art">ART</span></div>
+      <div class="footer-brand-sub">SHARY ON TOUR</div>
+      <p class="footer-brand-copy">Pop-Art trifft Container-Kultur: laut, modern und urban inszeniert.</p>
     </div>
     <div class="footer-links">
       <a href="/impressum.php">Impressum</a>

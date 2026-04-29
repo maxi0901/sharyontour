@@ -36,8 +36,10 @@ a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 
 .container { width: min(1180px, 92vw); margin-inline: auto; }
-section { padding: 2.75rem 0; }
+.section, section { padding: 2.75rem 0; }
 .section-compact { padding-top: 1.25rem; padding-bottom: 1.5rem; }
+.grid { display: grid; gap: 1rem; }
+.headline { font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
 
 h1, h2, h3, h4 {
   font-family: 'Anton', sans-serif;
@@ -105,6 +107,7 @@ p { color: #d9dae0; line-height: 1.55; }
   display: grid;
   place-items: center;
 }
+.compass-btn { border-color: rgba(255, 35, 72, .5); }
 .icon-btn svg { width: 20px; height: 20px; }
 .nav-toggle { display: none; cursor: pointer; }
 
@@ -231,6 +234,7 @@ p { color: #d9dae0; line-height: 1.55; }
   border-color: rgba(255,255,255,.35);
   background: linear-gradient(180deg, #15151d, #0f0f16);
 }
+.btn-secondary { color: #fff; border-color: rgba(255,255,255,.35); background: linear-gradient(180deg, #15151d, #0f0f16); }
 .btn-pink, .btn-blue { background: linear-gradient(90deg, #ff0b79, #b01fff); color: #fff; }
 
 .section-heading {
@@ -241,6 +245,8 @@ p { color: #d9dae0; line-height: 1.55; }
   margin-bottom: 1rem;
   flex-wrap: wrap;
 }
+.section-header { display:flex; justify-content:space-between; align-items:center; gap:.8rem; flex-wrap:wrap; }
+.section-header-link { color: var(--red); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; font-size: .83rem; }
 .section-heading h2 { display: flex; align-items: center; gap: .6rem; }
 .section-heading h2::after {
   content: '';
@@ -330,6 +336,9 @@ p { color: #d9dae0; line-height: 1.55; }
   gap: .8rem;
 }
 .artwork-card { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,.16); background: #11141d; }
+.artwork-content { padding: .6rem .75rem .75rem; }
+.artwork-title { font-size: .95rem; margin-bottom: .2rem; }
+.artwork-meta { font-size: .72rem; margin: 0; }
 .artwork-img-wrap { aspect-ratio: 1 / 1; }
 .artwork-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; }
 .artwork-card:hover img { transform: scale(1.05); }
@@ -379,6 +388,7 @@ input, textarea, select {
 textarea { min-height: 110px; }
 .check { display: flex; gap: .55rem; font-size: .88rem; color: #d9dae0; }
 .check input { width: auto; }
+.privacy-link { color: var(--pink); }
 
 /* pages + footer + admin */
 .page-intro { padding-top: 2.2rem; }
@@ -406,6 +416,9 @@ textarea { min-height: 110px; }
 }
 .footer-brand h4 { font-size: 1.9rem; color: var(--red); }
 .footer-brand p { margin: .35rem 0 0; font-size: .9rem; color: #cfd2db; }
+.footer-brand-mark { font-family: 'Anton', sans-serif; font-size: 1.9rem; color: var(--red); line-height: .85; letter-spacing: .02em; }
+.footer-brand-sub { font-size: .6rem; letter-spacing: .32em; color: #f8f8f8c9; margin-top: .2rem; }
+.footer-brand-copy { margin-top: .5rem; }
 .footer-links, .footer-social { display: flex; flex-wrap: wrap; gap: .8rem; }
 .footer-links a { text-transform: uppercase; font-size: .78rem; letter-spacing: .08em; color: #d9dae0; }
 .footer-social a {
@@ -426,6 +439,17 @@ body.admin .card-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
 .admin-table th, .admin-table td { border: 1px solid rgba(255,255,255,.2); padding: .55rem .65rem; text-align: left; }
 form { display: grid; gap: .7rem; }
 label { display: grid; gap: .3rem; font-size: .9rem; color: #dfe1e8; }
+.contact-card { padding: 1.8rem 2rem; max-width: 640px; }
+.contact-card-header { display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem; }
+.contact-icon-box { color: var(--pink); }
+.contact-title { font-size: clamp(1.4rem, 3vw, 2rem); }
+.contact-links { display:grid; gap:.9rem; margin-bottom:1.4rem; }
+.contact-link { display:flex; align-items:center; gap:.6rem; font-weight:700; font-size:1rem; }
+.contact-link-mail { color: var(--pink); }
+.contact-link-phone { color: var(--green); }
+.contact-social-row { display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:1.4rem; }
+.contact-social-link { color:#d9dae0; font-size:.85rem; font-weight:600; }
+.contact-separator { color: rgba(255,255,255,.3); }
 
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s ease; }
 .reveal.show { opacity: 1; transform: none; }
