@@ -30,11 +30,18 @@ require_once __DIR__ . '/csrf.php';
     </nav>
 
     <div class="header-actions">
-      <a class="icon-btn compass-btn" href="/tour.php" aria-label="Tour & Events">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20">
-          <circle cx="12" cy="12" r="10"/>
-          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" stroke="none"/>
+      <a class="icon-btn spraycan-btn" href="/tour.php" aria-label="Spray on Tour">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="22" height="22">
+          <rect x="9" y="8.6" width="6.4" height="12.4" rx="1.4"/>
+          <rect x="10.4" y="4.4" width="3.6" height="2.4" rx="0.4"/>
+          <line x1="12.2" y1="6.8" x2="12.2" y2="8.6"/>
+          <line x1="9.2" y1="13.2" x2="15.2" y2="13.2"/>
+          <circle cx="18.4" cy="3.6" r="0.7" fill="currentColor" stroke="none"/>
+          <circle cx="20.6" cy="5.4" r="0.5" fill="currentColor" stroke="none"/>
+          <circle cx="17.6" cy="6" r="0.45" fill="currentColor" stroke="none"/>
+          <circle cx="20" cy="2.6" r="0.4" fill="currentColor" stroke="none"/>
         </svg>
+        <span class="spraycan-pulse" aria-hidden="true"></span>
       </a>
       <button class="nav-toggle icon-btn" aria-label="Navigation öffnen" aria-controls="mainNav" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
