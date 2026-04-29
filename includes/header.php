@@ -30,7 +30,7 @@ require_once __DIR__ . '/csrf.php';
     </nav>
 
     <div class="header-actions">
-      <a class="icon-btn compass-btn" href="/tour.php" aria-label="Tour & Events" style="border-color: rgba(255,35,72,.5);">
+      <a class="icon-btn compass-btn" href="/tour.php" aria-label="Tour & Events">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20">
           <circle cx="12" cy="12" r="10"/>
           <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" stroke="none"/>
