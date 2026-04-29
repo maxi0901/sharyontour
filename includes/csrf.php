@@ -2,10 +2,23 @@
 
 declare(strict_types=1);
 
+function ensureCsrfSessionStarted(): bool
+{
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        return true;
+    }
+
+    if (headers_sent()) {
+        return false;
+    }
+
+    return session_start();
+}
+
 function csrfToken(): string
 {
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
+    if (!ensureCsrfSessionStarted()) {
+        throw new RuntimeException('Session ist nicht verfügbar. CSRF-Token kann nicht erstellt werden.');
     }
 
     if (empty($_SESSION['csrf_token'])) {
@@ -22,8 +35,8 @@ function csrfField(): string
 
 function verifyCsrf(?string $token): bool
 {
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
+    if (!ensureCsrfSessionStarted()) {
+        return false;
     }
 
     return is_string($token) && isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
