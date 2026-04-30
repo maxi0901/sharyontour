@@ -121,6 +121,14 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
       </svg>
     </button>
   </div>
+  <article class="shop-teaser neon-frame reveal">
+    <div>
+      <p class="meta">SHOP</p>
+      <h3>Originale & Prints im S-ART Shop</h3>
+      <p>Entdecke limitierte Kunstwerke und sichere dir dein Lieblingsmotiv direkt online.</p>
+    </div>
+    <a class="btn btn-primary" href="<?= e($siteConfig['shop_url']) ?>" target="_blank" rel="noopener noreferrer">ZUM SHOP &nbsp;→</a>
+  </article>
 </section>
 
 <section class="section container" id="newsletter">
