@@ -28,12 +28,6 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
       </div>
     </div>
 
-    <div class="hero-art reveal">
-      <div class="hero-art-portrait">
-        <img src="/assets/Img/selfportrait.png" alt="Selbstporträt von Shary" loading="eager">
-      </div>
-      <div class="hero-art-splatter" aria-hidden="true"></div>
-    </div>
   </div>
 </section>
 
