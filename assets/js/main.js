@@ -46,6 +46,66 @@
     });
   });
 
+
+
+  // Homepage event dots — match card count and follow swipe
+  document.querySelectorAll('.carousel-wrap').forEach((wrap) => {
+    const track = wrap.querySelector('.events-scroll');
+    const dotsWrap = wrap.parentElement && wrap.parentElement.querySelector('[data-event-dots]');
+    if (!track || !dotsWrap) return;
+
+    const slides = Array.from(track.querySelectorAll('.card'));
+    if (!slides.length) return;
+
+    let dots = Array.from(dotsWrap.querySelectorAll('.event-dot'));
+    if (dots.length !== slides.length) {
+      dotsWrap.innerHTML = '';
+      dots = slides.map((_, idx) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'event-dot' + (idx === 0 ? ' is-active' : '');
+        dot.setAttribute('aria-label', `Event ${idx + 1} anzeigen`);
+        dotsWrap.appendChild(dot);
+        return dot;
+      });
+    }
+
+    const currentIndex = () => {
+      const center = track.scrollLeft + track.clientWidth / 2;
+      let best = 0;
+      let bestDist = Infinity;
+      slides.forEach((slide, idx) => {
+        const slideCenter = slide.offsetLeft - track.offsetLeft + slide.clientWidth / 2;
+        const dist = Math.abs(center - slideCenter);
+        if (dist < bestDist) { bestDist = dist; best = idx; }
+      });
+      return best;
+    };
+
+    const setActive = (idx) => {
+      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === idx));
+    };
+
+    const scrollToSlide = (idx) => {
+      const slide = slides[idx];
+      if (!slide) return;
+      const left = slide.offsetLeft - track.offsetLeft;
+      track.scrollTo({ left, behavior: 'smooth' });
+      setActive(idx);
+    };
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => scrollToSlide(idx));
+    });
+
+    let timer = null;
+    track.addEventListener('scroll', () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => setActive(currentIndex()), 70);
+    });
+
+    setActive(currentIndex());
+  });
   // Event slider — dots match slide count, prev/next, sync on scroll
   document.querySelectorAll('[data-event-slider]').forEach((slider) => {
     const track = slider.querySelector('.event-slider-track');
