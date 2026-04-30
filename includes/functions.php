@@ -71,6 +71,15 @@ function createSlug(string $text): string
     return trim((string) $text, '-') ?: 'item-' . bin2hex(random_bytes(3));
 }
 
+
+function hasColumn(string $table, string $column): bool
+{
+    global $pdo;
+    $sql = 'SELECT COUNT(*) AS c FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = :table AND COLUMN_NAME = :column';
+    $row = fetchOne($sql, ['table' => $table, 'column' => $column]);
+    return (int) ($row['c'] ?? 0) > 0;
+}
+
 function generateUuidV4(): string
 {
     $data = random_bytes(16);
@@ -81,7 +90,13 @@ function generateUuidV4(): string
 
 function getOpeningEvent(): ?array
 {
-    return fetchOne("SELECT * FROM events WHERE is_opening=1 AND status<>'past' ORDER BY event_date ASC LIMIT 1");
+    $hasIsOpening = hasColumn('events', 'is_opening');
+
+    if ($hasIsOpening) {
+        return fetchOne("SELECT * FROM events WHERE is_opening=1 AND status<>'past' ORDER BY event_date ASC LIMIT 1");
+    }
+
+    return fetchOne("SELECT * FROM events WHERE status='upcoming' ORDER BY event_date ASC LIMIT 1");
 }
 
 function countTicketsForEvent(int $eventId): int
@@ -92,10 +107,12 @@ function countTicketsForEvent(int $eventId): int
 
 function getTicketByTicketId(string $ticketId): ?array
 {
+    $isOpeningSelect = hasColumn('events', 'is_opening') ? 'e.is_opening' : '0 AS is_opening';
+
     return fetchOne(
-        'SELECT t.*, e.title AS event_title, e.event_date, e.event_time, e.city, e.is_opening
+        "SELECT t.*, e.title AS event_title, e.event_date, e.event_time, e.city, {$isOpeningSelect}
          FROM tickets t INNER JOIN events e ON e.id = t.event_id
-         WHERE t.ticket_id=:tid LIMIT 1',
+         WHERE t.ticket_id=:tid LIMIT 1",
         ['tid' => $ticketId]
     );
 }
