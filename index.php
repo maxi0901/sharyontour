@@ -32,7 +32,7 @@ $soldOut = $remaining <= 0;
     <div class="hero-copy reveal">
       <p class="kicker">URBAN ART MOVEMENT</p>
       <h1>POP-ART<br><span class="text-red">GOES VIRAL</span></h1>
-      <p class="subline">Cinematic Street-Art Weg von Sharyar Azhdari. Bekannt aus „Die Geissens". Live, laut und limitiert.</p>
+      <p class="subline">Pop-Art von Sharyar Azhdari. Bekannt aus „Die Geissens". Live, laut und limitiert.</p>
       <div class="cta-row">
         <?php if ($opening): ?>
           <a class="btn btn-primary" href="/ticket-buchen.php">GRATIS TICKET SICHERN →</a>
@@ -166,13 +166,6 @@ $soldOut = $remaining <= 0;
     <h3 class="js-modal-title"></h3>
     <p class="js-modal-location"></p>
     <p class="muted js-modal-address"></p>
-    <form class="ticket-modal-form" id="ticketModalForm" hidden>
-      <input type="hidden" name="event_id" id="ticketEventId">
-      <label class="field"><span>E-Mail *</span><input type="email" name="email" required></label>
-      <label class="field"><span>Name (optional)</span><input type="text" name="name"></label>
-      <button class="btn btn-primary btn-sm" type="submit">Ticket anfordern</button>
-      <p class="muted js-ticket-response"></p>
-    </form>
   </div>
 </div>
 
@@ -180,10 +173,10 @@ $soldOut = $remaining <= 0;
   <div class="story-grid">
     <div>
       <p class="kicker">SHARY ON TOUR</p>
-      <h2>CINEMATIC<br>STREET-ART WEG</h2>
+      <h2>POP-ART<br>WEG</h2>
     </div>
     <div class="story-text">
-      <p>Pop-Art, Container-Kultur und Live-Erlebnisse — von der Vernissage bis zum großen Container Opening in Kassel. Bekannt aus „Die Geissens", inszeniert wie eine Premiere.</p>
+      <p>Pop-Art, Container-Kultur und Live-Erlebnisse — von der Vernissage bis zum großen Container Opening in Kassel. Bekannt aus „Die Geissens".</p>
       <p>Jeder Stopp ist ein Statement. Jedes Werk ein Snapshot urbaner Energie.</p>
     </div>
   </div>
