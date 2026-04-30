@@ -131,7 +131,6 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 .logo { display:flex; flex-direction:column; gap:.18rem; }
 .logo-mark { font-family:'Anton',sans-serif; font-size:clamp(2rem,4vw,3rem); color:var(--neon-red); line-height:.8; }
 .logo-art { text-decoration: line-through; text-decoration-thickness: 2px; }
-.logo-sub { font-size:.62rem; letter-spacing:.32em; color:#f8f8f8d1; }
 .main-nav { display:flex; gap:.35rem; }
 .main-nav a { font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; padding:.5rem .9rem; border-radius:999px; color:#d2d7e5; }
 .main-nav a:hover, .main-nav a.is-active { color:#fff; background: rgba(255,20,105,.17); box-shadow: inset 0 0 0 1px rgba(255,20,105,.42); }
@@ -611,7 +610,6 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 .site-footer { margin-top:2.3rem; border-top:1px solid rgba(255,255,255,.16); background: rgba(5,7,13,.88); }
 .footer-grid { display:grid; grid-template-columns:1.1fr auto auto; gap:1rem; align-items:center; padding:1.2rem 0; }
 .footer-brand-mark { font-family:'Anton',sans-serif; font-size:1.9rem; color:var(--neon-red); line-height:.85; }
-.footer-brand-sub { font-size:.6rem; letter-spacing:.32em; color:#f8f8f8cc; margin-top:.2rem; }
 .footer-brand-copy { margin-top:.45rem; color:#d0d6e7; }
 .footer-links,.footer-social { display:flex; flex-wrap:wrap; gap:.8rem; }
 .footer-links a { text-transform:uppercase; letter-spacing:.08em; font-size:.76rem; color:#dbe0ef; }
@@ -675,7 +673,6 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
   .site-header { position: sticky; }
   .nav-wrap { padding: .65rem 0; gap: .55rem; }
   .logo-mark { font-size: clamp(1.7rem, 6.5vw, 2.2rem); }
-  .logo-sub  { font-size: .55rem; letter-spacing: .26em; }
 
   .main-nav {
     display: none;
@@ -930,10 +927,16 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
    ============================================================ */
 
 /* Logo Bild im Header / Footer */
-.logo-link { display: inline-flex; align-items: center; gap: .55rem; text-decoration: none; }
-.logo-img { height: 38px; width: auto; display: block; }
-.footer-logo { height: 36px; width: auto; display: block; margin-bottom: .35rem; }
-.logo-img-sm { height: 28px; width: auto; display: block; }
+.logo-link { display: inline-flex; align-items: center; text-decoration: none; }
+.site-logo {
+  width: clamp(180px, 20vw, 240px);
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+}
+.site-logo-admin { width: 150px; }
+.footer-logo { width: clamp(180px, 18vw, 220px); height: auto; display: block; margin-bottom: .35rem; object-fit: contain; }
 
 /* Roter Akzent (S-ART Logo Farbe) */
 .text-red {
@@ -1272,3 +1275,7 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 .admin-gallery-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
 .admin-gallery-item form { padding: .4rem; text-align: right; }
 
+
+@media (max-width: 768px) {
+  .site-logo { width: clamp(130px, 36vw, 170px); }
+}

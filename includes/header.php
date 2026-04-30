@@ -9,7 +9,7 @@ require_once __DIR__ . '/csrf.php';
   <title><?= e($pageTitle ?? 'S-ART / Shary on Tour') ?></title>
   <meta name="description" content="S-ART – Shary on Tour: Pop-Art, Container Opening Kassel, Live Events und Pop-up Vernissagen.">
   <meta name="theme-color" content="#0a0a0c">
-  <link rel="icon" type="image/svg+xml" href="/assets/img/logo/s-art-logo-dark.svg">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/s-art-logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,8 +19,7 @@ require_once __DIR__ . '/csrf.php';
 <header class="site-header">
   <div class="container nav-wrap">
     <a class="logo-link" href="/index.php" aria-label="S-ART Startseite">
-      <img src="/assets/img/logo/s-art-logo-dark.svg" alt="S-ART" class="logo-img">
-      <span class="logo-sub">SHARY ON TOUR</span>
+      <img src="/assets/img/s-art-logo.svg" alt="S-ART Logo" class="site-logo">
     </a>
 
     <nav class="main-nav" id="mainNav" aria-label="Hauptnavigation">
