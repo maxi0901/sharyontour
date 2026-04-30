@@ -28,7 +28,7 @@ $soldOut = $remaining <= 0;
     <div class="hero-bg-grid"></div>
     <div class="hero-bg-stripe"></div>
   </div>
-  <div class="container hero-inner">
+  <div class="container hero-layout">
     <div class="hero-copy reveal">
       <p class="kicker">URBAN ART MOVEMENT</p>
       <h1>POP-ART<br><span class="text-red">GOES VIRAL</span></h1>
