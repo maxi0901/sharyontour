@@ -1817,3 +1817,11 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
   .hero-art { border-radius: 26px; }
   .location-main h2 { font-size: clamp(1.9rem, 3.15vw, 3rem); }
 }
+
+/* Kleine visuelle Verfeinerungen für den Neon-Look */
+.hero-art, .card, .artwork-card, .newsletter-form {
+  backdrop-filter: blur(10px);
+}
+.main-nav a, .btn, .footer-social a {
+  transition-timing-function: cubic-bezier(.22,.61,.36,1);
+}
