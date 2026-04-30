@@ -12,15 +12,6 @@
       <a href="/booking.php">Kontakt</a>
       <a href="<?= e($siteConfig['shop_url']) ?>" target="_blank" rel="noopener noreferrer">Shop</a>
     </div>
-    <div class="footer-contact">
-      <p><strong><?= e($siteConfig['contact']['gallery_name']) ?></strong></p>
-      <p><?= e($siteConfig['contact']['street']) ?><br><?= e($siteConfig['contact']['postal_city']) ?></p>
-      <p><a href="tel:<?= e($siteConfig['contact']['phone_href']) ?>"><?= e($siteConfig['contact']['phone_display']) ?></a></p>
-      <p><a href="mailto:<?= e($siteConfig['contact']['email']) ?>"><?= e($siteConfig['contact']['email']) ?></a></p>
-      <?php foreach ($siteConfig['opening_hours'] as $day => $hours): ?>
-        <p><span><?= e($day) ?>:</span> <?= e($hours) ?></p>
-      <?php endforeach; ?>
-    </div>
     <div class="footer-social" aria-label="Social Links">
       <a href="<?= e($siteConfig['social']['instagram']['url']) ?>" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
