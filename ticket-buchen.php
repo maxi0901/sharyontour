@@ -184,7 +184,7 @@ require __DIR__ . '/includes/header.php';
         <div class="summary-card">
           <p class="summary-kicker">DEINE BESTELLUNG</p>
           <div class="summary-event">
-            <h3>Container Opening Kassel</h3>
+            <h3>Container Opening</h3>
             <p class="muted"><?= $opening ? formatDateLong($opening['event_date']) : '22. August 2026' ?></p>
             <p class="muted">Kassel · Standort wird rechtzeitig bekanntgegeben</p>
           </div>
