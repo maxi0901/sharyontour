@@ -6,34 +6,33 @@ require __DIR__ . '/includes/header.php';
 
 $currentLocation = fetchOne("SELECT * FROM tour_locations WHERE status='current' ORDER BY date_from DESC LIMIT 1");
 $events = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY event_date ASC LIMIT 3");
-$artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_order ASC, created_at DESC LIMIT 12");
 ?>
 
 <section class="section hero" id="hero">
   <div class="hero-bg" aria-hidden="true"></div>
+
   <div class="container hero-layout">
     <div class="hero-copy reveal">
       <p class="kicker">SHARY ON TOUR</p>
       <h1>POP-ART VON<br><span class="text-pink">SHARYAR</span><br><span class="text-green">AZHDARI</span></h1>
       <p class="subline">Cinematic Street-Art Energy für Events, Live-Erlebnisse und Sammler mit Anspruch.</p>
+
       <div class="cta-row">
         <a class="btn btn-primary" href="#events">EVENTS ENTDECKEN &nbsp;→</a>
         <a class="btn btn-ghost" href="#newsletter">TICKET SICHERN &nbsp;
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 8 16 12 12 16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
         </a>
       </div>
     </div>
-    <div class="hero-art reveal" aria-hidden="true">
+
+    <div class="hero-art reveal">
       <div class="hero-art-portrait">
-        <img src="/assets/img/selfportrait.jpg" alt="Selbstporträt von Shary" loading="eager">
+        <img src="/assets/Img/selfportrait.png" alt="Selbstporträt von Shary" loading="eager">
       </div>
-      <div class="hero-art-splatter"></div>
-      <span class="hero-tag">S-ART</span>
-      <span class="hero-tag-drip" aria-hidden="true"></span>
-      <svg class="hero-signature" viewBox="0 0 220 90" aria-hidden="true">
-        <path d="M14 60 C 28 22, 52 18, 70 50 C 80 70, 96 70, 108 50 C 122 28, 142 28, 158 52 C 170 70, 188 64, 204 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M30 72 L 196 72" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      </svg>
     </div>
   </div>
 </section>
@@ -57,6 +56,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
         </div>
       </div>
     </div>
+
     <?php if (!empty($currentLocation['google_maps_url'])): ?>
       <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($currentLocation['google_maps_url']) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
     <?php endif; ?>
@@ -69,33 +69,50 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
     <h2>AKTUELLE EVENTS</h2>
     <a href="/tour.php">ALLE EVENTS ANSEHEN →</a>
   </div>
+
   <div class="carousel-wrap reveal-group">
     <div class="card-grid events-scroll">
       <?php foreach ($events as $event): ?>
         <article class="card event-card reveal">
           <div class="card-media">
-            <?php if (!empty($event['image_path'])): ?>
-              <img src="<?= e($event['image_path']) ?>" alt="<?= e($event['title']) ?>" loading="lazy">
-            <?php else: ?>
-              <div class="media-fallback"></div>
-            <?php endif; ?>
+            <?php
+// Event-Titel in Dateinamen umwandeln
+$imageName = strtolower($event['title']); // klein
+$imageName = str_replace(['ä','ö','ü','ß'], ['ae','oe','ue','ss'], $imageName);
+$imageName = preg_replace('/[^a-z0-9]+/', '-', $imageName); // alles sauber
+$imageName = trim($imageName, '-');
+
+// finaler Pfad
+$imagePath = "/assets/Img/" . $imageName . ".png";
+
+// fallback wenn Bild nicht existiert
+$finalImage = file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)
+  ? $imagePath
+  : "/assets/Img/default-event.png";
+?>
+
+<img src="<?= e($finalImage) ?>" alt="<?= e($event['title']) ?>" loading="lazy">
           </div>
+
           <p class="meta"><?= formatDate($event['event_date']) ?> · <?= e($event['city']) ?></p>
           <h3><?= e($event['title']) ?></h3>
           <p><?= e($event['description_short']) ?></p>
           <a class="text-link" href="/booking.php">Tickets &amp; Infos ↗</a>
         </article>
       <?php endforeach; ?>
+
       <?php if (empty($events)): ?>
         <p class="muted">Neue Events werden bald bekannt gegeben.</p>
       <?php endif; ?>
     </div>
+
     <button class="carousel-btn" data-scroll="events-scroll" aria-label="Weitere Events anzeigen">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
         <polyline points="9 18 15 12 9 6"/>
       </svg>
     </button>
   </div>
+
   <div class="event-dots">
     <span class="event-dot is-active"></span>
     <span class="event-dot"></span>
@@ -107,27 +124,17 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 <section class="section container" id="artworks">
   <div class="section-heading reveal">
     <h2>AUSGEWÄHLTE KUNSTWERKE</h2>
-    <a href="/kunstwerke.php">ALLE KUNSTWERKE ANSEHEN →</a>
+    <a href="https://s-art.work/shop/" target="_blank" rel="noopener">ALLE KUNSTWERKE ANSEHEN →</a>
   </div>
-  <div class="carousel-wrap reveal-group">
-    <div class="artworks-grid artworks-scroll">
-      <?php foreach ($artworks as $art): ?>
-        <article class="artwork-card reveal">
-          <div class="artwork-img-wrap">
-            <img src="<?= e($art['image_path']) ?>" alt="<?= e($art['title']) ?>" loading="lazy">
-          </div>
-        </article>
-      <?php endforeach; ?>
-      <?php if (empty($artworks)): ?>
-        <p class="muted">Kunstwerke werden in Kürze hinzugefügt.</p>
-      <?php endif; ?>
+
+  <a class="shop-teaser reveal neon-frame" href="https://s-art.work/shop/" target="_blank" rel="noopener">
+    <div>
+      <p class="meta">S-ART SHOP</p>
+      <h3>Kunstwerke direkt im offiziellen Shop ansehen</h3>
+      <p>Alle verfügbaren Werke, Details und Anfragen findest du im S-ART Shop.</p>
     </div>
-    <button class="carousel-btn" data-scroll="artworks-scroll" aria-label="Weitere Kunstwerke anzeigen">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
-        <polyline points="9 18 15 12 9 6"/>
-      </svg>
-    </button>
-  </div>
+    <span class="btn btn-primary">ZUM SHOP →</span>
+  </a>
 </section>
 
 <section class="section container" id="newsletter">
@@ -139,19 +146,23 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
           <polyline points="22,6 12,13 2,6"/>
         </svg>
       </div>
+
       <div>
         <h2>GRATIS TICKET + NEWSLETTER</h2>
         <p>Erhalte exklusive Vorverkaufs-Infos, Pop-up Termine und digitale Ticket-Freischaltung.</p>
       </div>
     </div>
+
     <form method="post" action="/newsletter-submit.php" class="newsletter-form">
       <?= csrfField() ?>
       <input type="hidden" name="source" value="homepage">
       <input type="hidden" name="first_name" value="">
+
       <div class="newsletter-email-row">
         <input type="email" name="email" placeholder="Deine E-Mail-Adresse" required>
         <button class="btn btn-primary" type="submit">JETZT ANMELDEN</button>
       </div>
+
       <label class="check">
         <input type="checkbox" name="consent_privacy" value="1" required>
         Ich stimme der <a href="/datenschutz.php" class="privacy-link">Datenschutzerklärung</a> zu.
