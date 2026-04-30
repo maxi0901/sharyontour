@@ -98,7 +98,7 @@ $soldOut = $remaining <= 0;
           $isPast = $ev['status'] === 'past' || $ev['event_date'] < $today;
           $isOpening = (int) $ev['is_opening'] === 1;
         ?>
-          <article class="event-slide <?= $isPast ? 'is-past' : '' ?> <?= $isOpening ? 'is-opening' : '' ?>" data-slide-index="<?= $idx ?>">
+          <article class="event-slide neon-card <?= $isPast ? 'is-past' : '' ?> <?= $isOpening ? 'is-opening' : '' ?>" data-slide-index="<?= $idx ?>">
             <?php if ($isOpening): ?>
               <span class="badge badge-opening">HAUPT-EVENT</span>
             <?php elseif ($isPast): ?>
@@ -190,7 +190,18 @@ $soldOut = $remaining <= 0;
 </section>
 
 <section class="section container" id="newsletter">
-  <div class="newsletter-box reveal">
+  <article class="neon-card shop-link-card reveal" aria-label="S-ART Shop">
+    <div>
+      <p class="kicker">S-ART SHOP</p>
+      <h2>Kunstwerke direkt im offiziellen Shop ansehen</h2>
+      <p>Alle verfügbaren Werke, Details und Anfragen findest du im offiziellen S-ART Shop.</p>
+    </div>
+    <a class="neon-btn" href="https://s-art.work/shop/" target="_blank" rel="noopener noreferrer">
+      Zum Shop →
+    </a>
+  </article>
+
+  <div class="newsletter-box neon-card reveal">
     <div class="newsletter-left">
       <p class="kicker">BLEIB IM LOOP</p>
       <h2>INFORMIERE MICH,<br>WENN SHARY IN<br><span class="text-red">MEINER NÄHE</span> IST</h2>

@@ -1242,6 +1242,107 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .9rem; margin: 1rem 0; }
 .admin-card { padding: 1rem 1.2rem; background: rgba(13,14,22,.85); border: 1px solid var(--line); border-radius: 14px; }
 .admin-card h2 { font-size: 2rem; }
+
+.neon-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  padding: clamp(1.5rem, 3vw, 2.2rem);
+  background:
+    radial-gradient(circle at 8% 20%, rgba(255, 42, 138, 0.24), transparent 30%),
+    radial-gradient(circle at 92% 80%, rgba(168, 255, 42, 0.18), transparent 28%),
+    linear-gradient(135deg, rgba(22, 22, 32, 0.9), rgba(10, 10, 14, 0.84));
+  border: 1px solid rgba(255, 42, 138, 0.58);
+  box-shadow:
+    0 0 0 1px rgba(168, 255, 42, 0.24),
+    0 0 28px rgba(255, 42, 138, 0.34),
+    0 0 24px rgba(168, 255, 42, 0.15),
+    inset 0 0 42px rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(14px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.neon-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ff2a8a, #ff4fb3, #a8ff2a);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.neon-card::after {
+  content: "";
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  right: -45px;
+  bottom: -45px;
+  background: radial-gradient(circle, rgba(168, 255, 42, 0.3), transparent 65%);
+  filter: blur(2px);
+  pointer-events: none;
+}
+.neon-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 0 1px rgba(168, 255, 42, 0.36),
+    0 0 40px rgba(255, 42, 138, 0.52),
+    0 0 42px rgba(168, 255, 42, 0.18),
+    inset 0 0 45px rgba(255, 255, 255, 0.05);
+}
+
+.shop-link-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin: 0 0 2rem;
+}
+.shop-link-card .kicker { color: #ff2a8a; letter-spacing: .14em; font-weight: 800; }
+.shop-link-card h2 { margin: .5rem 0 .8rem; }
+.shop-link-card p { color: rgba(255, 255, 255, 0.84); max-width: 720px; }
+
+.neon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0 1.75rem;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ff2a8a, #ff4fb3);
+  color: #fff;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 0 28px rgba(255, 42, 138, 0.55);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  white-space: nowrap;
+}
+.neon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 38px rgba(255, 42, 138, 0.78);
+}
+
+.card,
+.artwork-card,
+.highlight-card,
+.ticket-card,
+.timeline article,
+.contact-card,
+.newsletter-box,
+.event-slide {
+  border-radius: 26px;
+}
+
+@media (max-width: 768px) {
+  .neon-card { padding: 24px; border-radius: 22px; }
+  .shop-link-card { flex-direction: column; align-items: flex-start; gap: 22px; }
+  .neon-btn { width: 100%; }
+}
 .admin-highlight { border-color: rgba(226,35,26,.5); background: linear-gradient(135deg, rgba(226,35,26,.12), rgba(0,0,0,.35)); }
 .admin-progress { height: 8px; border-radius: 999px; background: rgba(255,255,255,.1); margin: .5rem 0; overflow: hidden; }
 .admin-progress span { display: block; height: 100%; background: #e2231a; }
