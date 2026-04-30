@@ -11,8 +11,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $email = strtolower(trim((string) ($_POST['email'] ?? '')));
 $name = trim((string) ($_POST['name'] ?? ''));
+$postal = trim((string) ($_POST['postal_code'] ?? ''));
 $eventId = (int) ($_POST['event_id'] ?? 0);
 
+if ($name === '' || mb_strlen($name) < 2) {
+    http_response_code(422);
+    echo json_encode(['status' => 'error', 'message' => 'Bitte deinen Namen angeben']);
+    exit;
+}
+if ($postal === '' || !preg_match('/^[0-9A-Za-zÄÖÜäöüß\- ]{3,12}$/u', $postal)) {
+    http_response_code(422);
+    echo json_encode(['status' => 'error', 'message' => 'Bitte eine gültige Postleitzahl angeben']);
+    exit;
+}
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(422);
     echo json_encode(['status' => 'error', 'message' => 'Ungültige E-Mail']);
@@ -51,15 +62,28 @@ try {
     }
 
     $ticketId = bin2hex(random_bytes(16));
-    $stmt = $pdo->prepare('INSERT INTO tickets (event_id, email, name, ticket_id, status, ip_address, user_agent) VALUES (:e,:em,:n,:tid,"active",:ip,:ua)');
-    $stmt->execute([
-        'e' => $eventId,
-        'em' => $email,
-        'n' => $name !== '' ? $name : null,
-        'tid' => $ticketId,
-        'ip' => $ip,
-        'ua' => $_SERVER['HTTP_USER_AGENT'] ?? null,
-    ]);
+    if (hasColumn('tickets', 'postal_code')) {
+        $stmt = $pdo->prepare('INSERT INTO tickets (event_id, email, name, postal_code, ticket_id, status, ip_address, user_agent) VALUES (:e,:em,:n,:pc,:tid,"active",:ip,:ua)');
+        $stmt->execute([
+            'e' => $eventId,
+            'em' => $email,
+            'n' => $name,
+            'pc' => $postal,
+            'tid' => $ticketId,
+            'ip' => $ip,
+            'ua' => $_SERVER['HTTP_USER_AGENT'] ?? null,
+        ]);
+    } else {
+        $stmt = $pdo->prepare('INSERT INTO tickets (event_id, email, name, ticket_id, status, ip_address, user_agent) VALUES (:e,:em,:n,:tid,"active",:ip,:ua)');
+        $stmt->execute([
+            'e' => $eventId,
+            'em' => $email,
+            'n' => $name,
+            'tid' => $ticketId,
+            'ip' => $ip,
+            'ua' => $_SERVER['HTTP_USER_AGENT'] ?? null,
+        ]);
+    }
     $pdo->commit();
 
     echo json_encode(['status' => 'success', 'ticket_id' => $ticketId]);

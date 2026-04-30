@@ -8,62 +8,97 @@ $pageTitle = $ticket ? 'Dein S-ART Ticket' : 'Ticket nicht gefunden';
 require __DIR__ . '/includes/header.php';
 
 $qrUrl = null;
+$verifyUrl = null;
 if ($ticket) {
     $verifyUrl = appUrl('/ticket.php?id=' . urlencode($ticket['ticket_id']));
-    $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=10&bgcolor=0a0a0c&color=ffffff&data=' . urlencode($verifyUrl);
+    $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=10&bgcolor=ffffff&color=0a0a0c&data=' . urlencode($verifyUrl);
 }
+
+$shortId = $ticket ? strtoupper(substr(preg_replace('/[^a-zA-Z0-9]/', '', (string) $ticket['ticket_id']), 0, 8)) : '';
 ?>
 
-<section class="section container ticket-show reveal">
+<section class="section container ticket-show">
   <?php if (!empty($_GET['new'])): ?>
-    <div class="form-flash form-flash-success">
+    <div class="form-flash form-flash-success reveal">
       Ticket erfolgreich erstellt! Eine Bestätigung mit dem Link wurde an deine E-Mail gesendet.
     </div>
   <?php endif; ?>
 
   <?php if ($ticket && $ticket['status'] === 'active'): ?>
-    <div class="ticket-card neon-card">
-      <div class="ticket-card-head">
-        <img src="/assets/img/s-art-logo.svg" alt="S-ART" class="ticket-logo">
-        <p class="ticket-kicker">GRATIS TICKET</p>
+    <div class="ticket-stage">
+      <div class="ticket-stage-bg" aria-hidden="true">
+        <div class="ticket-stage-glow ticket-stage-glow-pink"></div>
+        <div class="ticket-stage-glow ticket-stage-glow-green"></div>
       </div>
 
-      <div class="ticket-card-body">
-        <h2><?= e($ticket['event_title']) ?></h2>
-        <div class="ticket-meta-row">
-          <div>
-            <span class="ticket-meta-label">DATUM</span>
-            <strong><?= formatDate($ticket['event_date']) ?></strong>
+      <div class="ticket-card-real reveal">
+        <div class="ticket-card-stub">
+          <div class="ticket-stub-top">
+            <img src="/assets/img/s-art-logo.svg" alt="S-ART" class="ticket-stub-logo">
+            <span class="ticket-stub-tag">ADMIT ONE</span>
           </div>
-          <div>
-            <span class="ticket-meta-label">ORT</span>
-            <strong><?= e($ticket['city']) ?></strong>
+
+          <div class="ticket-stub-event">
+            <p class="kicker">CONTAINER OPENING</p>
+            <h2><?= e($ticket['event_title']) ?></h2>
+            <p class="muted"><?= formatDateLong($ticket['event_date']) ?> · <?= e($ticket['city']) ?></p>
+          </div>
+
+          <div class="ticket-stub-grid">
+            <div>
+              <span class="ticket-meta-label">Datum</span>
+              <strong><?= formatDate($ticket['event_date']) ?></strong>
+            </div>
+            <div>
+              <span class="ticket-meta-label">Einlass</span>
+              <strong><?= e($ticket['event_time'] ? substr($ticket['event_time'], 0, 5) : '18:00') ?> Uhr</strong>
+            </div>
+            <div>
+              <span class="ticket-meta-label">Ort</span>
+              <strong><?= e($ticket['city']) ?></strong>
+            </div>
+            <div>
+              <span class="ticket-meta-label">Sitz</span>
+              <strong>FREIE WAHL</strong>
+            </div>
+          </div>
+
+          <div class="ticket-stub-name">
+            <span class="ticket-meta-label">Ausgestellt für</span>
+            <strong><?= e($ticket['name'] ?: $ticket['email']) ?></strong>
+            <p class="muted"><?= e($ticket['email']) ?></p>
+          </div>
+
+          <div class="ticket-stub-footer">
+            <span class="ticket-meta-label">Ticket-Nr.</span>
+            <strong class="ticket-stub-number"><?= e($shortId) ?></strong>
           </div>
         </div>
 
-        <div class="ticket-name-row">
-          <span class="ticket-meta-label">TICKET FÜR</span>
-          <strong><?= e($ticket['name'] ?: $ticket['email']) ?></strong>
+        <div class="ticket-card-perforation" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
 
-        <div class="ticket-qr">
-          <?php if ($qrUrl): ?>
-            <img src="<?= e($qrUrl) ?>" alt="QR-Code" loading="lazy">
-          <?php endif; ?>
-          <p class="ticket-id">ID: <?= e($ticket['ticket_id']) ?></p>
+        <div class="ticket-card-tearoff">
+          <p class="ticket-tearoff-kicker">SCAN AT ENTRY</p>
+          <div class="ticket-qr-frame">
+            <?php if ($qrUrl): ?>
+              <img src="<?= e($qrUrl) ?>" alt="QR-Code" loading="lazy">
+            <?php endif; ?>
+          </div>
+          <p class="ticket-tearoff-id">ID · <?= e($shortId) ?></p>
+          <p class="muted ticket-tearoff-note">Gültig nur in Verbindung mit gültigem Ausweis.</p>
         </div>
-
-        <p class="ticket-note">Der genaue Standort wird rechtzeitig bekanntgegeben.</p>
       </div>
 
-      <div class="ticket-card-actions">
-        <a class="btn btn-primary" href="/ticket-ics.php?id=<?= urlencode($ticket['ticket_id']) ?>">📅 Kalender (.ics)</a>
-        <a class="btn btn-ghost" href="/ticket-wallet.php?id=<?= urlencode($ticket['ticket_id']) ?>">📱 Apple / Google Wallet</a>
-        <a class="btn btn-ghost" href="/ticket-pdf.php?id=<?= urlencode($ticket['ticket_id']) ?>">📄 PDF</a>
+      <div class="ticket-actions reveal">
+        <a class="btn btn-primary" href="/ticket-pdf.php?id=<?= urlencode($ticket['ticket_id']) ?>">PDF herunterladen</a>
+        <a class="btn btn-ghost" href="/ticket-wallet.php?id=<?= urlencode($ticket['ticket_id']) ?>">Apple / Google Wallet</a>
+        <a class="btn btn-ghost" href="/ticket-ics.php?id=<?= urlencode($ticket['ticket_id']) ?>">In Kalender speichern (.ics)</a>
       </div>
+
+      <p class="muted ticket-help reveal">Bewahre den Link sicher auf — darüber kannst du dein Ticket jederzeit aufrufen. Der genaue Standort wird rechtzeitig bekanntgegeben.</p>
     </div>
-
-    <p class="muted ticket-help">Bewahre den Link sicher auf – darüber kannst du dein Ticket jederzeit aufrufen.</p>
   <?php elseif ($ticket && $ticket['status'] !== 'active'): ?>
     <h1>Ticket deaktiviert</h1>
     <p>Dieses Ticket wurde deaktiviert. Bei Fragen kontaktiere uns bitte.</p>

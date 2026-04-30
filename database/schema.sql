@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS tickets (
   event_id INT UNSIGNED NOT NULL,
   email VARCHAR(255) NOT NULL,
   name VARCHAR(255) NULL,
+  postal_code VARCHAR(20) NULL,
   ticket_id VARCHAR(64) NOT NULL UNIQUE,
   status ENUM('active','disabled') DEFAULT 'active',
   ip_address VARCHAR(100) NULL,
