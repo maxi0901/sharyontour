@@ -98,29 +98,6 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 </section>
 
 <section class="section container" id="artworks">
-  <div class="section-heading reveal">
-    <h2>AUSGEWÄHLTE KUNSTWERKE</h2>
-    <a href="/kunstwerke.php">ALLE KUNSTWERKE ANSEHEN →</a>
-  </div>
-  <div class="carousel-wrap reveal-group">
-    <div class="artworks-grid artworks-scroll">
-      <?php foreach ($artworks as $art): ?>
-        <article class="artwork-card reveal">
-          <div class="artwork-img-wrap">
-            <img src="<?= e($art['image_path']) ?>" alt="<?= e($art['title']) ?>" loading="lazy">
-          </div>
-        </article>
-      <?php endforeach; ?>
-      <?php if (empty($artworks)): ?>
-        <p class="muted">Kunstwerke werden in Kürze hinzugefügt.</p>
-      <?php endif; ?>
-    </div>
-    <button class="carousel-btn" data-scroll="artworks-scroll" aria-label="Weitere Kunstwerke anzeigen">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
-        <polyline points="9 18 15 12 9 6"/>
-      </svg>
-    </button>
-  </div>
   <article class="shop-teaser neon-frame reveal">
     <div>
       <p class="meta">SHOP</p>
