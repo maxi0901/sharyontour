@@ -1,10 +1,26 @@
 <?php
+require __DIR__ . '/config/bootstrap.php';
+
 $pageTitle = 'Events & Tour';
 require __DIR__ . '/includes/header.php';
+
 $current  = fetchOne("SELECT * FROM tour_locations WHERE status='current' ORDER BY date_from DESC LIMIT 1");
 $upcoming = fetchAll("SELECT * FROM tour_locations WHERE status='upcoming' ORDER BY date_from ASC");
 $past     = fetchAll("SELECT * FROM tour_locations WHERE status='past' ORDER BY date_from DESC");
 $events   = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY event_date ASC");
+
+function eventImagePathFromTitle(string $title): string
+{
+    $imageName = strtolower($title);
+    $imageName = str_replace(['ä', 'ö', 'ü', 'ß'], ['ae', 'oe', 'ue', 'ss'], $imageName);
+    $imageName = preg_replace('/[^a-z0-9]+/', '-', $imageName);
+    $imageName = trim($imageName, '-');
+
+    $imagePath = '/assets/Img/' . $imageName . '.png';
+    $fallback  = '/assets/Img/default-event.png';
+
+    return file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath) ? $imagePath : $fallback;
+}
 ?>
 
 <section class="container page-intro reveal">
@@ -32,6 +48,7 @@ $events   = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY even
         </div>
       </div>
     </div>
+
     <?php if (!empty($current['google_maps_url'])): ?>
       <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($current['google_maps_url']) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
     <?php endif; ?>
@@ -45,16 +62,16 @@ $events   = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY even
     <h2>AKTUELLE EVENTS</h2>
     <a href="/vergangene-events.php">ALLE EVENTS →</a>
   </div>
+
   <div class="card-grid events-scroll reveal-group">
     <?php foreach ($events as $event): ?>
+      <?php $eventImage = eventImagePathFromTitle($event['title']); ?>
+
       <article class="card event-card reveal">
         <div class="card-media">
-          <?php if (!empty($event['image_path'])): ?>
-            <img src="<?= e($event['image_path']) ?>" alt="<?= e($event['title']) ?>" loading="lazy">
-          <?php else: ?>
-            <div class="media-fallback"></div>
-          <?php endif; ?>
+          <img src="<?= e($eventImage) ?>" alt="<?= e($event['title']) ?>" loading="lazy">
         </div>
+
         <p class="meta"><?= formatDate($event['event_date']) ?> · <?= e($event['city']) ?></p>
         <h3><?= e($event['title']) ?></h3>
         <p><?= e($event['description_short']) ?></p>
@@ -70,22 +87,22 @@ $events   = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY even
   <div class="section-heading">
     <h2>KOMMENDE STOPPS</h2>
   </div>
+
   <div class="timeline">
     <?php foreach ($upcoming as $row): ?>
       <article>
         <strong><?= formatDate($row['date_from']) ?></strong>
         <h3><?= e($row['title']) ?> · <?= e($row['city']) ?></h3>
+
         <?php if (!empty($row['description'])): ?>
           <p><?= e($row['description']) ?></p>
         <?php endif; ?>
+
         <?php if (!empty($row['google_maps_url'])): ?>
           <a class="text-link" href="<?= e($row['google_maps_url']) ?>" target="_blank" rel="noopener">Maps ↗</a>
         <?php endif; ?>
       </article>
     <?php endforeach; ?>
-    <?php if (empty($upcoming)): ?>
-      <p class="muted">Neue Stopps werden bald bekanntgegeben.</p>
-    <?php endif; ?>
   </div>
 </section>
 <?php endif; ?>
@@ -95,6 +112,7 @@ $events   = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY even
   <div class="section-heading">
     <h2>VERGANGENE STOPPS</h2>
   </div>
+
   <div class="timeline">
     <?php foreach ($past as $row): ?>
       <article>
@@ -105,5 +123,7 @@ $events   = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY even
   </div>
 </section>
 <?php endif; ?>
+
+<?php require __DIR__ . '/includes/footer.php'; ?>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>
