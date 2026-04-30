@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/bootstrap.php';
 require_once __DIR__ . '/csrf.php';
+$siteConfig = require __DIR__ . '/site-config.php';
 ?><!doctype html>
 <html lang="de">
 <head>
@@ -31,9 +32,11 @@ require_once __DIR__ . '/csrf.php';
     </nav>
 
     <div class="header-actions">
-      <a class="btn btn-ticket-mini" href="/ticket-buchen.php">
-        Gratis Ticket
-      </a>
+      <div class="header-social" aria-label="Social Media">
+        <a href="<?= e($siteConfig['social']['instagram']['url']) ?>" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="<?= e($siteConfig['social']['tiktok']['url']) ?>" target="_blank" rel="noopener noreferrer">TikTok</a>
+      </div>
+      <a class="btn btn-ticket-mini" href="/ticket-buchen.php">Gratis Ticket</a>
       <button class="nav-toggle icon-btn" aria-label="Navigation öffnen" aria-controls="mainNav" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
           <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
