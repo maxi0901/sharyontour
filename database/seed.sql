@@ -1,16 +1,26 @@
-INSERT INTO events (title, slug, event_date, event_time, city, location_name, address, description_short, description_long, image_path, status, is_featured) VALUES
-('Container Opening Night Berlin', 'container-opening-berlin', '2026-06-10', '19:00:00', 'Berlin', 'RAW Gelände', 'Revaler Str. 99', 'Launch Event mit Live-Art und DJ.', 'Großes Opening der Sommer-Tour mit Künstler-Talks und Performance.', '/assets/img/event-berlin.jpg', 'upcoming', 1),
-('Street Colors Hamburg', 'street-colors-hamburg', '2026-07-04', '18:00:00', 'Hamburg', 'Oberhafenquartier', 'Stockmeyerstr. 43', 'Urban-Art Abend im Hafen.', 'Container-Installation, Lichtshow und Talks.', '/assets/img/event-hamburg.jpg', 'upcoming', 0),
-('Night Shapes Köln', 'night-shapes-koeln', '2025-10-02', '20:00:00', 'Köln', 'Ehrenfeld Yard', 'Venloer Str. 300', 'Abendshow mit Projection Mapping.', 'Vergangenes Event der Herbsttour.', '/assets/img/event-koeln.jpg', 'past', 0),
-('S-ART x City Walls München', 's-art-city-walls-muenchen', '2025-08-21', '17:00:00', 'München', 'Kreativquartier', 'Dachauer Str. 112d', 'Open-Air Ausstellung.', 'Vergangenes Event mit Workshop und Talk.', '/assets/img/event-muenchen.jpg', 'past', 0);
+-- S-ART / Shary on Tour - Seed Data
 
-INSERT INTO artworks (title, slug, description, image_path, collection_name, year, is_visible, sort_order) VALUES
-('Neon Pulse', 'neon-pulse', 'Kräftige Farbflächen und dynamische Linien.', '/assets/img/art-neon-pulse.jpg', 'City Beats', '2026', 1, 1),
-('Urban Bloom', 'urban-bloom', 'Florale Formen treffen auf Graffiti-Strukturen.', '/assets/img/art-urban-bloom.jpg', 'City Beats', '2026', 1, 2),
-('Midnight Echo', 'midnight-echo', 'Dunkle Basis mit poppigen Lichtakzenten.', '/assets/img/art-midnight-echo.jpg', 'After Dark', '2025', 1, 3),
-('Electric Faces', 'electric-faces', 'Porträt-Serie mit Street-Art Charakter.', '/assets/img/art-electric-faces.jpg', 'After Dark', '2025', 1, 4);
+INSERT INTO events
+  (title, slug, event_date, event_time, city, location_name, address, description_short, description_long, image_path, status, is_opening, max_tickets, google_maps_url)
+VALUES
+  ('Vernissage Essen', 'vernissage-essen', '2026-04-18', '19:00:00', 'Essen', 'S-Art Studio', NULL,
+   'Die Vernissage in Essen war der Auftakt der diesjährigen Tour.',
+   'Bilder, Reaktionen und Eindrücke aus der Vernissage in Essen findest du in der Galerie.',
+   '/assets/img/events/vernissage-essen.jpg', 'past', 0, 0, NULL),
 
-INSERT INTO tour_locations (title, city, address, date_from, date_to, status, google_maps_url, description) VALUES
-('Container Hub Ost', 'Berlin', 'Revaler Str. 99, Berlin', '2026-05-30', NULL, 'current', 'https://maps.google.com', 'Aktueller Hauptstandort der Tour.'),
-('Hafen Art Spot', 'Hamburg', 'Stockmeyerstr. 43, Hamburg', '2026-07-01', '2026-07-15', 'upcoming', 'https://maps.google.com', 'Nächster Stopp im Norden.'),
-('Factory Yard Süd', 'München', 'Dachauer Str. 112d, München', '2026-08-05', '2026-08-20', 'upcoming', 'https://maps.google.com', 'Sommerfinale mit Night Session.');
+  ('Maifest Gutshof', 'maifest-gutshof', '2026-05-01', '12:00:00', 'Gutshof', 'Gutshof', NULL,
+   'Pop-Art trifft Maifest – Live-Painting & Atmosphäre.',
+   'S-Art beim Maifest Gutshof: Live-Painting, Pop-Art Stände und Tour-Atmosphäre.',
+   '/assets/img/events/maifest-gutshof.jpg', 'upcoming', 0, 0,
+   'https://www.google.com/maps/search/?api=1&query=Gutshof+Maifest'),
+
+  ('Weinfest im Messinghof', 'weinfest-messinghof', '2026-06-06', '15:00:00', 'Messinghof', 'Messinghof', NULL,
+   'Wein, Pop-Art und Street-Vibes im Messinghof.',
+   'Beim Weinfest im Messinghof zeigt Shary neue Werke und ist live vor Ort.',
+   '/assets/img/events/weinfest-messinghof.jpg', 'upcoming', 0, 0,
+   'https://www.google.com/maps/search/?api=1&query=Messinghof+Weinfest'),
+
+  ('Container Opening Kassel', 'container-opening-kassel', '2026-08-22', '18:00:00', 'Kassel', NULL, NULL,
+   'Das Highlight der Tour – Container Opening in Kassel.',
+   'Das große Container Opening in Kassel: Pop-Art Show, Live-Acts & exklusives Erlebnis. Der genaue Standort wird rechtzeitig bekanntgegeben.',
+   '/assets/img/events/container-opening-kassel.jpg', 'upcoming', 1, 600, NULL);
