@@ -1,172 +1,193 @@
 <?php
 require __DIR__ . '/config/bootstrap.php';
 
-$pageTitle = 'S-ART / Shary on Tour';
+$pageTitle = 'S-ART · Shary on Tour';
 require __DIR__ . '/includes/header.php';
 
-$currentLocation = fetchOne("SELECT * FROM tour_locations WHERE status='current' ORDER BY date_from DESC LIMIT 1");
-$events = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY event_date ASC LIMIT 3");
+$today = date('Y-m-d');
+$opening = getOpeningEvent();
+
+$upcomingEvents = fetchAll(
+    "SELECT * FROM events WHERE status='upcoming' AND event_date >= :today ORDER BY event_date ASC"
+    , ['today' => $today]
+);
+$pastEvents = fetchAll(
+    "SELECT * FROM events WHERE status='past' OR (event_date < :today) ORDER BY event_date DESC LIMIT 6"
+    , ['today' => $today]
+);
+
+$soldTickets = $opening ? countTicketsForEvent((int) $opening['id']) : 0;
+$maxTickets = $opening ? (int) $opening['max_tickets'] : 600;
+$remaining = max(0, $maxTickets - $soldTickets);
+$lowStock = $remaining > 0 && $remaining < 100;
+$soldOut = $remaining <= 0;
 ?>
 
-<section class="section hero" id="hero">
-  <div class="hero-bg" aria-hidden="true"></div>
-
-  <div class="container hero-layout">
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-bg-stripe"></div>
+  </div>
+  <div class="container hero-inner">
     <div class="hero-copy reveal">
-      <p class="kicker">SHARY ON TOUR</p>
-      <h1>POP-ART VON<br><span class="text-pink">SHARYAR</span><br><span class="text-green">AZHDARI</span></h1>
-      <p class="subline">Cinematic Street-Art Energy für Events, Live-Erlebnisse und Sammler mit Anspruch.</p>
-
+      <p class="kicker">URBAN ART MOVEMENT</p>
+      <h1>POP-ART<br><span class="text-red">GOES VIRAL</span></h1>
+      <p class="subline">Cinematic Street-Art Weg von Sharyar Azhdari. Bekannt aus „Die Geissens". Live, laut und limitiert.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#events">EVENTS ENTDECKEN &nbsp;→</a>
-        <a class="btn btn-ghost" href="#newsletter">TICKET SICHERN &nbsp;
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 8 16 12 12 16"/>
-            <line x1="8" y1="12" x2="16" y2="12"/>
-          </svg>
-        </a>
+        <?php if ($opening): ?>
+          <a class="btn btn-primary" href="/ticket-buchen.php">GRATIS TICKET SICHERN →</a>
+        <?php endif; ?>
+        <a class="btn btn-ghost" href="#events">EVENTS ENTDECKEN →</a>
       </div>
-    </div>
-
-    <div class="hero-art reveal">
-      <div class="hero-art-portrait">
-        <img src="/assets/Img/selfportrait.png" alt="Selbstporträt von Shary" loading="eager">
-      </div>
+      <?php if ($opening): ?>
+        <div class="hero-ticker <?= $soldOut ? 'is-sold' : ($lowStock ? 'is-low' : '') ?>">
+          <span class="dot"></span>
+          <?php if ($soldOut): ?>
+            <strong>AUSVERKAUFT</strong> · Container Opening Kassel
+          <?php else: ?>
+            <strong>Noch <?= $remaining ?> von <?= $maxTickets ?> Tickets</strong> · Container Opening Kassel
+          <?php endif; ?>
+        </div>
+      <?php endif; ?>
     </div>
   </div>
 </section>
 
-<?php if ($currentLocation): ?>
-<section class="section container section-compact reveal" id="location">
-  <article class="location-strip neon-frame">
-    <div class="location-left">
-      <p class="meta">AKTUELLER STANDORT</p>
-      <div class="location-inner">
-        <div class="location-icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true">
-            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-        </div>
-        <div class="location-main">
-          <h2><?= e($currentLocation['title']) ?></h2>
-          <p><?= e($currentLocation['address']) ?></p>
-          <p class="date"><?= formatDate($currentLocation['date_from']) ?><?= $currentLocation['date_to'] ? ' – ' . formatDate($currentLocation['date_to']) : '' ?></p>
-        </div>
+<?php if ($opening): ?>
+<section class="section container reveal" id="opening">
+  <a class="opening-banner" href="/ticket-buchen.php">
+    <div class="opening-banner-inner">
+      <div>
+        <p class="kicker">HAUPT-EVENT</p>
+        <h2>CONTAINER OPENING<br><span class="text-red">KASSEL</span></h2>
+        <p class="opening-meta"><?= formatDateLong($opening['event_date']) ?> · Kassel</p>
+        <p class="opening-note">Der genaue Standort wird rechtzeitig bekanntgegeben.</p>
+      </div>
+      <div class="opening-cta">
+        <?php if ($soldOut): ?>
+          <span class="btn btn-disabled">AUSVERKAUFT</span>
+        <?php else: ?>
+          <span class="btn btn-primary">GRATIS TICKET →</span>
+          <p class="opening-stock <?= $lowStock ? 'is-low' : '' ?>">
+            Noch <?= $remaining ?> von <?= $maxTickets ?> verfügbar
+          </p>
+        <?php endif; ?>
       </div>
     </div>
-
-    <?php if (!empty($currentLocation['google_maps_url'])): ?>
-      <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($currentLocation['google_maps_url']) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
-    <?php endif; ?>
-  </article>
+  </a>
 </section>
 <?php endif; ?>
 
 <section class="section container" id="events">
   <div class="section-heading reveal">
-    <h2>AKTUELLE EVENTS</h2>
-    <a href="/tour.php">ALLE EVENTS ANSEHEN →</a>
+    <h2>EVENTS</h2>
+    <a href="/tour.php" class="text-link">ALLE EVENTS →</a>
   </div>
 
-  <div class="carousel-wrap reveal-group">
-    <div class="card-grid events-scroll">
-      <?php foreach ($events as $event): ?>
-        <article class="card event-card reveal">
-          <div class="card-media">
-            <?php
-// Event-Titel in Dateinamen umwandeln
-$imageName = strtolower($event['title']); // klein
-$imageName = str_replace(['ä','ö','ü','ß'], ['ae','oe','ue','ss'], $imageName);
-$imageName = preg_replace('/[^a-z0-9]+/', '-', $imageName); // alles sauber
-$imageName = trim($imageName, '-');
+  <?php
+    $allSliderEvents = $upcomingEvents;
+    foreach ($pastEvents as $p) {
+        $allSliderEvents[] = $p;
+    }
+  ?>
 
-// finaler Pfad
-$imagePath = "/assets/Img/" . $imageName . ".png";
+  <?php if (!empty($allSliderEvents)): ?>
+    <div class="event-slider reveal" data-event-slider>
+      <div class="event-slider-track">
+        <?php foreach ($allSliderEvents as $idx => $ev):
+          $isPast = $ev['status'] === 'past' || $ev['event_date'] < $today;
+          $isOpening = (int) $ev['is_opening'] === 1;
+        ?>
+          <article class="event-slide <?= $isPast ? 'is-past' : '' ?> <?= $isOpening ? 'is-opening' : '' ?>" data-slide-index="<?= $idx ?>">
+            <?php if ($isOpening): ?>
+              <span class="badge badge-opening">HAUPT-EVENT</span>
+            <?php elseif ($isPast): ?>
+              <span class="badge badge-past">VERGANGEN</span>
+            <?php else: ?>
+              <span class="badge badge-upcoming">KOMMEND</span>
+            <?php endif; ?>
 
-// fallback wenn Bild nicht existiert
-$finalImage = file_exists($_SERVER['DOCUMENT_ROOT'] . $imagePath)
-  ? $imagePath
-  : "/assets/Img/default-event.png";
-?>
+            <div class="event-slide-media">
+              <?php if (!empty($ev['image_path']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $ev['image_path'])): ?>
+                <img src="<?= e($ev['image_path']) ?>" alt="<?= e($ev['title']) ?>" loading="lazy">
+              <?php else: ?>
+                <div class="event-slide-placeholder">
+                  <span><?= e(strtoupper(substr($ev['title'], 0, 2))) ?></span>
+                </div>
+              <?php endif; ?>
+            </div>
 
-<img src="<?= e($finalImage) ?>" alt="<?= e($event['title']) ?>" loading="lazy">
-          </div>
+            <div class="event-slide-content">
+              <p class="meta"><?= formatDate($ev['event_date']) ?> · <?= e($ev['city']) ?></p>
+              <h3><?= e($ev['title']) ?></h3>
+              <p class="event-slide-desc"><?= e($ev['description_short']) ?></p>
 
-          <p class="meta"><?= formatDate($event['event_date']) ?> · <?= e($event['city']) ?></p>
-          <h3><?= e($event['title']) ?></h3>
-          <p><?= e($event['description_short']) ?></p>
-          <a class="text-link" href="/booking.php">Tickets &amp; Infos ↗</a>
-        </article>
-      <?php endforeach; ?>
+              <div class="event-slide-actions">
+                <?php if ($isOpening && !$soldOut): ?>
+                  <a class="btn btn-primary btn-sm" href="/ticket-buchen.php">Gratis Ticket →</a>
+                <?php elseif ($isPast): ?>
+                  <a class="btn btn-ghost btn-sm" href="/galerie.php?event=<?= (int) $ev['id'] ?>">Bildergalerie →</a>
+                <?php elseif (!empty($ev['google_maps_url'])): ?>
+                  <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="<?= e($ev['google_maps_url']) ?>">Standort öffnen →</a>
+                <?php endif; ?>
+              </div>
+            </div>
+          </article>
+        <?php endforeach; ?>
+      </div>
 
-      <?php if (empty($events)): ?>
-        <p class="muted">Neue Events werden bald bekannt gegeben.</p>
-      <?php endif; ?>
+      <button class="event-slider-nav prev" type="button" aria-label="Vorheriges Event">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="event-slider-nav next" type="button" aria-label="Nächstes Event">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+
+      <div class="event-slider-dots" role="tablist">
+        <?php foreach ($allSliderEvents as $idx => $ev): ?>
+          <button class="event-slider-dot<?= $idx === 0 ? ' is-active' : '' ?>" data-dot="<?= $idx ?>" aria-label="Event <?= $idx + 1 ?>"></button>
+        <?php endforeach; ?>
+      </div>
     </div>
-
-    <button class="carousel-btn" data-scroll="events-scroll" aria-label="Weitere Events anzeigen">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
-        <polyline points="9 18 15 12 9 6"/>
-      </svg>
-    </button>
-  </div>
-
-  <div class="event-dots">
-    <span class="event-dot is-active"></span>
-    <span class="event-dot"></span>
-    <span class="event-dot"></span>
-    <span class="event-dot"></span>
-  </div>
+  <?php else: ?>
+    <p class="muted">Aktuell sind keine Events angekündigt.</p>
+  <?php endif; ?>
 </section>
 
-<section class="section container" id="artworks">
-  <div class="section-heading reveal">
-    <h2>AUSGEWÄHLTE KUNSTWERKE</h2>
-    <a href="https://s-art.work/shop/" target="_blank" rel="noopener">ALLE KUNSTWERKE ANSEHEN →</a>
-  </div>
-
-  <a class="shop-teaser reveal neon-frame" href="https://s-art.work/shop/" target="_blank" rel="noopener">
+<section class="section container reveal" id="story">
+  <div class="story-grid">
     <div>
-      <p class="meta">S-ART SHOP</p>
-      <h3>Kunstwerke direkt im offiziellen Shop ansehen</h3>
-      <p>Alle verfügbaren Werke, Details und Anfragen findest du im S-ART Shop.</p>
+      <p class="kicker">SHARY ON TOUR</p>
+      <h2>CINEMATIC<br>STREET-ART WEG</h2>
     </div>
-    <span class="btn btn-primary">ZUM SHOP →</span>
-  </a>
+    <div class="story-text">
+      <p>Pop-Art, Container-Kultur und Live-Erlebnisse — von der Vernissage bis zum großen Container Opening in Kassel. Bekannt aus „Die Geissens", inszeniert wie eine Premiere.</p>
+      <p>Jeder Stopp ist ein Statement. Jedes Werk ein Snapshot urbaner Energie.</p>
+    </div>
+  </div>
 </section>
 
 <section class="section container" id="newsletter">
-  <div class="newsletter-box reveal neon-frame">
+  <div class="newsletter-box reveal">
     <div class="newsletter-left">
-      <div class="newsletter-icon-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" width="26" height="26" aria-hidden="true">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-          <polyline points="22,6 12,13 2,6"/>
-        </svg>
-      </div>
-
-      <div>
-        <h2>GRATIS TICKET + NEWSLETTER</h2>
-        <p>Erhalte exklusive Vorverkaufs-Infos, Pop-up Termine und digitale Ticket-Freischaltung.</p>
-      </div>
+      <p class="kicker">BLEIB IM LOOP</p>
+      <h2>INFORMIERE MICH,<br>WENN SHARY IN<br><span class="text-red">MEINER NÄHE</span> IST</h2>
     </div>
-
     <form method="post" action="/newsletter-submit.php" class="newsletter-form">
       <?= csrfField() ?>
-      <input type="hidden" name="source" value="homepage">
-      <input type="hidden" name="first_name" value="">
-
-      <div class="newsletter-email-row">
-        <input type="email" name="email" placeholder="Deine E-Mail-Adresse" required>
-        <button class="btn btn-primary" type="submit">JETZT ANMELDEN</button>
-      </div>
-
+      <label class="field">
+        <span>E-Mail</span>
+        <input type="email" name="email" placeholder="deine@email.de" required>
+      </label>
+      <label class="field">
+        <span>PLZ / Stadt (optional)</span>
+        <input type="text" name="location_optional" placeholder="z. B. 34117 Kassel">
+      </label>
       <label class="check">
         <input type="checkbox" name="consent_privacy" value="1" required>
         Ich stimme der <a href="/datenschutz.php" class="privacy-link">Datenschutzerklärung</a> zu.
       </label>
+      <button class="btn btn-primary" type="submit">JETZT ANMELDEN →</button>
     </form>
   </div>
 </section>

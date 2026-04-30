@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" role="img" aria-label="S-ART">
+  <title>S-ART</title>
+  <style>
+    .bg { fill: #050505; }
+    .red { fill: #e2231a; }
+  </style>
+  <rect class="bg" width="720" height="240"/>
+  <!-- S -->
+  <path class="red" d="M70 60
+    c0 -22 18 -34 50 -34
+    c30 0 48 12 50 34
+    h-30
+    c-2 -8 -10 -12 -20 -12
+    c-12 0 -20 4 -20 12
+    c0 9 9 12 28 16
+    c30 6 44 14 44 38
+    c0 24 -20 36 -52 36
+    c-34 0 -54 -14 -54 -38
+    h30
+    c1 10 10 16 24 16
+    c14 0 22 -5 22 -14
+    c0 -9 -8 -12 -28 -16
+    c-32 -6 -44 -16 -44 -38 z"/>
+  <!-- - (dash) -->
+  <rect class="red" x="208" y="118" width="36" height="18"/>
+  <!-- horizontal bar over A R T -->
+  <rect class="red" x="262" y="50" width="298" height="20"/>
+  <!-- A -->
+  <path class="red" d="M260 184
+    l46 -114
+    h32
+    l46 114
+    h-30
+    l-9 -24
+    h-46
+    l-9 24 z
+    M312 138
+    h26
+    l-13 -36 z"/>
+  <!-- R -->
+  <path class="red" d="M398 70
+    h60
+    c26 0 42 14 42 36
+    c0 18 -10 30 -26 34
+    l30 44
+    h-32
+    l-26 -40
+    h-18
+    v40
+    h-30 z
+    M428 96
+    v22
+    h26
+    c10 0 16 -4 16 -11
+    c0 -7 -6 -11 -16 -11 z"/>
+  <!-- T (cap from top bar; vertical stem only) -->
+  <rect class="red" x="540" y="70" width="38" height="114"/>
+</svg>

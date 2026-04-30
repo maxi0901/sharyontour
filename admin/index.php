@@ -1,9 +1,40 @@
 <?php
-require __DIR__ . '/../includes/functions.php';
+$pageTitle = 'S-ART Admin';
+$adminPage = 'dashboard';
+require __DIR__ . '/_header.php';
+
+$opening = getOpeningEvent();
+$ticketsTotal = $opening ? countTicketsForEvent((int) $opening['id']) : 0;
+$maxTickets = $opening ? (int) $opening['max_tickets'] : 600;
+
 $counts = [
-  'events' => fetchOne('SELECT COUNT(*) c FROM events')['c'] ?? 0,
-  'artworks' => fetchOne('SELECT COUNT(*) c FROM artworks')['c'] ?? 0,
-  'locations' => fetchOne('SELECT COUNT(*) c FROM tour_locations')['c'] ?? 0,
-  'subscribers' => fetchOne('SELECT COUNT(*) c FROM newsletter_subscribers')['c'] ?? 0,
+    'Events'      => (int) (fetchOne('SELECT COUNT(*) c FROM events')['c'] ?? 0),
+    'Tickets'     => (int) (fetchOne('SELECT COUNT(*) c FROM tickets WHERE status="active"')['c'] ?? 0),
+    'Galerie-Bilder' => (int) (fetchOne('SELECT COUNT(*) c FROM galleries')['c'] ?? 0),
+    'Newsletter'  => (int) (fetchOne('SELECT COUNT(*) c FROM newsletter_subscribers')['c'] ?? 0),
 ];
-?><!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/css/style.css"><title>Admin</title></head><body class="admin"><div class="container"><h1>Admin Dashboard</h1><nav><a href="/admin/events.php">Events</a> · <a href="/admin/artworks.php">Kunstwerke</a> · <a href="/admin/locations.php">Standorte</a> · <a href="/admin/subscribers.php">Subscriber</a></nav><div class="card-grid"><?php foreach ($counts as $k => $v): ?><article class="card"><h3><?= e(ucfirst($k)) ?></h3><p><?= (int) $v ?></p></article><?php endforeach; ?></div></div></body></html>
+?>
+
+<h1>Dashboard</h1>
+
+<?php if ($opening): ?>
+<div class="admin-card admin-highlight">
+  <p class="kicker">CONTAINER OPENING KASSEL</p>
+  <h2><?= $ticketsTotal ?> / <?= $maxTickets ?> Tickets</h2>
+  <div class="admin-progress">
+    <span style="width: <?= min(100, ($ticketsTotal / max($maxTickets, 1)) * 100) ?>%"></span>
+  </div>
+  <p class="muted"><?= max(0, $maxTickets - $ticketsTotal) ?> Tickets verbleibend</p>
+</div>
+<?php endif; ?>
+
+<div class="admin-grid">
+  <?php foreach ($counts as $k => $v): ?>
+    <div class="admin-card">
+      <p class="kicker"><?= e($k) ?></p>
+      <h2><?= $v ?></h2>
+    </div>
+  <?php endforeach; ?>
+</div>
+
+<?php require __DIR__ . '/_footer.php'; ?>

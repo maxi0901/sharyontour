@@ -11,7 +11,14 @@ function e(?string $value): string
 
 function appUrl(string $path = ''): string
 {
-    return rtrim(getenv('APP_URL') ?: '', '/') . $path;
+    $envUrl = rtrim(getenv('APP_URL') ?: '', '/');
+    if ($envUrl !== '') {
+        return $envUrl . $path;
+    }
+
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    return $scheme . '://' . $host . $path;
 }
 
 function fetchAll(string $sql, array $params = []): array
@@ -36,9 +43,19 @@ function formatDate(?string $date): string
     if (!$date) {
         return '';
     }
-
     $dt = DateTime::createFromFormat('Y-m-d', $date);
     return $dt ? $dt->format('d.m.Y') : $date;
+}
+
+function formatDateLong(?string $date): string
+{
+    if (!$date) {
+        return '';
+    }
+    $months = [1=>'Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+    $dt = DateTime::createFromFormat('Y-m-d', $date);
+    if (!$dt) return $date;
+    return $dt->format('d') . '. ' . $months[(int)$dt->format('n')] . ' ' . $dt->format('Y');
 }
 
 function isActivePage(string $page): string
@@ -49,34 +66,48 @@ function isActivePage(string $page): string
 function createSlug(string $text): string
 {
     $text = strtolower(trim($text));
+    $text = str_replace(['ä','ö','ü','ß'], ['ae','oe','ue','ss'], $text);
     $text = preg_replace('/[^a-z0-9]+/i', '-', $text);
     return trim((string) $text, '-') ?: 'item-' . bin2hex(random_bytes(3));
 }
 
-function upsertNewsletterSubscriber(PDO $pdo, array $data): array
+function generateUuidV4(): string
 {
-    $existing = fetchOne('SELECT * FROM newsletter_subscribers WHERE email = :email LIMIT 1', ['email' => $data['email']]);
+    $data = random_bytes(16);
+    $data[6] = chr((ord($data[6]) & 0x0f) | 0x40);
+    $data[8] = chr((ord($data[8]) & 0x3f) | 0x80);
+    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+}
 
-    if ($existing) {
-        return ['created' => false, 'ticket_token' => $existing['ticket_token'], 'id' => (int) $existing['id']];
-    }
+function getOpeningEvent(): ?array
+{
+    return fetchOne("SELECT * FROM events WHERE is_opening=1 AND status<>'past' ORDER BY event_date ASC LIMIT 1");
+}
 
-    $ticketToken = bin2hex(random_bytes(16));
-    $stmt = $pdo->prepare(
-        'INSERT INTO newsletter_subscribers
-        (email, first_name, source, consent_privacy, ticket_token, ip_address, user_agent)
-        VALUES (:email, :first_name, :source, :consent_privacy, :ticket_token, :ip_address, :user_agent)'
+function countTicketsForEvent(int $eventId): int
+{
+    $row = fetchOne('SELECT COUNT(*) AS c FROM tickets WHERE event_id=:e AND status="active"', ['e' => $eventId]);
+    return (int) ($row['c'] ?? 0);
+}
+
+function getTicketByTicketId(string $ticketId): ?array
+{
+    return fetchOne(
+        'SELECT t.*, e.title AS event_title, e.event_date, e.event_time, e.city, e.is_opening
+         FROM tickets t INNER JOIN events e ON e.id = t.event_id
+         WHERE t.ticket_id=:tid LIMIT 1',
+        ['tid' => $ticketId]
     );
+}
 
-    $stmt->execute([
-        'email' => $data['email'],
-        'first_name' => $data['first_name'],
-        'source' => $data['source'],
-        'consent_privacy' => 1,
-        'ticket_token' => $ticketToken,
-        'ip_address' => $data['ip_address'],
-        'user_agent' => $data['user_agent'],
-    ]);
+function findTicketByEmailAndEvent(int $eventId, string $email): ?array
+{
+    return fetchOne('SELECT * FROM tickets WHERE event_id=:e AND email=:m LIMIT 1', ['e' => $eventId, 'm' => $email]);
+}
 
-    return ['created' => true, 'ticket_token' => $ticketToken, 'id' => (int) $pdo->lastInsertId()];
+function logTicketEvent(?string $ticketId, ?string $email, string $status, ?string $error = null): void
+{
+    global $pdo;
+    $stmt = $pdo->prepare('INSERT INTO ticket_logs (ticket_id, email, status, error_message) VALUES (:t,:e,:s,:err)');
+    $stmt->execute(['t' => $ticketId, 'e' => $email, 's' => $status, 'err' => $error]);
 }
