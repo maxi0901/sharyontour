@@ -1,5 +1,7 @@
 -- S-ART / Shary on Tour - Seed Data
 
+DELETE FROM events;
+
 INSERT INTO events
   (title, slug, event_date, event_time, city, location_name, address, description_short, description_long, image_path, status, is_opening, max_tickets, google_maps_url)
 VALUES
