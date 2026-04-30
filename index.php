@@ -89,11 +89,10 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
       </svg>
     </button>
   </div>
-  <div class="event-dots">
-    <span class="event-dot is-active"></span>
-    <span class="event-dot"></span>
-    <span class="event-dot"></span>
-    <span class="event-dot"></span>
+  <div class="event-dots" data-event-dots>
+    <?php foreach ($events as $idx => $event): ?>
+      <button class="event-dot<?= $idx === 0 ? ' is-active' : '' ?>" type="button" aria-label="Event <?= $idx + 1 ?> anzeigen"></button>
+    <?php endforeach; ?>
   </div>
 </section>
 
