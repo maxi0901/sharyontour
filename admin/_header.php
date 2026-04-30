@@ -10,13 +10,13 @@ $adminPage = $adminPage ?? '';
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= e($pageTitle ?? 'S-ART Admin') ?></title>
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="icon" type="image/svg+xml" href="/assets/img/logo/s-art-logo-dark.svg">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/s-art-logo.svg">
 </head>
 <body class="admin-body">
 <header class="admin-header">
   <div class="container admin-nav">
     <a class="admin-logo" href="/admin/index.php">
-      <img src="/assets/img/logo/s-art-logo-dark.svg" alt="S-ART" class="logo-img-sm">
+      <img src="/assets/img/s-art-logo.svg" alt="S-ART" class="site-logo site-logo-admin">
       <span>ADMIN</span>
     </a>
     <nav>

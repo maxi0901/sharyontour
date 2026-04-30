@@ -2,8 +2,7 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <img src="/assets/img/logo/s-art-logo-dark.svg" alt="S-ART" class="footer-logo">
-      <div class="footer-brand-sub">SHARY ON TOUR</div>
+      <img src="/assets/img/s-art-logo.svg" alt="S-ART" class="footer-logo">
       <p class="footer-brand-copy">Cinematic Street-Art Energy. Pop-Art goes viral. Bekannt aus „Die Geissens".</p>
     </div>
     <div class="footer-links">
