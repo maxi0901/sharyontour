@@ -123,12 +123,18 @@ $soldOut = $remaining <= 0;
               <p class="event-slide-desc"><?= e($ev['description_short']) ?></p>
 
               <div class="event-slide-actions">
-                <?php if ($isOpening && !$soldOut): ?>
-                  <a class="btn btn-primary btn-sm" href="/ticket-buchen.php">Gratis Ticket →</a>
+                <button class="btn btn-ghost btn-sm js-location-btn" type="button"
+                  data-event-name="<?= e($ev['title']) ?>"
+                  data-event-location="<?= e((string) ($ev['location_name'] ?: $ev['city'])) ?>"
+                  data-event-address="<?= e((string) ($ev['address'] ?? '')) ?>"
+                  data-event-is-opening="<?= $isOpening ? '1' : '0' ?>"
+                >Standort</button>
+                <?php $isTicketOpening = $ev['event_date'] === '2026-08-22' && mb_strtolower((string) $ev['title']) === 'container opening kassel'; ?>
+                <?php if ($isTicketOpening && !$soldOut): ?>
+                  <button class="btn btn-primary btn-sm js-ticket-btn" type="button" data-event-id="<?= (int) $ev['id'] ?>">Gratis Ticket sichern</button>
+                  <span class="muted js-ticket-stock" data-event-id="<?= (int) $ev['id'] ?>"></span>
                 <?php elseif ($isPast): ?>
                   <a class="btn btn-ghost btn-sm" href="/galerie.php?event=<?= (int) $ev['id'] ?>">Bildergalerie →</a>
-                <?php elseif (!empty($ev['google_maps_url'])): ?>
-                  <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="<?= e($ev['google_maps_url']) ?>">Standort öffnen →</a>
                 <?php endif; ?>
               </div>
             </div>
@@ -153,6 +159,22 @@ $soldOut = $remaining <= 0;
     <p class="muted">Aktuell sind keine Events angekündigt.</p>
   <?php endif; ?>
 </section>
+<div class="event-modal" id="eventModal" hidden>
+  <div class="event-modal-backdrop js-modal-close"></div>
+  <div class="event-modal-box" role="dialog" aria-modal="true">
+    <button class="event-modal-close js-modal-close" type="button" aria-label="Schließen">×</button>
+    <h3 class="js-modal-title"></h3>
+    <p class="js-modal-location"></p>
+    <p class="muted js-modal-address"></p>
+    <form class="ticket-modal-form" id="ticketModalForm" hidden>
+      <input type="hidden" name="event_id" id="ticketEventId">
+      <label class="field"><span>E-Mail *</span><input type="email" name="email" required></label>
+      <label class="field"><span>Name (optional)</span><input type="text" name="name"></label>
+      <button class="btn btn-primary btn-sm" type="submit">Ticket anfordern</button>
+      <p class="muted js-ticket-response"></p>
+    </form>
+  </div>
+</div>
 
 <section class="section container reveal" id="story">
   <div class="story-grid">

@@ -1286,3 +1286,12 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 @media (max-width: 768px) {
   .site-logo { width: clamp(130px, 36vw, 170px); }
 }
+
+.js-ticket-btn:hover,.js-location-btn:hover{ box-shadow: var(--glow-red); }
+.text-danger{ color:#ff6b6b !important; }
+.event-modal[hidden]{ display:none; }
+.event-modal{ position:fixed; inset:0; z-index:300; }
+.event-modal-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.72); }
+.event-modal-box{ position:relative; width:min(520px,92vw); margin:10vh auto 0; background:#0b0e17; border:1px solid rgba(255,255,255,.2); border-radius:14px; padding:1rem; }
+.event-modal-close{ position:absolute; right:.8rem; top:.6rem; background:transparent; border:0; color:#fff; font-size:1.5rem; cursor:pointer; }
+.ticket-modal-form{ margin-top:1rem; display:grid; gap:.7rem; }

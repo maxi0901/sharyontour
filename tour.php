@@ -34,13 +34,19 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
           <p><?= e($ev['description_short']) ?></p>
 
           <div class="events-item-actions">
+            <button
+              class="btn btn-ghost btn-sm js-location-btn"
+              type="button"
+              data-event-name="<?= e($ev['title']) ?>"
+              data-event-location="<?= e((string) ($ev['location_name'] ?: $ev['city'])) ?>"
+              data-event-address="<?= e((string) ($ev['address'] ?? '')) ?>"
+              data-event-is-opening="<?= $isOpening ? '1' : '0' ?>"
+            >Standort</button>
             <?php if ($isOpening): ?>
-              <a class="btn btn-primary btn-sm" href="/ticket-buchen.php">Gratis Ticket →</a>
-              <span class="muted">Standort wird rechtzeitig bekanntgegeben.</span>
-            <?php else: ?>
-              <?php if (!empty($ev['google_maps_url'])): ?>
-                <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="<?= e($ev['google_maps_url']) ?>">Google Maps →</a>
-                <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="https://maps.apple.com/?q=<?= urlencode($ev['city'] . ' ' . ($ev['location_name'] ?? '')) ?>">Apple Karten →</a>
+              <?php $isTicketOpening = $ev['event_date'] === '2026-08-22' && mb_strtolower((string) $ev['title']) === 'container opening kassel'; ?>
+              <?php if ($isTicketOpening): ?>
+                <button class="btn btn-primary btn-sm js-ticket-btn" type="button" data-event-id="<?= (int) $ev['id'] ?>">Gratis Ticket sichern</button>
+                <span class="muted js-ticket-stock" data-event-id="<?= (int) $ev['id'] ?>"></span>
               <?php endif; ?>
             <?php endif; ?>
           </div>
@@ -73,5 +79,22 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
   </div>
 </section>
 <?php endif; ?>
+
+<div class="event-modal" id="eventModal" hidden>
+  <div class="event-modal-backdrop js-modal-close"></div>
+  <div class="event-modal-box" role="dialog" aria-modal="true">
+    <button class="event-modal-close js-modal-close" type="button" aria-label="Schließen">×</button>
+    <h3 class="js-modal-title"></h3>
+    <p class="js-modal-location"></p>
+    <p class="muted js-modal-address"></p>
+    <form class="ticket-modal-form" id="ticketModalForm" hidden>
+      <input type="hidden" name="event_id" id="ticketEventId">
+      <label class="field"><span>E-Mail *</span><input type="email" name="email" required></label>
+      <label class="field"><span>Name (optional)</span><input type="text" name="name"></label>
+      <button class="btn btn-primary btn-sm" type="submit">Ticket anfordern</button>
+      <p class="muted js-ticket-response"></p>
+    </form>
+  </div>
+</div>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>

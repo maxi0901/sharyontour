@@ -96,4 +96,72 @@
       }, 80);
     });
   });
+
+  // Location + ticket modals
+  const modal = document.getElementById('eventModal');
+  if (modal) {
+    const titleEl = modal.querySelector('.js-modal-title');
+    const locationEl = modal.querySelector('.js-modal-location');
+    const addressEl = modal.querySelector('.js-modal-address');
+    const form = modal.querySelector('#ticketModalForm');
+    const responseEl = modal.querySelector('.js-ticket-response');
+    const ticketEventId = modal.querySelector('#ticketEventId');
+
+    const close = () => { modal.hidden = true; form.hidden = true; responseEl.textContent = ''; };
+    modal.querySelectorAll('.js-modal-close').forEach((el) => el.addEventListener('click', close));
+
+    function openLocation(btn) {
+      const isOpening = btn.dataset.eventIsOpening === '1';
+      titleEl.textContent = btn.dataset.eventName || 'Event';
+      if (isOpening) {
+        locationEl.textContent = 'Kassel';
+        addressEl.textContent = 'Der genaue Standort wird rechtzeitig bekanntgegeben.';
+      } else {
+        locationEl.textContent = btn.dataset.eventLocation || '';
+        addressEl.textContent = btn.dataset.eventAddress || '';
+      }
+      form.hidden = true;
+      modal.hidden = false;
+    }
+
+    document.querySelectorAll('.js-location-btn').forEach((btn) => btn.addEventListener('click', () => openLocation(btn)));
+    document.querySelectorAll('.js-ticket-btn').forEach((btn) => btn.addEventListener('click', () => {
+      titleEl.textContent = 'Gratis Ticket sichern';
+      locationEl.textContent = 'Container Opening Kassel';
+      addressEl.textContent = '';
+      ticketEventId.value = btn.dataset.eventId || '';
+      responseEl.textContent = '';
+      form.hidden = false;
+      modal.hidden = false;
+    }));
+
+    if (form) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const fd = new FormData(form);
+        const res = await fetch('/api/create-ticket.php', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (data.status === 'success') {
+          responseEl.textContent = `Ticket erfolgreich erstellt (${data.ticket_id})`;
+          const activeBtn = document.querySelector(`.js-ticket-btn[data-event-id="${fd.get('event_id')}"]`);
+          if (activeBtn) { activeBtn.disabled = true; activeBtn.textContent = 'Ticket erstellt'; }
+        } else {
+          responseEl.textContent = data.message || 'Fehler beim Erstellen';
+        }
+      });
+    }
+
+    document.querySelectorAll('.js-ticket-stock').forEach(async (el) => {
+      const id = el.dataset.eventId;
+      const res = await fetch(`/api/get-ticket-count.php?event_id=${encodeURIComponent(id)}`);
+      const data = await res.json();
+      const remaining = Math.max(0, 600 - Number(data.count || 0));
+      el.textContent = remaining <= 0 ? 'Ausverkauft' : `Noch ${remaining} Tickets verfügbar`;
+      if (remaining < 100) el.classList.add('text-danger');
+      if (remaining <= 0) {
+        const btn = document.querySelector(`.js-ticket-btn[data-event-id="${id}"]`);
+        if (btn) { btn.disabled = true; btn.textContent = 'Ausverkauft'; }
+      }
+    });
+  }
 })();

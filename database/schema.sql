@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS events (
   image_path VARCHAR(500) NULL,
   status ENUM('upcoming','past','draft') DEFAULT 'upcoming',
   is_opening TINYINT(1) DEFAULT 0,
-  max_tickets INT UNSIGNED DEFAULT 0,
+  max_tickets INT UNSIGNED DEFAULT 600,
   google_maps_url VARCHAR(500) NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
