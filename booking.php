@@ -19,14 +19,7 @@ require __DIR__ . '/includes/header.php';
     </div>
     <div class="contact-block">
       <span class="ticket-meta-label">KONTAKT</span>
-      <a class="contact-link" href="tel:<?= e($siteConfig['contact']['phone_href']) ?>"><?= e($siteConfig['contact']['phone_display']) ?></a>
       <a class="contact-link" href="mailto:<?= e($siteConfig['contact']['email']) ?>"><?= e($siteConfig['contact']['email']) ?></a>
-    </div>
-    <div class="contact-block">
-      <span class="ticket-meta-label">ÖFFNUNGSZEITEN</span>
-      <?php foreach ($siteConfig['opening_hours'] as $day => $hours): ?>
-        <p><strong><?= e($day) ?>:</strong> <?= e($hours) ?></p>
-      <?php endforeach; ?>
     </div>
     <div class="contact-block">
       <span class="ticket-meta-label">SOCIAL & SHOP</span>
