@@ -1,3 +1,5 @@
+-- S-ART / Shary on Tour database schema
+
 CREATE TABLE IF NOT EXISTS events (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
@@ -5,55 +7,62 @@ CREATE TABLE IF NOT EXISTS events (
   event_date DATE NOT NULL,
   event_time TIME NULL,
   city VARCHAR(255) NOT NULL,
-  location_name VARCHAR(255) NOT NULL,
+  location_name VARCHAR(255) NULL,
   address VARCHAR(255) NULL,
-  description_short TEXT NOT NULL,
-  description_long TEXT NOT NULL,
+  description_short TEXT NULL,
+  description_long TEXT NULL,
   image_path VARCHAR(500) NULL,
   status ENUM('upcoming','past','draft') DEFAULT 'draft',
   is_featured TINYINT(1) DEFAULT 0,
+  is_main_event TINYINT(1) DEFAULT 0,
+  has_tickets TINYINT(1) DEFAULT 0,
+  max_tickets INT UNSIGNED DEFAULT 0,
+  hide_address TINYINT(1) DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS artworks (
+CREATE TABLE IF NOT EXISTS event_galleries (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  slug VARCHAR(255) UNIQUE,
-  description TEXT NOT NULL,
+  event_id INT UNSIGNED NOT NULL,
   image_path VARCHAR(500) NOT NULL,
-  collection_name VARCHAR(255) NULL,
-  year VARCHAR(20) NULL,
-  is_visible TINYINT(1) DEFAULT 1,
+  caption VARCHAR(255) NULL,
   sort_order INT DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  CONSTRAINT fk_gallery_event FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS tour_locations (
+CREATE TABLE IF NOT EXISTS tickets (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  city VARCHAR(255) NOT NULL,
-  address VARCHAR(255) NOT NULL,
-  date_from DATE NOT NULL,
-  date_to DATE NULL,
-  status ENUM('current','upcoming','past','draft') DEFAULT 'draft',
-  google_maps_url VARCHAR(500) NULL,
-  description TEXT NULL,
+  event_id INT UNSIGNED NOT NULL,
+  ticket_id CHAR(36) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NULL,
+  status ENUM('active','disabled','used') DEFAULT 'active',
+  ip_address VARCHAR(100) NULL,
+  user_agent TEXT NULL,
+  sent_at DATETIME NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  CONSTRAINT fk_ticket_event FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+  UNIQUE KEY uniq_event_email (event_id, email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS ticket_waitlist (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  event_id INT UNSIGNED NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_waitlist_event FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+  UNIQUE KEY uniq_waitlist (event_id, email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS newsletter_subscribers (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(255) UNIQUE,
   first_name VARCHAR(255) NULL,
+  location_optional VARCHAR(255) NULL,
   source VARCHAR(255) NULL,
   consent_privacy TINYINT(1) DEFAULT 0,
-  double_opt_in_token VARCHAR(255) NULL,
-  double_opt_in_confirmed_at DATETIME NULL,
-  ticket_token VARCHAR(255) UNIQUE,
-  ticket_sent_at DATETIME NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   ip_address VARCHAR(100) NULL,
   user_agent TEXT NULL
@@ -61,11 +70,23 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
 
 CREATE TABLE IF NOT EXISTS ticket_logs (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  subscriber_id INT UNSIGNED NULL,
-  email VARCHAR(255),
-  ticket_token VARCHAR(255),
-  sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  status VARCHAR(50),
+  ticket_id CHAR(36) NULL,
+  email VARCHAR(255) NULL,
+  status VARCHAR(50) NULL,
   error_message TEXT NULL,
-  CONSTRAINT fk_ticket_logs_subscriber FOREIGN KEY (subscriber_id) REFERENCES newsletter_subscribers(id) ON DELETE SET NULL
+  sent_at DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS artworks (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  slug VARCHAR(255) UNIQUE,
+  description TEXT NULL,
+  image_path VARCHAR(500) NOT NULL,
+  collection_name VARCHAR(255) NULL,
+  year VARCHAR(20) NULL,
+  is_visible TINYINT(1) DEFAULT 1,
+  sort_order INT DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

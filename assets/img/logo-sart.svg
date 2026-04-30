@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 240" role="img" aria-label="S-ART">
+  <title>S-ART Logo</title>
+  <defs>
+    <style type="text/css"><![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+      .sart-letter {
+        font-family: 'Anton', 'Arial Black', 'Impact', sans-serif;
+        font-size: 260px;
+        font-weight: 400;
+        fill: #e62433;
+      }
+      .sart-bar { fill: #e62433; }
+    ]]></style>
+  </defs>
+  <text class="sart-letter" x="0" y="210">S</text>
+  <rect class="sart-bar" x="148" y="120" width="28" height="20"/>
+  <text class="sart-letter" x="170" y="210">A</text>
+  <text class="sart-letter" x="318" y="210">R</text>
+  <rect class="sart-bar" x="170" y="42" width="395" height="32"/>
+  <rect class="sart-bar" x="514" y="55" width="46" height="160"/>
+</svg>
