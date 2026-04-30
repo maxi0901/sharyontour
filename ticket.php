@@ -22,7 +22,7 @@ if ($ticket) {
   <?php endif; ?>
 
   <?php if ($ticket && $ticket['status'] === 'active'): ?>
-    <div class="ticket-card">
+    <div class="ticket-card neon-card">
       <div class="ticket-card-head">
         <img src="/assets/img/s-art-logo.svg" alt="S-ART" class="ticket-logo">
         <p class="ticket-kicker">GRATIS TICKET</p>

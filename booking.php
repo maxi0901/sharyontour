@@ -11,7 +11,7 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <section class="section container reveal">
-  <div class="contact-card">
+  <div class="contact-card neon-card">
     <div class="contact-block">
       <span class="ticket-meta-label">GALERIE</span>
       <p><strong><?= e($siteConfig['contact']['gallery_name']) ?></strong></p>
