@@ -1069,10 +1069,18 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
   display: flex; gap: .4rem;
 }
 .event-slider-dot {
-  width: 8px; height: 8px; border-radius: 50%; padding: 0;
-  border: 0; background: rgba(255,255,255,.2); cursor: pointer; transition: background .2s, width .2s;
+  width: 10px; height: 10px; border-radius: 50%; padding: 0;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.22);
+  cursor: pointer;
+  transition: background .2s, box-shadow .2s, transform .2s;
 }
-.event-slider-dot.is-active { background: #e2231a; width: 22px; border-radius: 4px; }
+.event-slider-dot.is-active {
+  background: var(--neon-red);
+  border-color: rgba(255,20,105,.9);
+  box-shadow: 0 0 12px rgba(255,20,105,.85);
+  transform: scale(1.15);
+}
 
 /* Story */
 .story-grid {
