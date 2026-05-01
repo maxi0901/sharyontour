@@ -2,7 +2,14 @@
 $pageTitle = 'S-ART / Shary on Tour';
 require __DIR__ . '/includes/header.php';
 
-$currentLocation = fetchOne("SELECT * FROM tour_locations WHERE status='current' ORDER BY date_from DESC LIMIT 1");
+$currentEvent = fetchOne("
+    SELECT *
+    FROM events
+    WHERE status = 'upcoming'
+      AND event_date >= CURDATE()
+    ORDER BY event_date ASC
+    LIMIT 1
+");
 $events = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY event_date ASC LIMIT 3");
 $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_order ASC, created_at DESC LIMIT 12");
 ?>
@@ -31,11 +38,11 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
   </div>
 </section>
 
-<?php if ($currentLocation): ?>
-<section class="section container section-compact reveal" id="location">
+<?php if ($currentEvent): ?>
+<section class="section container section-compact reveal" id="current-event">
   <article class="location-strip neon-frame">
     <div class="location-left">
-      <p class="meta">AKTUELLER STANDORT</p>
+      <p class="meta">AKTUELLES EVENT</p>
       <div class="location-inner">
         <div class="location-icon-box">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true">
@@ -44,14 +51,14 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
           </svg>
         </div>
         <div class="location-main">
-          <h2><?= e($currentLocation['title']) ?></h2>
-          <p><?= e($currentLocation['address']) ?></p>
-          <p class="date"><?= formatDate($currentLocation['date_from']) ?><?= $currentLocation['date_to'] ? ' – ' . formatDate($currentLocation['date_to']) : '' ?></p>
+          <h2><?= e($currentEvent['title']) ?></h2>
+          <p><?= e((string) ($currentEvent['location_name'] ?: $currentEvent['city'])) ?></p>
+          <p class="date"><?= formatDate($currentEvent['event_date']) ?></p>
         </div>
       </div>
     </div>
-    <?php if (!empty($currentLocation['google_maps_url'])): ?>
-      <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($currentLocation['google_maps_url']) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
+    <?php if (!empty($currentEvent['google_maps_url'])): ?>
+      <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($currentEvent['google_maps_url']) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
     <?php endif; ?>
   </article>
 </section>
