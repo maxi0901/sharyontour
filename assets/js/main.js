@@ -48,27 +48,24 @@
 
 
 
-  // Homepage event dots — match card count and follow swipe
-  document.querySelectorAll('.carousel-wrap').forEach((wrap) => {
-    const track = wrap.querySelector('.events-scroll');
-    const dotsWrap = wrap.parentElement && wrap.parentElement.querySelector('[data-event-dots]');
-    if (!track || !dotsWrap) return;
+  function initSliderDots(config) {
+    const { root, track, slideSelector, dotsWrap, dotClass, prevBtn, nextBtn, hideIfSingle } = config;
+    if (!root || !track || !dotsWrap) return;
 
-    const slides = Array.from(track.querySelectorAll('.card'));
+    const slides = Array.from(track.querySelectorAll(slideSelector));
     if (!slides.length) return;
 
-    let dots = Array.from(dotsWrap.querySelectorAll('.event-dot'));
-    if (dots.length !== slides.length) {
-      dotsWrap.innerHTML = '';
-      dots = slides.map((_, idx) => {
-        const dot = document.createElement('button');
-        dot.type = 'button';
-        dot.className = 'event-dot' + (idx === 0 ? ' is-active' : '');
-        dot.setAttribute('aria-label', `Event ${idx + 1} anzeigen`);
-        dotsWrap.appendChild(dot);
-        return dot;
-      });
-    }
+    dotsWrap.innerHTML = '';
+    const dots = slides.map((_, idx) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = dotClass;
+      dot.setAttribute('aria-label', `Event ${idx + 1} anzeigen`);
+      dotsWrap.appendChild(dot);
+      return dot;
+    });
+
+    dotsWrap.hidden = Boolean(hideIfSingle && slides.length <= 1);
 
     const currentIndex = () => {
       const center = track.scrollLeft + track.clientWidth / 2;
@@ -82,78 +79,50 @@
       return best;
     };
 
-    const setActive = (idx) => {
-      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === idx));
-    };
-
+    const setActive = (idx) => dots.forEach((dot, i) => dot.classList.toggle('is-active', i === idx));
     const scrollToSlide = (idx) => {
       const slide = slides[idx];
       if (!slide) return;
-      const left = slide.offsetLeft - track.offsetLeft;
-      track.scrollTo({ left, behavior: 'smooth' });
+      track.scrollTo({ left: slide.offsetLeft - track.offsetLeft, behavior: 'smooth' });
       setActive(idx);
     };
 
-    dots.forEach((dot, idx) => {
-      dot.addEventListener('click', () => scrollToSlide(idx));
-    });
+    dots.forEach((dot, idx) => dot.addEventListener('click', () => scrollToSlide(idx)));
+
+    if (prevBtn) prevBtn.addEventListener('click', () => scrollToSlide(Math.max(0, currentIndex() - 1)));
+    if (nextBtn) nextBtn.addEventListener('click', () => scrollToSlide(Math.min(slides.length - 1, currentIndex() + 1)));
 
     let timer = null;
     track.addEventListener('scroll', () => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => setActive(currentIndex()), 70);
+      timer = setTimeout(() => setActive(currentIndex()), 80);
     });
+    window.addEventListener('resize', () => setActive(currentIndex()));
 
     setActive(currentIndex());
+  }
+
+  document.querySelectorAll('.carousel-wrap').forEach((wrap) => {
+    initSliderDots({
+      root: wrap,
+      track: wrap.querySelector('.events-scroll'),
+      slideSelector: '.event-card, .card',
+      dotsWrap: wrap.parentElement && wrap.parentElement.querySelector('[data-event-dots]'),
+      dotClass: 'event-dot',
+      hideIfSingle: true
+    });
   });
-  // Event slider — dots match slide count, prev/next, sync on scroll
+
   document.querySelectorAll('[data-event-slider]').forEach((slider) => {
-    const track = slider.querySelector('.event-slider-track');
-    const slides = slider.querySelectorAll('.event-slide');
-    const dots = slider.querySelectorAll('.event-slider-dot');
-    const prevBtn = slider.querySelector('.event-slider-nav.prev');
-    const nextBtn = slider.querySelector('.event-slider-nav.next');
-    if (!track || !slides.length) return;
-
-    const scrollTo = (idx) => {
-      const slide = slides[idx];
-      if (!slide) return;
-      const left = slide.offsetLeft - track.offsetLeft;
-      track.scrollTo({ left, behavior: 'smooth' });
-    };
-
-    dots.forEach((dot, idx) => {
-      dot.addEventListener('click', () => scrollTo(idx));
-    });
-
-    if (prevBtn) prevBtn.addEventListener('click', () => {
-      const current = currentIndex();
-      scrollTo(Math.max(0, current - 1));
-    });
-    if (nextBtn) nextBtn.addEventListener('click', () => {
-      const current = currentIndex();
-      scrollTo(Math.min(slides.length - 1, current + 1));
-    });
-
-    function currentIndex() {
-      const center = track.scrollLeft + track.clientWidth / 2;
-      let best = 0;
-      let bestDist = Infinity;
-      slides.forEach((slide, idx) => {
-        const slideCenter = slide.offsetLeft - track.offsetLeft + slide.clientWidth / 2;
-        const dist = Math.abs(center - slideCenter);
-        if (dist < bestDist) { bestDist = dist; best = idx; }
-      });
-      return best;
-    }
-
-    let scrollTimer = null;
-    track.addEventListener('scroll', () => {
-      if (scrollTimer) clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => {
-        const idx = currentIndex();
-        dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
-      }, 80);
+    initSliderDots({
+      root: slider,
+      track: slider.querySelector('.event-slider-track'),
+      slideSelector: '.event-slide',
+      dotsWrap: slider.querySelector('.event-slider-dots'),
+      dotClass: 'event-slider-dot',
+      prevBtn: slider.querySelector('.event-slider-nav.prev'),
+      nextBtn: slider.querySelector('.event-slider-nav.next'),
+      hideIfSingle: true
     });
   });
 
