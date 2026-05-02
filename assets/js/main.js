@@ -55,50 +55,74 @@
     const slides = Array.from(track.querySelectorAll(slideSelector));
     if (!slides.length) return;
 
-    dotsWrap.innerHTML = '';
-    const dots = slides.map((_, idx) => {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = dotClass;
-      dot.setAttribute('aria-label', `Event ${idx + 1} anzeigen`);
-      dotsWrap.appendChild(dot);
-      return dot;
-    });
+    let pages = [];
+    let dots = [];
 
-    dotsWrap.hidden = Boolean(hideIfSingle && slides.length <= 1);
+    const buildPages = () => {
+      const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+      const starts = slides
+        .map((slide) => Math.max(0, Math.min(maxScroll, slide.offsetLeft - track.offsetLeft)))
+        .filter((value, index, arr) => index === 0 || Math.abs(value - arr[index - 1]) > 8);
+
+      const unique = [];
+      starts.forEach((start) => {
+        if (!unique.length || Math.abs(start - unique[unique.length - 1]) > 8) unique.push(start);
+      });
+
+      pages = unique.filter((start, index) => {
+        const isLast = Math.abs(start - maxScroll) <= 8;
+        return index === 0 || !isLast || Math.abs(start - unique[index - 1]) > 8;
+      });
+
+      if (!pages.length) pages = [0];
+
+      dotsWrap.innerHTML = '';
+      dots = pages.map((_, idx) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = dotClass;
+        dot.setAttribute('aria-label', `Seite ${idx + 1} anzeigen`);
+        dotsWrap.appendChild(dot);
+        return dot;
+      });
+
+      dots.forEach((dot, idx) => dot.addEventListener('click', () => scrollToPage(idx)));
+      dotsWrap.hidden = Boolean(hideIfSingle && pages.length <= 1);
+    };
 
     const currentIndex = () => {
-      const center = track.scrollLeft + track.clientWidth / 2;
       let best = 0;
       let bestDist = Infinity;
-      slides.forEach((slide, idx) => {
-        const slideCenter = slide.offsetLeft - track.offsetLeft + slide.clientWidth / 2;
-        const dist = Math.abs(center - slideCenter);
+      pages.forEach((start, idx) => {
+        const dist = Math.abs(track.scrollLeft - start);
         if (dist < bestDist) { bestDist = dist; best = idx; }
       });
       return best;
     };
 
     const setActive = (idx) => dots.forEach((dot, i) => dot.classList.toggle('is-active', i === idx));
-    const scrollToSlide = (idx) => {
-      const slide = slides[idx];
-      if (!slide) return;
-      track.scrollTo({ left: slide.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+    const scrollToPage = (idx) => {
+      const left = pages[idx];
+      if (typeof left !== 'number') return;
+      track.scrollTo({ left, behavior: 'smooth' });
       setActive(idx);
     };
 
-    dots.forEach((dot, idx) => dot.addEventListener('click', () => scrollToSlide(idx)));
-
-    if (prevBtn) prevBtn.addEventListener('click', () => scrollToSlide(Math.max(0, currentIndex() - 1)));
-    if (nextBtn) nextBtn.addEventListener('click', () => scrollToSlide(Math.min(slides.length - 1, currentIndex() + 1)));
+    if (prevBtn) prevBtn.addEventListener('click', () => scrollToPage(Math.max(0, currentIndex() - 1)));
+    if (nextBtn) nextBtn.addEventListener('click', () => scrollToPage(Math.min(pages.length - 1, currentIndex() + 1)));
 
     let timer = null;
     track.addEventListener('scroll', () => {
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => setActive(currentIndex()), 80);
     });
-    window.addEventListener('resize', () => setActive(currentIndex()));
 
+    window.addEventListener('resize', () => {
+      buildPages();
+      setActive(currentIndex());
+    });
+
+    buildPages();
     setActive(currentIndex());
   }
 
