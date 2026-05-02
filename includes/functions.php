@@ -72,6 +72,27 @@ function createSlug(string $text): string
 }
 
 
+
+function eventGoogleMapsUrl(array $event): string
+{
+    if (!empty($event['google_maps_url'])) {
+        return (string) $event['google_maps_url'];
+    }
+
+    $queryParts = array_filter([
+        trim((string) ($event['location_name'] ?? '')),
+        trim((string) ($event['address'] ?? '')),
+        trim((string) ($event['city'] ?? '')),
+    ]);
+
+    $query = implode(', ', $queryParts);
+    if ($query === '') {
+        $query = trim((string) ($event['title'] ?? 'Event in Kassel'));
+    }
+
+    return 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($query);
+}
+
 function hasColumn(string $table, string $column): bool
 {
     global $pdo;

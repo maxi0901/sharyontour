@@ -62,13 +62,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
     <?php if ($currentIsOpening): ?>
       <button class="btn btn-primary js-ticket-btn" type="button" data-event-id="<?= (int) $currentEvent['id'] ?>">GRATIS TICKET SICHERN &nbsp;→</button>
     <?php else: ?>
-      <?php
-        $currentMapQuery = trim((string) ($currentEvent['address'] ?: ($currentEvent['location_name'] ?: $currentEvent['city'])));
-        $currentMapUrl = !empty($currentEvent['google_maps_url'])
-          ? (string) $currentEvent['google_maps_url']
-          : 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($currentMapQuery);
-      ?>
-      <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($currentMapUrl) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
+      <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e(eventGoogleMapsUrl($currentEvent)) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
     <?php endif; ?>
   </article>
 </section>
@@ -97,13 +91,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
           <h3><?= e($event['title']) ?></h3>
           <p><?= e($event['description_short']) ?></p>
           <div class="events-item-actions">
-            <?php
-              $eventMapQuery = trim((string) ($event['address'] ?: ($event['location_name'] ?: $event['city'])));
-              $eventMapUrl = !empty($event['google_maps_url'])
-                ? (string) $event['google_maps_url']
-                : 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($eventMapQuery);
-            ?>
-            <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="<?= e($eventMapUrl) ?>">Standort</a>
+            <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="<?= e(eventGoogleMapsUrl($event)) ?>">Standort</a>
             <?php if ($isOpening): ?>
               <button class="btn btn-primary btn-sm js-ticket-btn" type="button" data-event-id="<?= (int) $event['id'] ?>">Gratis Ticket sichern</button>
               <span class="muted js-ticket-stock" data-event-id="<?= (int) $event['id'] ?>"></span>
