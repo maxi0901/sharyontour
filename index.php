@@ -25,7 +25,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 
       <div class="cta-row">
         <a class="btn btn-primary" href="#events">EVENTS ENTDECKEN &nbsp;→</a>
-        <a class="btn btn-ghost" href="#newsletter">TICKET SICHERN &nbsp;
+        <a class="btn btn-ghost" href="/ticket-buchen.php">TICKET SICHERN &nbsp;
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
             <circle cx="12" cy="12" r="10"/>
             <polyline points="12 8 16 12 12 16"/>
@@ -38,7 +38,9 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
   </div>
 </section>
 
-<?php if ($currentEvent): ?>
+<?php if ($currentEvent):
+  $currentIsOpening = (int) ($currentEvent['is_opening'] ?? 0) === 1;
+?>
 <section class="section container section-compact reveal" id="current-event">
   <article class="location-strip neon-frame">
     <div class="location-left">
@@ -57,8 +59,20 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
         </div>
       </div>
     </div>
-    <?php if (!empty($currentEvent['google_maps_url'])): ?>
+    <?php if ($currentIsOpening): ?>
+      <button class="btn btn-primary js-ticket-btn" type="button" data-event-id="<?= (int) $currentEvent['id'] ?>">GRATIS TICKET SICHERN &nbsp;→</button>
+    <?php elseif (!empty($currentEvent['google_maps_url'])): ?>
       <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($currentEvent['google_maps_url']) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
+    <?php else: ?>
+      <button
+        class="btn btn-dark js-location-btn"
+        type="button"
+        data-event-name="<?= e($currentEvent['title']) ?>"
+        data-event-location="<?= e((string) ($currentEvent['location_name'] ?: $currentEvent['city'])) ?>"
+        data-event-address="<?= e((string) ($currentEvent['address'] ?? '')) ?>"
+        data-event-is-opening="0"
+        data-event-ticket-opening="0"
+      >STANDORT ANZEIGEN &nbsp;→</button>
     <?php endif; ?>
   </article>
 </section>
@@ -71,8 +85,10 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
   </div>
   <div class="carousel-wrap reveal-group">
     <div class="card-grid events-scroll">
-      <?php foreach ($events as $event): ?>
-        <article class="card event-card reveal">
+      <?php foreach ($events as $event):
+        $isOpening = (int) ($event['is_opening'] ?? 0) === 1;
+      ?>
+        <article class="card event-card reveal <?= $isOpening ? 'is-opening' : '' ?>">
           <div class="card-media">
             <?php if (!empty($event['image_path'])): ?>
               <img src="<?= e($event['image_path']) ?>" alt="<?= e($event['title']) ?>" loading="lazy">
@@ -81,9 +97,24 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
             <?php endif; ?>
           </div>
           <p class="meta"><?= formatDate($event['event_date']) ?> · <?= e($event['city']) ?></p>
+          <?php if ($isOpening): ?><span class="badge badge-opening">HAUPT-EVENT</span><?php endif; ?>
           <h3><?= e($event['title']) ?></h3>
           <p><?= e($event['description_short']) ?></p>
-          <a class="text-link" href="/booking.php">Tickets &amp; Infos ↗</a>
+          <div class="events-item-actions">
+            <button
+              class="btn btn-ghost btn-sm js-location-btn"
+              type="button"
+              data-event-name="<?= e($event['title']) ?>"
+              data-event-location="<?= e((string) ($event['location_name'] ?: $event['city'])) ?>"
+              data-event-address="<?= e((string) ($event['address'] ?? '')) ?>"
+              data-event-is-opening="<?= $isOpening ? '1' : '0' ?>"
+              data-event-ticket-opening="<?= $isOpening ? '1' : '0' ?>"
+            >Standort</button>
+            <?php if ($isOpening): ?>
+              <button class="btn btn-primary btn-sm js-ticket-btn" type="button" data-event-id="<?= (int) $event['id'] ?>">Gratis Ticket sichern</button>
+              <span class="muted js-ticket-stock" data-event-id="<?= (int) $event['id'] ?>"></span>
+            <?php endif; ?>
+          </div>
         </article>
       <?php endforeach; ?>
       <?php if (empty($events)): ?>
@@ -120,8 +151,8 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
         </svg>
       </div>
       <div>
-        <h2>GRATIS TICKET + NEWSLETTER</h2>
-        <p>Erhalte exklusive Vorverkaufs-Infos, Pop-up Termine und digitale Ticket-Freischaltung.</p>
+        <h2>NEWSLETTER</h2>
+        <p>Bleib auf dem Laufenden: Tour-Stopps, neue Drops und Pop-up-Termine direkt in dein Postfach.</p>
       </div>
     </div>
     <form method="post" action="/newsletter-submit.php" class="newsletter-form">
