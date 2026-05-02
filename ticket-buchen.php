@@ -165,9 +165,9 @@ require __DIR__ . '/includes/header.php';
             </label>
           </div>
 
-          <label class="check">
-            <input type="checkbox" name="consent_privacy" value="1" required>
-            Ich akzeptiere die <a href="/datenschutz.php">Datenschutzerklärung</a>.
+          <label class="check check-privacy">
+            <input type="checkbox" name="consent_privacy" value="1" required aria-required="true">
+            <span>Ich akzeptiere die <a href="/datenschutz.php" class="privacy-pill">Datenschutzerklärung</a> <strong class="required-mark">*</strong></span>
           </label>
         </div>
 
