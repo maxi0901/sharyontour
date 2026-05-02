@@ -1964,6 +1964,16 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
   .main-nav a { font-size: .86rem; padding: .62rem 1.15rem; }
   .hero-art { border-radius: 26px; }
   .location-main h2 { font-size: clamp(1.9rem, 3.15vw, 3rem); }
+
+  /* Desktop: Event-Headlines etwas schlanker für bessere Lesbarkeit */
+  .location-main h2,
+  #events .section-heading h2,
+  #events .card h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    letter-spacing: .015em;
+    line-height: 1.02;
+  }
 }
 
 /* Kleine visuelle Verfeinerungen für den Neon-Look */
