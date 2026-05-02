@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/config/bootstrap.php';
 require __DIR__ . '/includes/csrf.php';
+require __DIR__ . '/includes/newsletter-log.php';
 require __DIR__ . '/config/mail.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -22,11 +23,13 @@ if (!verifyCsrf(is_string($csrf) ? $csrf : null)) {
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    logNewsletterEvent('signup_invalid_email', ['email' => $email]);
     header('Location: /index.php?nl=invalid#newsletter');
     exit;
 }
 
 if (!$consent) {
+    logNewsletterEvent('signup_no_consent', ['email' => $email]);
     header('Location: /index.php?nl=consent#newsletter');
     exit;
 }
@@ -69,10 +72,12 @@ try {
                 'ua' => $_SERVER['HTTP_USER_AGENT'] ?? null,
             ]);
         }
+        logNewsletterEvent('signup_new_pending', ['email' => $email]);
     } else {
         $status = $hasStatus ? ($existing['status'] ?? null) : null;
 
         if ($status === 'confirmed') {
+            logNewsletterEvent('signup_already_confirmed', ['email' => $email]);
             header('Location: /index.php?nl=already#newsletter');
             exit;
         }
@@ -91,18 +96,21 @@ try {
                 'ua' => $_SERVER['HTTP_USER_AGENT'] ?? null,
                 'id' => (int) $existing['id'],
             ]);
+            logNewsletterEvent('signup_resubscribe', ['email' => $email, 'subscriber_id' => (int) $existing['id']]);
         } elseif ($hasStatus && $hasConfirmToken) {
             // Pending row: refresh the confirm token and resend the mail.
             $stmt = $pdo->prepare('UPDATE newsletter_subscribers SET confirm_token=:ct WHERE id=:id');
             $stmt->execute(['ct' => $confirmToken, 'id' => (int) $existing['id']]);
+            logNewsletterEvent('signup_resend_pending', ['email' => $email, 'subscriber_id' => (int) $existing['id']]);
         } else {
             // Old row with no status column → treat as already subscribed.
+            logNewsletterEvent('signup_legacy_existing', ['email' => $email]);
             header('Location: /index.php?nl=already#newsletter');
             exit;
         }
     }
 } catch (Throwable $e) {
-    error_log('Newsletter signup failed: ' . $e->getMessage());
+    logNewsletterEvent('signup_db_error', ['email' => $email, 'error' => $e->getMessage()]);
     header('Location: /index.php?nl=error#newsletter');
     exit;
 }
@@ -110,8 +118,13 @@ try {
 // Send confirmation mail (double-opt-in). If SMTP credentials are missing,
 // the user still sees the success message; the admin can resend manually.
 $mailResult = sendNewsletterConfirmationMail($email, $confirmToken);
-if (!$mailResult['success']) {
-    error_log('Newsletter confirmation mail failed for ' . $email . ': ' . ($mailResult['error'] ?? ''));
+if ($mailResult['success']) {
+    logNewsletterEvent('confirmation_mail_sent', ['email' => $email]);
+} else {
+    logNewsletterEvent('confirmation_mail_failed', [
+        'email' => $email,
+        'error' => $mailResult['error'] ?? 'unknown',
+    ]);
 }
 
 header('Location: /index.php?nl=pending#newsletter');

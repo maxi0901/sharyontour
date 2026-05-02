@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/config/bootstrap.php';
+require __DIR__ . '/includes/newsletter-log.php';
 
 $token = isset($_GET['token']) ? trim((string) $_GET['token']) : '';
 $status = 'invalid';
@@ -16,6 +17,7 @@ if ($token !== '' && hasColumn('newsletter_subscribers', 'confirm_token')) {
     if ($row) {
         if (($row['status'] ?? '') === 'confirmed') {
             $status = 'already';
+            logNewsletterEvent('confirm_already', ['subscriber_id' => (int) $row['id']]);
         } else {
             try {
                 $stmt = $pdo->prepare(
@@ -27,11 +29,14 @@ if ($token !== '' && hasColumn('newsletter_subscribers', 'confirm_token')) {
                 );
                 $stmt->execute(['id' => (int) $row['id']]);
                 $status = 'ok';
+                logNewsletterEvent('confirm_ok', ['subscriber_id' => (int) $row['id']]);
             } catch (Throwable $e) {
-                error_log('Newsletter confirm failed: ' . $e->getMessage());
+                logNewsletterEvent('confirm_db_error', ['subscriber_id' => (int) $row['id'], 'error' => $e->getMessage()]);
                 $status = 'error';
             }
         }
+    } else {
+        logNewsletterEvent('confirm_invalid_token', []);
     }
 }
 
