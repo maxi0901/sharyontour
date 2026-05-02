@@ -52,12 +52,41 @@ CREATE TABLE IF NOT EXISTS galleries (
 
 CREATE TABLE IF NOT EXISTS newsletter_subscribers (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(255) NOT NULL UNIQUE,
+  email VARCHAR(190) NOT NULL UNIQUE,
   location_optional VARCHAR(255) NULL,
   consent_privacy TINYINT(1) DEFAULT 1,
+  status ENUM('pending','confirmed','unsubscribed') DEFAULT 'pending',
+  confirm_token VARCHAR(128) NULL,
+  unsubscribe_token VARCHAR(128) NULL,
+  confirmed_at DATETIME NULL,
+  unsubscribed_at DATETIME NULL,
   ip_address VARCHAR(100) NULL,
   user_agent TEXT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS newsletter_campaigns (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  subject VARCHAR(255) NOT NULL,
+  body_html MEDIUMTEXT NOT NULL,
+  body_text MEDIUMTEXT NULL,
+  status ENUM('draft','sending','sent','failed') DEFAULT 'draft',
+  recipients_total INT DEFAULT 0,
+  sent_count INT DEFAULT 0,
+  failed_count INT DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  sent_at DATETIME NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS newsletter_send_log (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  campaign_id INT UNSIGNED NOT NULL,
+  subscriber_id INT UNSIGNED NOT NULL,
+  email VARCHAR(190) NOT NULL,
+  status ENUM('sent','failed') NOT NULL,
+  error_message TEXT NULL,
+  sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_send_log_campaign FOREIGN KEY (campaign_id) REFERENCES newsletter_campaigns(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS ticket_logs (
