@@ -1157,6 +1157,7 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 .form-flash { padding: .7rem .9rem; border-radius: 10px; background: rgba(255,255,255,.06); border: 1px solid var(--line); font-size: .9rem; }
 .form-flash-error { background: rgba(226,35,26,.12); border-color: rgba(226,35,26,.55); color: #ffb3ad; }
 .form-flash-success { background: rgba(199,255,43,.1); border-color: rgba(199,255,43,.4); color: #d8ff67; }
+.form-flash-info { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.2); color: #d6dae8; }
 
 /* Ticket-Anzeige */
 .ticket-show { max-width: 540px; margin: 0 auto; }
@@ -1454,6 +1455,12 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 .status-pill.status-active { background: rgba(199,255,43,.12); color: #c7ff2b; }
 .status-pill.status-disabled { background: rgba(255,90,79,.16); color: #ff7a72; }
 .status-pill.status-draft { background: rgba(255,165,0,.12); color: #ffb347; }
+.status-pill.status-pending { background: rgba(255,179,71,.16); color: #ffb347; }
+.status-pill.status-confirmed { background: rgba(199,255,43,.12); color: #c7ff2b; }
+.status-pill.status-unsubscribed { background: rgba(255,255,255,.08); color: var(--muted); }
+.status-pill.status-sending { background: rgba(255,179,71,.16); color: #ffb347; }
+.status-pill.status-sent { background: rgba(199,255,43,.12); color: #c7ff2b; }
+.status-pill.status-failed { background: rgba(255,90,79,.16); color: #ff7a72; }
 
 .admin-filter { margin: 1rem 0; }
 .admin-filter select { padding: .45rem .6rem; background: #0a0a0c; color: #fff; border: 1px solid var(--line); border-radius: 8px; }
@@ -1475,6 +1482,12 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 .event-image-preview .media-fallback { position: absolute; inset: 0; }
 .event-image-preview p { position: relative; margin: 0; padding: .4rem .8rem; font-size: .78rem; color: var(--muted); background: rgba(0,0,0,.45); border-radius: 999px; }
 .check-inline { display: flex; align-items: center; gap: .5rem; font-size: .82rem; color: var(--muted); }
+.campaign-fieldset { margin-top: 1rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 14px; background: rgba(13, 14, 22, .55); }
+.campaign-fieldset legend { padding: 0 .4rem; color: var(--muted); font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase; }
+.campaign-fieldset p { font-size: .85rem; margin: 0 0 .8rem 0; color: var(--muted); }
+.campaign-fieldset-danger { border-color: rgba(255, 90, 79, .35); }
+.campaign-fieldset-danger legend { color: #ff7a72; }
+.campaign-actions { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .4rem; }
 @media (max-width: 720px) { .admin-form .form-grid-2, .admin-form .form-grid-3 { grid-template-columns: 1fr; } }
 
 .admin-upload { background: rgba(13,14,22,.55); padding: 1rem 1.2rem; border-radius: 12px; border: 1px dashed var(--line); margin-bottom: 1.2rem; }

@@ -133,17 +133,33 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
         </svg>
       </div>
       <div>
-        <h2>NEWSLETTER</h2>
+        <h2>NEWSLETTER-ANMELDUNG</h2>
         <p>Bleib auf dem Laufenden: Tour-Stopps, neue Drops und Pop-up-Termine direkt in dein Postfach.</p>
       </div>
     </div>
     <form method="post" action="/newsletter-submit.php" class="newsletter-form">
+      <?php
+        $nl = $_GET['nl'] ?? null;
+        $nlMessages = [
+            'pending'      => ['type' => 'success', 'text' => 'Bitte bestätige deine Anmeldung über den Link in der E-Mail.'],
+            'ok'           => ['type' => 'success', 'text' => 'Danke! Du erhältst gleich eine Bestätigungs-Mail – bitte den Link darin anklicken.'],
+            'confirmed'    => ['type' => 'success', 'text' => 'Anmeldung bestätigt – du bist jetzt im Verteiler.'],
+            'unsubscribed' => ['type' => 'success', 'text' => 'Du wurdest erfolgreich abgemeldet.'],
+            'already'      => ['type' => 'info',    'text' => 'Diese Adresse ist bereits angemeldet.'],
+            'invalid'      => ['type' => 'error',   'text' => 'Bitte eine gültige E-Mail-Adresse angeben.'],
+            'consent'      => ['type' => 'error',   'text' => 'Bitte stimme der Datenschutzerklärung zu.'],
+            'error'        => ['type' => 'error',   'text' => 'Es ist ein technisches Problem aufgetreten – bitte später erneut versuchen.'],
+        ];
+      ?>
+      <?php if (is_string($nl) && isset($nlMessages[$nl])): $msg = $nlMessages[$nl]; ?>
+        <div class="form-flash form-flash-<?= e($msg['type']) ?>"><?= e($msg['text']) ?></div>
+      <?php endif; ?>
       <?= csrfField() ?>
       <input type="hidden" name="source" value="homepage">
       <input type="hidden" name="first_name" value="">
       <div class="newsletter-email-row">
         <input type="email" name="email" placeholder="Deine E-Mail-Adresse" required>
-        <button class="btn btn-primary" type="submit">JETZT ANMELDEN</button>
+        <button class="btn btn-primary" type="submit">ANMELDEN</button>
       </div>
       <label class="check">
         <input type="checkbox" name="consent_privacy" value="1" required>
