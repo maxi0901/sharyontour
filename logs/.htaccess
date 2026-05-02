@@ -1,0 +1,9 @@
+# Deny direct web access to log files. Logs are admin-only and may
+# contain email addresses or SMTP error messages.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

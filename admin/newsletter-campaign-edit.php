@@ -1,6 +1,7 @@
 <?php
 require __DIR__ . '/../config/bootstrap.php';
 require __DIR__ . '/../includes/csrf.php';
+require __DIR__ . '/../includes/newsletter-log.php';
 require __DIR__ . '/../config/mail.php';
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
@@ -85,9 +86,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($result['success']) {
                             $flash = 'Testmail an ' . $testEmail . ' verschickt.';
                             $flashType = 'success';
+                            logNewsletterEvent('campaign_test_sent', ['campaign_id' => $id, 'email' => $testEmail]);
                         } else {
                             $flash = 'Testmail fehlgeschlagen: ' . ($result['error'] ?? 'Unbekannter Fehler');
                             $flashType = 'error';
+                            logNewsletterEvent('campaign_test_failed', [
+                                'campaign_id' => $id,
+                                'email' => $testEmail,
+                                'error' => $result['error'] ?? 'unknown',
+                            ]);
                         }
                     }
                 } elseif ($action === 'send') {
@@ -102,10 +109,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $flash = 'Diese Kampagne wurde bereits versendet bzw. läuft aktuell.';
                         $flashType = 'error';
                     } else {
+                        logNewsletterEvent('campaign_send_start', ['campaign_id' => $id, 'subject' => $subject]);
                         $sendReport = sendNewsletterCampaign($pdo, $id, $subject, $bodyHtml, $bodyTextStored);
                         $campaign = fetchOne('SELECT * FROM newsletter_campaigns WHERE id=:id', ['id' => $id]) ?: $campaign;
                         $flash = 'Versand abgeschlossen: ' . $sendReport['sent'] . ' gesendet, ' . $sendReport['failed'] . ' fehlgeschlagen.';
                         $flashType = $sendReport['failed'] > 0 ? 'error' : 'success';
+                        logNewsletterEvent('campaign_send_done', [
+                            'campaign_id' => $id,
+                            'total' => $sendReport['total'],
+                            'sent' => $sendReport['sent'],
+                            'failed' => $sendReport['failed'],
+                        ]);
                     }
                 }
             }
@@ -181,6 +195,12 @@ function sendNewsletterCampaign(PDO $pdo, int $campaignId, string $subject, stri
                 'e' => $sub['email'],
                 'st' => 'failed',
                 'err' => $err,
+            ]);
+            logNewsletterEvent('campaign_recipient_failed', [
+                'campaign_id' => $campaignId,
+                'subscriber_id' => (int) $sub['id'],
+                'email' => $sub['email'],
+                'error' => $err,
             ]);
         }
     }

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/config/bootstrap.php';
+require __DIR__ . '/includes/newsletter-log.php';
 
 $token = isset($_GET['token']) ? trim((string) $_GET['token']) : '';
 $status = 'invalid';
@@ -16,6 +17,7 @@ if ($token !== '' && hasColumn('newsletter_subscribers', 'unsubscribe_token')) {
     if ($row) {
         if (($row['status'] ?? '') === 'unsubscribed') {
             $status = 'already';
+            logNewsletterEvent('unsubscribe_already', ['subscriber_id' => (int) $row['id']]);
         } else {
             try {
                 $stmt = $pdo->prepare(
@@ -27,11 +29,14 @@ if ($token !== '' && hasColumn('newsletter_subscribers', 'unsubscribe_token')) {
                 );
                 $stmt->execute(['id' => (int) $row['id']]);
                 $status = 'ok';
+                logNewsletterEvent('unsubscribe_ok', ['subscriber_id' => (int) $row['id']]);
             } catch (Throwable $e) {
-                error_log('Newsletter unsubscribe failed: ' . $e->getMessage());
+                logNewsletterEvent('unsubscribe_db_error', ['subscriber_id' => (int) $row['id'], 'error' => $e->getMessage()]);
                 $status = 'error';
             }
         }
+    } else {
+        logNewsletterEvent('unsubscribe_invalid_token', []);
     }
 }
 
