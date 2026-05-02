@@ -86,6 +86,14 @@ try {
     }
     $pdo->commit();
 
+    try {
+        require_once __DIR__ . '/../config/mail.php';
+        $eventForMail = fetchOne('SELECT id, title, event_date FROM events WHERE id = :id LIMIT 1', ['id' => $eventId]);
+        sendTicketMail($pdo, $email, $ticketId, $name, $eventForMail);
+    } catch (Throwable $mailError) {
+        error_log('sendTicketMail failed in api/create-ticket.php: ' . $mailError->getMessage());
+    }
+
     echo json_encode(['status' => 'success', 'ticket_id' => $ticketId]);
 } catch (Throwable $e) {
     if ($pdo->inTransaction()) {
