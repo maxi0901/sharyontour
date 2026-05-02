@@ -10,7 +10,14 @@ $currentEvent = fetchOne("
     ORDER BY event_date ASC
     LIMIT 1
 ");
-$events = fetchAll("SELECT * FROM events WHERE status='upcoming' ORDER BY event_date ASC LIMIT 3");
+$events = fetchAll("
+    SELECT *
+    FROM events
+    WHERE status = 'upcoming'
+      AND event_date >= CURDATE()
+    ORDER BY event_date ASC
+    LIMIT 3
+");
 $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_order ASC, created_at DESC LIMIT 12");
 ?>
 
