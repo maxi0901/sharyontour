@@ -612,6 +612,30 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 .check input { width:auto; }
 .privacy-link { color:var(--neon-red); }
 
+.check-privacy {
+  align-items: center;
+}
+.check-privacy span {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+.check-privacy .privacy-pill {
+  display: inline-block;
+  padding: .1rem .4rem;
+  border-radius: 6px;
+  background: rgba(59,130,246,.25);
+  color: #9fccff;
+  text-decoration: none;
+}
+.check-privacy .privacy-pill:hover {
+  background: rgba(59,130,246,.38);
+}
+.check-privacy .required-mark {
+  color: #ff5d8f;
+  font-size: .95em;
+}
+
 .page-intro{ padding-top:3rem; }
 .highlight-card,.ticket-card,.timeline article { background: linear-gradient(180deg, rgba(20,24,36,.9), rgba(11,14,22,.88)); border:1px solid rgba(255,255,255,.15); border-radius:15px; padding:1rem; }
 .timeline{display:grid;gap:.8rem;}
