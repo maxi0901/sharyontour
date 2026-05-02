@@ -7,12 +7,6 @@ $ticket = $ticketId !== '' ? getTicketByTicketId($ticketId) : null;
 $pageTitle = $ticket ? 'Dein S-ART Ticket' : 'Ticket nicht gefunden';
 require __DIR__ . '/includes/header.php';
 
-$qrUrl = null;
-$verifyUrl = null;
-if ($ticket) {
-    $verifyUrl = appUrl('/ticket.php?id=' . urlencode($ticket['ticket_id']));
-    $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=10&bgcolor=ffffff&color=0a0a0c&data=' . urlencode($verifyUrl);
-}
 
 $shortId = $ticket ? strtoupper(substr(preg_replace('/[^a-zA-Z0-9]/', '', (string) $ticket['ticket_id']), 0, 8)) : '';
 ?>
@@ -80,12 +74,6 @@ $shortId = $ticket ? strtoupper(substr(preg_replace('/[^a-zA-Z0-9]/', '', (strin
         </div>
 
         <div class="ticket-card-tearoff">
-          <p class="ticket-tearoff-kicker">SCAN AT ENTRY</p>
-          <div class="ticket-qr-frame">
-            <?php if ($qrUrl): ?>
-              <img src="<?= e($qrUrl) ?>" alt="QR-Code" loading="lazy">
-            <?php endif; ?>
-          </div>
           <p class="ticket-tearoff-id">ID · <?= e($shortId) ?></p>
           <p class="muted ticket-tearoff-note">Gültig nur in Verbindung mit gültigem Ausweis.</p>
         </div>
@@ -93,7 +81,6 @@ $shortId = $ticket ? strtoupper(substr(preg_replace('/[^a-zA-Z0-9]/', '', (strin
 
       <div class="ticket-actions reveal">
         <a class="btn btn-primary" href="/ticket-pdf.php?id=<?= urlencode($ticket['ticket_id']) ?>">PDF herunterladen</a>
-        <a class="btn btn-ghost" href="/ticket-wallet.php?id=<?= urlencode($ticket['ticket_id']) ?>">Apple / Google Wallet</a>
         <a class="btn btn-ghost" href="/ticket-ics.php?id=<?= urlencode($ticket['ticket_id']) ?>">In Kalender speichern (.ics)</a>
       </div>
 
