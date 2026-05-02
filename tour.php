@@ -21,7 +21,7 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
 
   <div class="events-list">
     <?php foreach ($upcoming as $ev):
-      $isOpening = (int) $ev['is_opening'] === 1;
+      $isOpening = (int) ($ev['is_opening'] ?? 0) === 1 || ($ev['slug'] ?? '') === 'container-opening-kassel';
       $isTicketOpening = $isOpening;
     ?>
       <article class="events-item <?= $isOpening ? 'is-opening' : '' ?>">
