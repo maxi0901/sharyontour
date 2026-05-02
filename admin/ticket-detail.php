@@ -85,6 +85,7 @@ require __DIR__ . '/_header.php';
 
   <div class="admin-card">
     <p class="kicker">Aktivitätslog</p>
+    <div class="admin-table-wrap">
     <table class="admin-table">
       <thead><tr><th>Zeitpunkt</th><th>Status</th><th>Details</th></tr></thead>
       <tbody>
@@ -100,6 +101,7 @@ require __DIR__ . '/_header.php';
         <?php endif; ?>
       </tbody>
     </table>
+    </div>
   </div>
 
 <?php endif; ?>

@@ -10,15 +10,19 @@ function runTrackingMigrations(PDO $pdo): void
     }
     $alreadyRan = true;
 
-    $columns = [
-        'mail_sent_at'     => 'ALTER TABLE tickets ADD COLUMN mail_sent_at DATETIME NULL',
-        'mail_opened_at'   => 'ALTER TABLE tickets ADD COLUMN mail_opened_at DATETIME NULL',
-        'ticket_opened_at' => 'ALTER TABLE tickets ADD COLUMN ticket_opened_at DATETIME NULL',
-        'last_click_at'    => 'ALTER TABLE tickets ADD COLUMN last_click_at DATETIME NULL',
-        'click_count'      => 'ALTER TABLE tickets ADD COLUMN click_count INT UNSIGNED NOT NULL DEFAULT 0',
-    ];
-
     try {
+        if (hasColumn('tickets', 'click_count')) {
+            return;
+        }
+
+        $columns = [
+            'mail_sent_at'     => 'ALTER TABLE tickets ADD COLUMN mail_sent_at DATETIME NULL',
+            'mail_opened_at'   => 'ALTER TABLE tickets ADD COLUMN mail_opened_at DATETIME NULL',
+            'ticket_opened_at' => 'ALTER TABLE tickets ADD COLUMN ticket_opened_at DATETIME NULL',
+            'last_click_at'    => 'ALTER TABLE tickets ADD COLUMN last_click_at DATETIME NULL',
+            'click_count'      => 'ALTER TABLE tickets ADD COLUMN click_count INT UNSIGNED NOT NULL DEFAULT 0',
+        ];
+
         foreach ($columns as $name => $sql) {
             if (!hasColumn('tickets', $name)) {
                 $pdo->exec($sql);
