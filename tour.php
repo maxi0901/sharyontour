@@ -22,6 +22,7 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
   <div class="events-list">
     <?php foreach ($upcoming as $ev):
       $isOpening = (int) $ev['is_opening'] === 1;
+      $isTicketOpening = $ev['event_date'] === '2026-08-22' && mb_strtolower((string) $ev['title']) === 'container opening kassel';
     ?>
       <article class="events-item <?= $isOpening ? 'is-opening' : '' ?>">
         <div class="events-item-date">
@@ -41,13 +42,11 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
               data-event-location="<?= e((string) ($ev['location_name'] ?: $ev['city'])) ?>"
               data-event-address="<?= e((string) ($ev['address'] ?? '')) ?>"
               data-event-is-opening="<?= $isOpening ? '1' : '0' ?>"
+              data-event-ticket-opening="<?= $isTicketOpening ? '1' : '0' ?>"
             >Standort</button>
-            <?php if ($isOpening): ?>
-              <?php $isTicketOpening = $ev['event_date'] === '2026-08-22' && mb_strtolower((string) $ev['title']) === 'container opening kassel'; ?>
-              <?php if ($isTicketOpening): ?>
+            <?php if ($isTicketOpening): ?>
                 <button class="btn btn-primary btn-sm js-ticket-btn" type="button" data-event-id="<?= (int) $ev['id'] ?>">Gratis Ticket sichern</button>
                 <span class="muted js-ticket-stock" data-event-id="<?= (int) $ev['id'] ?>"></span>
-              <?php endif; ?>
             <?php endif; ?>
           </div>
         </div>
