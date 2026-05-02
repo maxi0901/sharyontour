@@ -143,6 +143,34 @@ function findTicketByEmailAndEvent(int $eventId, string $email): ?array
     return fetchOne('SELECT * FROM tickets WHERE event_id=:e AND email=:m LIMIT 1', ['e' => $eventId, 'm' => $email]);
 }
 
+
+function logTicketCheckoutError(string $code, string $message, array $context = []): void
+{
+    $logDir = __DIR__ . '/../logs';
+    if (!is_dir($logDir)) {
+        mkdir($logDir, 0775, true);
+    }
+
+    $safeContext = [];
+    foreach ($context as $key => $value) {
+        if ($key === 'email' && is_string($value)) {
+            $value = preg_replace('/(^.).*(@.*$)/', '$1***$2', $value);
+        }
+        $safeContext[$key] = $value;
+    }
+
+    $line = sprintf(
+        "[%s] %s: %s | context=%s
+",
+        (new DateTimeImmutable('now'))->format(DateTimeInterface::ATOM),
+        $code,
+        $message,
+        json_encode($safeContext, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+    );
+
+    file_put_contents($logDir . '/ticket-checkout-errors.log', $line, FILE_APPEND | LOCK_EX);
+}
+
 function logTicketEvent(?string $ticketId, ?string $email, string $status, ?string $error = null): void
 {
     global $pdo;
