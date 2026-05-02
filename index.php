@@ -61,18 +61,14 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
     </div>
     <?php if ($currentIsOpening): ?>
       <button class="btn btn-primary js-ticket-btn" type="button" data-event-id="<?= (int) $currentEvent['id'] ?>">GRATIS TICKET SICHERN &nbsp;→</button>
-    <?php elseif (!empty($currentEvent['google_maps_url'])): ?>
-      <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($currentEvent['google_maps_url']) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
     <?php else: ?>
-      <button
-        class="btn btn-dark js-location-btn"
-        type="button"
-        data-event-name="<?= e($currentEvent['title']) ?>"
-        data-event-location="<?= e((string) ($currentEvent['location_name'] ?: $currentEvent['city'])) ?>"
-        data-event-address="<?= e((string) ($currentEvent['address'] ?? '')) ?>"
-        data-event-is-opening="0"
-        data-event-ticket-opening="0"
-      >STANDORT ANZEIGEN &nbsp;→</button>
+      <?php
+        $currentMapQuery = trim((string) ($currentEvent['address'] ?: ($currentEvent['location_name'] ?: $currentEvent['city'])));
+        $currentMapUrl = !empty($currentEvent['google_maps_url'])
+          ? (string) $currentEvent['google_maps_url']
+          : 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($currentMapQuery);
+      ?>
+      <a class="btn btn-dark" target="_blank" rel="noopener" href="<?= e($currentMapUrl) ?>">AUF GOOGLE MAPS ÖFFNEN &nbsp;→</a>
     <?php endif; ?>
   </article>
 </section>
@@ -101,15 +97,13 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
           <h3><?= e($event['title']) ?></h3>
           <p><?= e($event['description_short']) ?></p>
           <div class="events-item-actions">
-            <button
-              class="btn btn-ghost btn-sm js-location-btn"
-              type="button"
-              data-event-name="<?= e($event['title']) ?>"
-              data-event-location="<?= e((string) ($event['location_name'] ?: $event['city'])) ?>"
-              data-event-address="<?= e((string) ($event['address'] ?? '')) ?>"
-              data-event-is-opening="<?= $isOpening ? '1' : '0' ?>"
-              data-event-ticket-opening="<?= $isOpening ? '1' : '0' ?>"
-            >Standort</button>
+            <?php
+              $eventMapQuery = trim((string) ($event['address'] ?: ($event['location_name'] ?: $event['city'])));
+              $eventMapUrl = !empty($event['google_maps_url'])
+                ? (string) $event['google_maps_url']
+                : 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($eventMapQuery);
+            ?>
+            <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="<?= e($eventMapUrl) ?>">Standort</a>
             <?php if ($isOpening): ?>
               <button class="btn btn-primary btn-sm js-ticket-btn" type="button" data-event-id="<?= (int) $event['id'] ?>">Gratis Ticket sichern</button>
               <span class="muted js-ticket-stock" data-event-id="<?= (int) $event['id'] ?>"></span>
