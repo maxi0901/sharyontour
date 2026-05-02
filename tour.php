@@ -22,7 +22,7 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
   <div class="events-list">
     <?php foreach ($upcoming as $ev):
       $isOpening = (int) $ev['is_opening'] === 1;
-      $isTicketOpening = $ev['event_date'] === '2026-08-22' && mb_strtolower((string) $ev['title']) === 'container opening kassel';
+      $isTicketOpening = $isOpening;
     ?>
       <article class="events-item <?= $isOpening ? 'is-opening' : '' ?>">
         <div class="events-item-date">
@@ -78,22 +78,5 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
   </div>
 </section>
 <?php endif; ?>
-
-<div class="event-modal" id="eventModal" hidden>
-  <div class="event-modal-backdrop js-modal-close"></div>
-  <div class="event-modal-box" role="dialog" aria-modal="true">
-    <button class="event-modal-close js-modal-close" type="button" aria-label="Schließen">×</button>
-    <h3 class="js-modal-title"></h3>
-    <p class="js-modal-location"></p>
-    <p class="muted js-modal-address"></p>
-    <form class="ticket-modal-form" id="ticketModalForm" hidden>
-      <input type="hidden" name="event_id" id="ticketEventId">
-      <label class="field"><span>E-Mail *</span><input type="email" name="email" required></label>
-      <label class="field"><span>Name (optional)</span><input type="text" name="name"></label>
-      <button class="btn btn-primary btn-sm" type="submit">Ticket anfordern</button>
-      <p class="muted js-ticket-response"></p>
-    </form>
-  </div>
-</div>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>

@@ -23,6 +23,17 @@
   </div>
   <div class="container footer-meta"><p>&copy; <?= date('Y') ?> S-ART · Shary on Tour</p></div>
 </footer>
+
+<div class="event-modal" id="eventModal" hidden>
+  <div class="event-modal-backdrop js-modal-close"></div>
+  <div class="event-modal-box" role="dialog" aria-modal="true">
+    <button class="event-modal-close js-modal-close" type="button" aria-label="Schließen">×</button>
+    <h3 class="js-modal-title"></h3>
+    <p class="js-modal-location"></p>
+    <p class="muted js-modal-address"></p>
+  </div>
+</div>
+
 <script src="/assets/js/main.js" defer></script>
 </body>
 </html>
