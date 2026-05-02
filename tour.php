@@ -35,15 +35,13 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
           <p><?= e($ev['description_short']) ?></p>
 
           <div class="events-item-actions">
-            <button
-              class="btn btn-ghost btn-sm js-location-btn"
-              type="button"
-              data-event-name="<?= e($ev['title']) ?>"
-              data-event-location="<?= e((string) ($ev['location_name'] ?: $ev['city'])) ?>"
-              data-event-address="<?= e((string) ($ev['address'] ?? '')) ?>"
-              data-event-is-opening="<?= $isOpening ? '1' : '0' ?>"
-              data-event-ticket-opening="<?= $isTicketOpening ? '1' : '0' ?>"
-            >Standort</button>
+            <?php
+              $eventMapQuery = trim((string) ($ev['address'] ?: ($ev['location_name'] ?: $ev['city'])));
+              $eventMapUrl = !empty($ev['google_maps_url'])
+                ? (string) $ev['google_maps_url']
+                : 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($eventMapQuery);
+            ?>
+            <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="<?= e($eventMapUrl) ?>">Standort</a>
             <?php if ($isTicketOpening): ?>
                 <button class="btn btn-primary btn-sm js-ticket-btn" type="button" data-event-id="<?= (int) $ev['id'] ?>">Gratis Ticket sichern</button>
                 <span class="muted js-ticket-stock" data-event-id="<?= (int) $ev['id'] ?>"></span>
