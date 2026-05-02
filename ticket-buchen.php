@@ -17,6 +17,11 @@ if (!$opening) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $opening) {
+    $logContext = [
+        'event_id' => (int) $opening['id'],
+        'ip' => $_SERVER['REMOTE_ADDR'] ?? null,
+        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? null,
+    ];
     $csrf = $_POST['csrf_token'] ?? null;
     $email = strtolower(trim((string) ($_POST['email'] ?? '')));
     $name = trim((string) ($_POST['name'] ?? ''));
@@ -25,14 +30,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $opening) {
 
     if (!verifyCsrf(is_string($csrf) ? $csrf : null)) {
         $error = 'Sicherheits-Token ungültig. Bitte Seite neu laden.';
+        logTicketCheckoutError('INVALID_CSRF', $error, $logContext);
     } elseif ($name === '' || mb_strlen($name) < 2) {
         $error = 'Bitte deinen Namen angeben.';
+        logTicketCheckoutError('INVALID_NAME', $error, $logContext + ['name' => $name]);
     } elseif ($postal === '' || !preg_match('/^[0-9A-Za-zÄÖÜäöüß\- ]{3,12}$/u', $postal)) {
         $error = 'Bitte eine gültige Postleitzahl angeben.';
+        logTicketCheckoutError('INVALID_POSTAL_CODE', $error, $logContext + ['postal_code' => $postal]);
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Bitte eine gültige E-Mail-Adresse angeben.';
+        logTicketCheckoutError('INVALID_EMAIL', $error, $logContext + ['email' => $email]);
     } elseif (!$consent) {
         $error = 'Datenschutz-Zustimmung ist erforderlich.';
+        logTicketCheckoutError('MISSING_PRIVACY_CONSENT', $error, $logContext);
     } else {
         $eventId = (int) $opening['id'];
         $maxTickets = (int) $opening['max_tickets'];
@@ -46,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $opening) {
             if ($taken >= $maxTickets) {
                 $pdo->rollBack();
                 $error = 'Leider sind alle Tickets vergeben.';
+                logTicketCheckoutError('SOLD_OUT', $error, $logContext + ['taken' => $taken, 'max_tickets' => $maxTickets]);
             } else {
                 $existing = findTicketByEmailAndEvent($eventId, $email);
                 if ($existing) {
@@ -95,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $opening) {
             if ($pdo->inTransaction()) $pdo->rollBack();
             error_log('Ticket creation failed: ' . $ex->getMessage());
             $error = 'Es gab ein technisches Problem. Bitte später erneut versuchen.';
+            logTicketCheckoutError('TECHNICAL_ERROR', $ex->getMessage(), $logContext + ['email' => $email, 'trace' => $ex->getTraceAsString()]);
         }
     }
 }
