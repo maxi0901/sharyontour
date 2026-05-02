@@ -25,6 +25,13 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
       $isTicketOpening = $isOpening;
     ?>
       <article class="events-item <?= $isOpening ? 'is-opening' : '' ?>">
+        <div class="events-item-media">
+          <?php if (!empty($ev['image_path'])): ?>
+            <img src="<?= e($ev['image_path']) ?>" alt="<?= e($ev['title']) ?>" loading="lazy">
+          <?php else: ?>
+            <div class="media-fallback" aria-hidden="true"></div>
+          <?php endif; ?>
+        </div>
         <div class="events-item-date">
           <strong><?= formatDate($ev['event_date']) ?></strong>
           <span><?= e($ev['city']) ?></span>
@@ -55,6 +62,13 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
   <div class="events-list events-list-past">
     <?php foreach ($past as $ev): ?>
       <a class="events-item is-past" href="/galerie.php?event=<?= (int) $ev['id'] ?>">
+        <div class="events-item-media">
+          <?php if (!empty($ev['image_path'])): ?>
+            <img src="<?= e($ev['image_path']) ?>" alt="<?= e($ev['title']) ?>" loading="lazy">
+          <?php else: ?>
+            <div class="media-fallback" aria-hidden="true"></div>
+          <?php endif; ?>
+        </div>
         <div class="events-item-date">
           <strong><?= formatDate($ev['event_date']) ?></strong>
           <span><?= e($ev['city']) ?></span>
