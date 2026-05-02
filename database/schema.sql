@@ -30,6 +30,11 @@ CREATE TABLE IF NOT EXISTS tickets (
   status ENUM('active','disabled') DEFAULT 'active',
   ip_address VARCHAR(100) NULL,
   user_agent TEXT NULL,
+  mail_sent_at DATETIME NULL,
+  mail_opened_at DATETIME NULL,
+  ticket_opened_at DATETIME NULL,
+  last_click_at DATETIME NULL,
+  click_count INT UNSIGNED NOT NULL DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY unique_event_email (event_id, email),
   CONSTRAINT fk_tickets_event FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
