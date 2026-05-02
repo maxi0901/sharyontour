@@ -116,6 +116,7 @@ require __DIR__ . '/_header.php';
   </label>
 </form>
 
+<div class="admin-table-wrap">
 <table class="admin-table">
   <thead>
     <tr>
@@ -202,5 +203,6 @@ require __DIR__ . '/_header.php';
     <?php endif; ?>
   </tbody>
 </table>
+</div>
 
 <?php require __DIR__ . '/_footer.php'; ?>

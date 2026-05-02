@@ -28,6 +28,7 @@ $rows = fetchAll('SELECT * FROM events ORDER BY event_date DESC');
   <a class="btn btn-primary btn-sm" href="/admin/event-edit.php">+ Neues Event</a>
 </div>
 
+<div class="admin-table-wrap">
 <table class="admin-table">
   <thead>
     <tr><th>Datum</th><th>Titel</th><th>Stadt</th><th>Status</th><th>Opening</th><th>Tickets</th><th></th></tr>
@@ -64,5 +65,6 @@ $rows = fetchAll('SELECT * FROM events ORDER BY event_date DESC');
     <?php endforeach; ?>
   </tbody>
 </table>
+</div>
 
 <?php require __DIR__ . '/_footer.php'; ?>

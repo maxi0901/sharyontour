@@ -37,6 +37,7 @@ require __DIR__ . '/_header.php';
   <a class="btn btn-ghost btn-sm" href="/admin/newsletter.php?export=csv">CSV exportieren</a>
 </div>
 
+<div class="admin-table-wrap">
 <table class="admin-table">
   <thead>
     <tr><th>Datum</th><th>E-Mail</th><th>PLZ / Stadt</th><th></th></tr>
@@ -62,5 +63,6 @@ require __DIR__ . '/_header.php';
     <?php endif; ?>
   </tbody>
 </table>
+</div>
 
 <?php require __DIR__ . '/_footer.php'; ?>
