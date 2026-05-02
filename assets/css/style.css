@@ -239,12 +239,12 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
     radial-gradient(ellipse at 50% 50%, rgba(255,20,105,.26), transparent 65%);
   filter: blur(28px);
 }
-.hero-layout { position:relative; z-index:1; display:grid; grid-template-columns:1.02fr .98fr; gap:2.8rem; align-items:center; min-height:min(82vh,820px); padding:2.2rem 0 1.8rem; }
+.hero-layout { position:relative; z-index:1; display:grid; grid-template-columns:1.02fr .98fr; gap:2.8rem; align-items:center; min-height:min(72vh,700px); padding:1.6rem 0 1.4rem; }
 .kicker { color: var(--neon-red); font-weight:700; letter-spacing:.2em; text-transform:uppercase; margin-bottom:.8rem; }
 .subline { max-width:42ch; font-size:clamp(1.02rem, 1.8vw, 1.33rem); margin-top:1rem; }
 .cta-row { display:flex; gap:.9rem; margin-top:1.7rem; flex-wrap:wrap; }
 .hero-art {
-  height: clamp(420px, 64vh, 720px);
+  height: clamp(380px, 58vh, 620px);
   border-radius: 22px;
   border: 1px solid rgba(255,255,255,.10);
   position: relative;
