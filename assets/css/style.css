@@ -1468,9 +1468,11 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 .admin-form { display: flex; flex-direction: column; gap: .9rem; max-width: 760px; }
 .admin-form label.field span { color: var(--muted); font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase; }
 .admin-form .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
-.admin-form .form-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: .9rem; }
+.admin-form .form-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; }
+.admin-form .form-grid-2 > *, .admin-form .form-grid-3 > * { min-width: 0; }
 .admin-form textarea { min-height: 90px; resize: vertical; }
-.admin-form .check-field { flex-direction: row; align-items: center; gap: .55rem; }
+.admin-form .check-field { flex-direction: row; align-items: center; gap: .55rem; justify-content: flex-start; padding-top: 1.55rem; }
+.admin-form label.field span { line-height: 1.25; }
 .event-image-field { display: flex; flex-direction: column; gap: .6rem; padding: 1rem; border: 1px solid var(--line); border-radius: 14px; background: rgba(13, 14, 22, .55); }
 .event-image-field .field-label { color: var(--muted); font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase; }
 .event-image-preview {
@@ -1488,7 +1490,8 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 .campaign-fieldset-danger { border-color: rgba(255, 90, 79, .35); }
 .campaign-fieldset-danger legend { color: #ff7a72; }
 .campaign-actions { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .4rem; }
-@media (max-width: 720px) { .admin-form .form-grid-2, .admin-form .form-grid-3 { grid-template-columns: 1fr; } }
+@media (max-width: 1024px) { .admin-form .form-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .admin-form .form-grid-2, .admin-form .form-grid-3 { grid-template-columns: 1fr; } .admin-form .check-field { padding-top: 0; } }
 
 .admin-upload { background: rgba(13,14,22,.55); padding: 1rem 1.2rem; border-radius: 12px; border: 1px dashed var(--line); margin-bottom: 1.2rem; }
 
