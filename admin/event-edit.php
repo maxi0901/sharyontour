@@ -19,9 +19,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verifyCsrf($_POST['csrf_token'] ?? null)) {
         $error = 'CSRF Fehler.';
     } else {
+        $slug = trim($_POST['slug'] ?? '') ?: createSlug($_POST['title'] ?? '');
+        $imagePath = trim($_POST['image_path'] ?? '');
+
+        if (isset($_POST['remove_image']) && $_POST['remove_image'] === '1') {
+            $imagePath = '';
+        }
+
+        if (!empty($_FILES['image_file']['name']) && (int) ($_FILES['image_file']['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+            $upload = $_FILES['image_file'];
+            if ((int) $upload['error'] !== UPLOAD_ERR_OK) {
+                $error = 'Bild-Upload fehlgeschlagen (Code ' . (int) $upload['error'] . ').';
+            } elseif ($upload['size'] > 8 * 1024 * 1024) {
+                $error = 'Bild ist größer als 8 MB.';
+            } else {
+                $finfo = function_exists('finfo_open') ? finfo_open(FILEINFO_MIME_TYPE) : false;
+                $mime = $finfo ? finfo_file($finfo, $upload['tmp_name']) : ($upload['type'] ?? '');
+                if ($finfo) finfo_close($finfo);
+
+                $extByMime = [
+                    'image/jpeg' => 'jpg',
+                    'image/png'  => 'png',
+                    'image/webp' => 'webp',
+                    'image/gif'  => 'gif',
+                ];
+                if (!isset($extByMime[$mime])) {
+                    $error = 'Bildformat nicht unterstützt (nur JPG, PNG, WEBP, GIF).';
+                } else {
+                    $ext = $extByMime[$mime];
+                    $base = $slug !== '' ? $slug : 'event';
+                    $filename = $base . '-' . date('YmdHis') . '-' . substr(bin2hex(random_bytes(3)), 0, 6) . '.' . $ext;
+                    $targetDir = __DIR__ . '/../assets/img/events';
+                    if (!is_dir($targetDir)) {
+                        @mkdir($targetDir, 0755, true);
+                    }
+                    $targetFile = $targetDir . '/' . $filename;
+                    if (!move_uploaded_file($upload['tmp_name'], $targetFile)) {
+                        $error = 'Bild konnte nicht gespeichert werden.';
+                    } else {
+                        $imagePath = '/assets/img/events/' . $filename;
+                    }
+                }
+            }
+        }
+    }
+
+    if (!isset($error) || $error === null) {
         $data = [
             'title' => trim($_POST['title'] ?? ''),
-            'slug' => trim($_POST['slug'] ?? '') ?: createSlug($_POST['title'] ?? ''),
+            'slug' => $slug,
             'event_date' => $_POST['event_date'] ?? null,
             'event_time' => ($_POST['event_time'] ?? '') ?: null,
             'city' => trim($_POST['city'] ?? ''),
@@ -29,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'address' => trim($_POST['address'] ?? '') ?: null,
             'description_short' => trim($_POST['description_short'] ?? ''),
             'description_long' => trim($_POST['description_long'] ?? ''),
-            'image_path' => trim($_POST['image_path'] ?? '') ?: null,
+            'image_path' => $imagePath !== '' ? $imagePath : null,
             'status' => in_array($_POST['status'] ?? 'upcoming', ['upcoming', 'past', 'draft'], true) ? $_POST['status'] : 'upcoming',
             'is_opening' => isset($_POST['is_opening']) ? 1 : 0,
             'max_tickets' => (int) ($_POST['max_tickets'] ?? 0),
@@ -61,7 +107,7 @@ require __DIR__ . '/_header.php';
 
 <?php if ($error): ?><div class="form-flash form-flash-error"><?= e($error) ?></div><?php endif; ?>
 
-<form method="post" class="admin-form">
+<form method="post" class="admin-form" enctype="multipart/form-data">
   <?= csrfField() ?>
 
   <div class="form-grid-2">
@@ -85,7 +131,28 @@ require __DIR__ . '/_header.php';
   <label class="field"><span>Kurzbeschreibung</span><textarea name="description_short"><?= e((string) $item['description_short']) ?></textarea></label>
   <label class="field"><span>Lange Beschreibung</span><textarea name="description_long" rows="5"><?= e((string) $item['description_long']) ?></textarea></label>
 
-  <label class="field"><span>Bildpfad (z. B. /assets/img/events/...)</span><input name="image_path" value="<?= e((string) $item['image_path']) ?>"></label>
+  <div class="event-image-field">
+    <span class="field-label">Event-Bild</span>
+    <div class="event-image-preview">
+      <?php if (!empty($item['image_path'])): ?>
+        <img src="<?= e((string) $item['image_path']) ?>" alt="Aktuelles Event-Bild">
+      <?php else: ?>
+        <div class="media-fallback" aria-hidden="true"></div>
+        <p class="muted">Noch kein Bild – auf der Seite wird der Platzhalter angezeigt.</p>
+      <?php endif; ?>
+    </div>
+    <label class="field">
+      <span>Neues Bild hochladen (JPG, PNG, WEBP, GIF · max. 8 MB)</span>
+      <input type="file" name="image_file" accept="image/jpeg,image/png,image/webp,image/gif">
+    </label>
+    <label class="field"><span>oder Bildpfad manuell (optional)</span><input name="image_path" value="<?= e((string) $item['image_path']) ?>" placeholder="/assets/img/events/..."></label>
+    <?php if (!empty($item['image_path'])): ?>
+      <label class="check check-inline">
+        <input type="checkbox" name="remove_image" value="1">
+        Bild entfernen (leeres Feld speichern)
+      </label>
+    <?php endif; ?>
+  </div>
 
   <div class="form-grid-3">
     <label class="field">
