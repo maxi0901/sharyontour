@@ -137,9 +137,9 @@
     modal.querySelectorAll('.js-modal-close').forEach((el) => el.addEventListener('click', close));
 
     function openLocation(btn) {
-      const isOpening = btn.dataset.eventIsOpening === '1';
+      const isTicketOpening = btn.dataset.eventTicketOpening === '1';
       titleEl.textContent = btn.dataset.eventName || 'Event';
-      if (isOpening) {
+      if (isTicketOpening) {
         locationEl.textContent = 'Kassel';
         addressEl.textContent = 'Der genaue Standort wird rechtzeitig bekanntgegeben.';
       } else {
