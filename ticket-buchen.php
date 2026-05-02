@@ -123,21 +123,23 @@ require __DIR__ . '/includes/header.php';
       <div class="checkout-step"><span>3</span> Ticket</div>
     </div>
 
-    <div class="checkout-grid">
-      <div class="checkout-main">
-        <p class="kicker">CONTAINER OPENING · KASSEL</p>
-        <h1>GRATIS<br><span class="text-pink">TICKET</span> SICHERN</h1>
-        <p class="subline">Trag deine Daten ein und erhalte dein digitales Ticket sofort per E-Mail.</p>
+    <div class="checkout-single">
+      <p class="kicker">CONTAINER OPENING · KASSEL</p>
+      <h1>GRATIS<br><span class="text-pink">TICKET</span> SICHERN</h1>
+      <p class="subline">Trag deine Daten ein und erhalte dein digitales Ticket sofort per E-Mail.</p>
 
-        <form method="post" class="ticket-buy-form" id="ticketBuyForm" novalidate>
-          <?= csrfField() ?>
+      <form method="post" class="ticket-buy-form ticket-buy-form-stacked" id="ticketBuyForm" novalidate>
+        <?= csrfField() ?>
 
-          <?php if ($error): ?>
-            <div class="form-flash form-flash-error"><?= e($error) ?></div>
-          <?php endif; ?>
-          <?php if ($existingMessage): ?>
-            <div class="form-flash"><?= e($existingMessage) ?></div>
-          <?php endif; ?>
+        <?php if ($error): ?>
+          <div class="form-flash form-flash-error"><?= e($error) ?></div>
+        <?php endif; ?>
+        <?php if ($existingMessage): ?>
+          <div class="form-flash"><?= e($existingMessage) ?></div>
+        <?php endif; ?>
+
+        <div class="checkout-section">
+          <p class="checkout-section-kicker">DEINE DATEN</p>
 
           <label class="field">
             <span>Name *</span>
@@ -167,22 +169,10 @@ require __DIR__ . '/includes/header.php';
             <input type="checkbox" name="consent_privacy" value="1" required>
             Ich akzeptiere die <a href="/datenschutz.php">Datenschutzerklärung</a>.
           </label>
+        </div>
 
-          <?php if ($soldOut): ?>
-            <button class="btn btn-disabled" disabled>AUSVERKAUFT</button>
-            <a class="text-link" href="/index.php#newsletter">Auf Warteliste setzen →</a>
-          <?php else: ?>
-            <button class="btn btn-primary btn-block" type="submit" id="ticketSubmitBtn">
-              <span class="btn-label">JETZT GRATIS BUCHEN →</span>
-            </button>
-            <p class="muted form-hint">Pflichtfelder · Limit: 1 Ticket pro E-Mail · 100% kostenlos</p>
-          <?php endif; ?>
-        </form>
-      </div>
-
-      <aside class="checkout-summary">
-        <div class="summary-card">
-          <p class="summary-kicker">DEINE BESTELLUNG</p>
+        <div class="checkout-section checkout-section-summary">
+          <p class="checkout-section-kicker">DEINE BESTELLUNG</p>
           <div class="summary-event">
             <h3>Container Opening</h3>
             <p class="muted"><?= $opening ? formatDateLong($opening['event_date']) : '22. August 2026' ?></p>
@@ -216,7 +206,19 @@ require __DIR__ . '/includes/header.php';
             <li>Versand per E-Mail</li>
           </ul>
         </div>
-      </aside>
+
+        <div class="checkout-submit">
+          <?php if ($soldOut): ?>
+            <button class="btn btn-disabled btn-block" disabled>AUSVERKAUFT</button>
+            <a class="text-link" href="/index.php#newsletter">Auf Warteliste setzen →</a>
+          <?php else: ?>
+            <button class="btn btn-primary btn-block" type="submit" id="ticketSubmitBtn">
+              <span class="btn-label">JETZT GRATIS BUCHEN →</span>
+            </button>
+            <p class="muted form-hint">Pflichtfelder · Limit: 1 Ticket pro E-Mail · 100% kostenlos · Bestätigung per E-Mail</p>
+          <?php endif; ?>
+        </div>
+      </form>
     </div>
   </div>
 </section>

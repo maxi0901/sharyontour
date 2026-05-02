@@ -792,8 +792,8 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
   }
   .card-grid.events-scroll::-webkit-scrollbar { display: none; }
   .card-grid.events-scroll > .card {
-    flex: 0 0 78%;
-    min-width: 78%;
+    flex: 0 0 100%;
+    min-width: 100%;
     scroll-snap-align: start;
   }
   .card { padding: .75rem; border-radius: 14px; }
@@ -915,10 +915,10 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
     gap: .55rem;
   }
 
-  /* --- Events: etwas größere Cards beim Scrollen --- */
+  /* --- Events: Card füllt komplette Bildschirmbreite --- */
   .card-grid.events-scroll > .card {
-    flex: 0 0 86%;
-    min-width: 86%;
+    flex: 0 0 100%;
+    min-width: 100%;
   }
 
   /* --- Newsletter: Icon + Text bei sehr schmal stapeln --- */
@@ -1570,6 +1570,40 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
   background: linear-gradient(135deg, var(--neon-red), var(--neon-pink));
   box-shadow: 0 0 10px rgba(255,20,105,.55);
   flex-shrink: 0;
+}
+
+/* Single-box stacked checkout */
+.checkout-single {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.checkout-single h1 { line-height: .92; margin-bottom: .6rem; }
+.checkout-single .subline { margin-bottom: 1.4rem; }
+.ticket-buy-form-stacked { padding: 1.8rem; gap: 1.4rem; }
+.ticket-buy-form-stacked .checkout-section {
+  padding-top: 1.2rem;
+  border-top: 1px dashed rgba(255,255,255,.16);
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.ticket-buy-form-stacked .checkout-section:first-of-type {
+  padding-top: 0;
+  border-top: none;
+}
+.checkout-section-kicker {
+  color: var(--neon-red);
+  font-weight: 800; letter-spacing: .22em; font-size: .72rem; text-transform: uppercase;
+  margin: 0;
+}
+.ticket-buy-form-stacked .summary-list { margin: 0; padding: 1rem 0; }
+.ticket-buy-form-stacked .summary-features { margin: 0; }
+.checkout-submit {
+  display: flex; flex-direction: column; gap: .6rem;
+  padding-top: 1.2rem;
+  border-top: 1px dashed rgba(255,255,255,.16);
+}
+@media (max-width: 540px) {
+  .ticket-buy-form-stacked { padding: 1.2rem; gap: 1.1rem; }
+  .checkout-single h1 { font-size: 2.2rem; }
 }
 
 /* Loader overlay */

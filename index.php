@@ -39,7 +39,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 </section>
 
 <?php if ($currentEvent):
-  $currentIsOpening = (int) ($currentEvent['is_opening'] ?? 0) === 1;
+  $currentIsOpening = (int) ($currentEvent['is_opening'] ?? 0) === 1 || ($currentEvent['slug'] ?? '') === 'container-opening-kassel';
 ?>
 <section class="section container section-compact reveal" id="current-event">
   <article class="location-strip neon-frame">
@@ -86,7 +86,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
   <div class="carousel-wrap reveal-group">
     <div class="card-grid events-scroll">
       <?php foreach ($events as $event):
-        $isOpening = (int) ($event['is_opening'] ?? 0) === 1;
+        $isOpening = (int) ($event['is_opening'] ?? 0) === 1 || ($event['slug'] ?? '') === 'container-opening-kassel';
       ?>
         <article class="card event-card reveal <?= $isOpening ? 'is-opening' : '' ?>">
           <div class="card-media">
