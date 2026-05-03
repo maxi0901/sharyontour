@@ -71,6 +71,8 @@
     let pages = [];
     let dots = [];
 
+    const isMobileViewport = () => window.innerWidth <= 768;
+
     const clampIndex = (idx) => Math.max(0, Math.min(idx, pages.length - 1));
 
     const buildPages = () => {
@@ -141,12 +143,14 @@
     };
 
     prevBtns.forEach((btn) => btn.addEventListener('click', () => {
+      if (isMobileViewport()) return;
       const idx = currentIndex();
       if (idx <= 0) return;
       scrollToPage(idx - 1);
       if (trackClicks) trackCarouselClick('prev');
     }));
     nextBtns.forEach((btn) => btn.addEventListener('click', () => {
+      if (isMobileViewport()) return;
       const idx = currentIndex();
       if (idx >= pages.length - 1) return;
       scrollToPage(idx + 1);
