@@ -188,7 +188,6 @@ function buildTicketMailBodies(string $ticketIdValue, ?string $name, ?array $eve
     $ticketUrl = appUrl('/track-click.php?id=' . $tid . '&t=ticket');
     $icsUrl    = appUrl('/track-click.php?id=' . $tid . '&t=ics');
     $pdfUrl    = appUrl('/track-click.php?id=' . $tid . '&t=pdf');
-    $walletUrl = appUrl('/track-click.php?id=' . $tid . '&t=wallet');
     $pixelUrl  = appUrl('/track-open.php?id=' . $tid);
 
     $subject = 'Dein S-ART Gratis-Ticket · ' . $eventTitle;
@@ -197,7 +196,6 @@ function buildTicketMailBodies(string $ticketIdValue, ?string $name, ?array $eve
           . "dein digitales Ticket für \"{$eventTitle}\" ist bereit:\r\n\r\n"
           . "→ Ticket aufrufen: {$ticketUrl}\r\n"
           . "→ Kalender (.ics): {$icsUrl}\r\n"
-          . "→ Apple / Google Wallet: {$walletUrl}\r\n"
           . "→ PDF: {$pdfUrl}\r\n\r\n"
           . "Datum: {$eventDate}\r\n"
           . "Ort: Kassel — der genaue Standort wird rechtzeitig bekanntgegeben.\r\n\r\n"
@@ -235,7 +233,6 @@ function buildTicketMailBodies(string $ticketIdValue, ?string $name, ?array $eve
         <ul style="margin:0;padding:0 0 0 18px;font-size:14px;color:#333;line-height:1.7;">
           <li><a href="{$pdfUrl}" style="color:#ff2d8e;">PDF herunterladen</a></li>
           <li><a href="{$icsUrl}" style="color:#ff2d8e;">Termin in Kalender (.ics)</a></li>
-          <li><a href="{$walletUrl}" style="color:#ff2d8e;">Apple / Google Wallet</a></li>
         </ul>
       </td></tr>
       <tr><td style="padding:0 32px 24px 32px;border-top:1px solid #eee;">

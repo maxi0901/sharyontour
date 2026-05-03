@@ -10,8 +10,6 @@ if (!$ticket) {
     exit('Ticket nicht gefunden.');
 }
 
-$verifyUrl = appUrl('/ticket.php?id=' . urlencode($ticket['ticket_id']));
-$qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=10&data=' . urlencode($verifyUrl);
 ?><!doctype html>
 <html lang="de">
 <head>
@@ -25,8 +23,6 @@ $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=10&dat
     h1 { color: #fff; font-size: 28px; margin: 12px 0 8px; }
     .meta-row { display: flex; gap: 24px; margin-top: 16px; }
     .meta-label { color: #aab1c3; font-size: 11px; letter-spacing: 2px; }
-    .qr { text-align: center; margin: 20px 0; }
-    .qr img { width: 220px; height: 220px; border: 6px solid #fff; border-radius: 12px; }
     .ticket-id { font-family: monospace; font-size: 11px; color: #aab1c3; word-break: break-all; }
     .print-btn { display: inline-block; margin: 12px 0; padding: 10px 16px; background: #e2231a; color: #fff; border-radius: 8px; text-decoration: none; }
     @media print { .print-btn { display: none; } body { background: #fff; color: #000; } .pdf-ticket { background: #fff; color: #000; } .pdf-logo { color: #e2231a; } h1 { color: #000; } }
@@ -56,10 +52,6 @@ $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=10&dat
         <div class="meta-label">TICKET FÜR</div>
         <strong><?= e($ticket['name'] ?: $ticket['email']) ?></strong>
       </div>
-    </div>
-
-    <div class="qr">
-      <img src="<?= e($qrUrl) ?>" alt="QR Code">
     </div>
 
     <p class="ticket-id">ID: <?= e($ticket['ticket_id']) ?></p>
