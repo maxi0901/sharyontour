@@ -37,13 +37,60 @@
     });
   }
 
-  // Legacy carousel
-  document.querySelectorAll('.carousel-btn[data-scroll]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const wrap = btn.closest('.carousel-wrap');
-      const target = wrap && wrap.querySelector('.' + btn.dataset.scroll);
-      if (target) target.scrollBy({ left: target.clientWidth, behavior: 'smooth' });
+  // Carousel arrow buttons (prev/next) with boundary auto-hide + click tracking
+  function trackCarouselClick(direction) {
+    try {
+      const payload = JSON.stringify({
+        type: 'carousel_arrow',
+        direction: direction || 'next',
+        page: location.pathname
+      });
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/track-click.php', new Blob([payload], { type: 'application/json' }));
+      } else {
+        fetch('/api/track-click.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+          keepalive: true
+        });
+      }
+    } catch (err) { /* ignore */ }
+  }
+
+  document.querySelectorAll('.carousel-wrap').forEach((wrap) => {
+    const buttons = Array.from(wrap.querySelectorAll('.carousel-btn[data-scroll]'));
+    if (!buttons.length) return;
+    const target = wrap.querySelector('.' + buttons[0].dataset.scroll);
+    if (!target) return;
+
+    const prevBtns = buttons.filter((b) => b.dataset.direction === 'prev');
+    const nextBtns = buttons.filter((b) => b.dataset.direction !== 'prev');
+
+    const updateVisibility = () => {
+      const maxScroll = target.scrollWidth - target.clientWidth;
+      const noOverflow = maxScroll <= 2;
+      const atStart = target.scrollLeft <= 2;
+      const atEnd = target.scrollLeft >= maxScroll - 2;
+      prevBtns.forEach((b) => b.classList.toggle('is-hidden', noOverflow || atStart));
+      nextBtns.forEach((b) => b.classList.toggle('is-hidden', noOverflow || atEnd));
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const dir = btn.dataset.direction === 'prev' ? -1 : 1;
+        target.scrollBy({ left: dir * target.clientWidth, behavior: 'smooth' });
+        trackCarouselClick(btn.dataset.direction || 'next');
+      });
     });
+
+    let scrollTimer = null;
+    target.addEventListener('scroll', () => {
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(updateVisibility, 60);
+    });
+    window.addEventListener('resize', updateVisibility);
+    updateVisibility();
   });
 
 

@@ -12,6 +12,7 @@ $counts = [
     'Tickets'     => (int) (fetchOne('SELECT COUNT(*) c FROM tickets WHERE status="active"')['c'] ?? 0),
     'Galerie-Bilder' => (int) (fetchOne('SELECT COUNT(*) c FROM galleries')['c'] ?? 0),
     'Newsletter'  => (int) (fetchOne('SELECT COUNT(*) c FROM newsletter_subscribers')['c'] ?? 0),
+    'Klicks heute' => (int) (fetchOne('SELECT COUNT(*) c FROM click_logs WHERE DATE(created_at) = CURDATE()')['c'] ?? 0),
 ];
 ?>
 

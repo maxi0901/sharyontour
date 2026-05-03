@@ -43,6 +43,28 @@ function runTrackingMigrations(PDO $pdo): void
     }
 
     runNewsletterMigrations($pdo);
+    runClickTrackingMigrations($pdo);
+}
+
+function runClickTrackingMigrations(PDO $pdo): void
+{
+    try {
+        $pdo->exec(
+            "CREATE TABLE IF NOT EXISTS click_logs (
+              id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+              event_type VARCHAR(64) NOT NULL,
+              direction VARCHAR(16) NULL,
+              page_path VARCHAR(255) NULL,
+              ip_address VARCHAR(100) NULL,
+              user_agent VARCHAR(500) NULL,
+              created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+              INDEX idx_created (created_at),
+              INDEX idx_type (event_type)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+        );
+    } catch (Throwable $e) {
+        error_log('Click tracking migration failed: ' . $e->getMessage());
+    }
 }
 
 function runNewsletterMigrations(PDO $pdo): void

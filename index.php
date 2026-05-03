@@ -110,7 +110,12 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
         <p class="muted">Neue Events werden bald bekannt gegeben.</p>
       <?php endif; ?>
     </div>
-    <button class="carousel-btn" data-scroll="events-scroll" aria-label="Weitere Events anzeigen">
+    <button class="carousel-btn carousel-btn-prev is-hidden" data-scroll="events-scroll" data-direction="prev" aria-label="Vorherige Events anzeigen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <button class="carousel-btn carousel-btn-next" data-scroll="events-scroll" data-direction="next" aria-label="Weitere Events anzeigen">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
         <polyline points="9 18 15 12 9 6"/>
       </svg>
