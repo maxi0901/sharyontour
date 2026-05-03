@@ -602,6 +602,21 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
   transform: scale(1.15);
 }
 
+@media (max-width: 768px) {
+  .carousel-btn,
+  .carousel-arrow,
+  .carousel-arrow-left,
+  .carousel-arrow-right {
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  .carousel-wrap {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 .newsletter-box { border-radius:24px; padding:1.8rem 2rem; display:grid; grid-template-columns:1.1fr 1fr; gap:1.6rem; align-items:center; }
 .newsletter-box h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); }
 .newsletter-box p { margin-top:.35rem; color:#cdd2e0; font-size:.92rem; }
