@@ -44,10 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $bodyTextStored = $bodyText !== '' ? $bodyText : null;
 
         if ($action === 'save' || $action === 'test' || $action === 'send') {
-            if ($subject === '' || $bodyHtml === '') {
-                $flash = 'Betreff und HTML-Inhalt sind Pflicht.';
-                $flashType = 'error';
-            } else {
                 if ($id) {
                     $stmt = $pdo->prepare(
                         'UPDATE newsletter_campaigns
@@ -121,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             'failed' => $sendReport['failed'],
                         ]);
                     }
-                }
             }
         }
     }
@@ -255,13 +250,13 @@ require __DIR__ . '/_header.php';
   <input type="hidden" name="action" value="save" id="campaignAction">
 
   <label class="field">
-    <span>Betreff *</span>
-    <input name="subject" required maxlength="255" value="<?= e($campaign['subject']) ?>">
+    <span>Betreff</span>
+    <input name="subject" maxlength="255" value="<?= e($campaign['subject']) ?>">
   </label>
 
   <label class="field">
-    <span>HTML-Inhalt *</span>
-    <textarea name="body_html" rows="14" required><?= e($campaign['body_html']) ?></textarea>
+    <span>HTML-Inhalt</span>
+    <textarea name="body_html" rows="14"><?= e($campaign['body_html']) ?></textarea>
   </label>
 
   <label class="field">
