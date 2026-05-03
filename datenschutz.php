@@ -1,7 +1,7 @@
 <?php $pageTitle = 'Datenschutzerklärung'; require __DIR__ . '/includes/header.php'; ?>
-<section class="legal-page">
-  <div class="legal-content-wrapper">
-      <h1>Datenschutzerklärung</h1>
+<section class="legal-page privacy-page">
+  <div class="legal-content-wrapper legal-content">
+      <h1>Datenschutz<wbr>erklärung</h1>
 
       <div class="legal-section">
         <h2>1. Allgemeine Hinweise</h2>

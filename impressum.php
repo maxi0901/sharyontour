@@ -1,6 +1,6 @@
 <?php $pageTitle = 'Impressum'; require __DIR__ . '/includes/header.php'; ?>
-<section class="legal-page">
-  <div class="legal-content-wrapper">
+<section class="legal-page imprint-page">
+  <div class="legal-content-wrapper legal-content">
       <h1>Impressum</h1>
 
       <div class="legal-section">
