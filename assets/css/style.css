@@ -643,6 +643,99 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
 }
 
 .page-intro{ padding-top:3rem; }
+
+
+/* Legal pages (Impressum + Datenschutz) */
+.legal-page {
+  padding: 32px 0 48px;
+}
+
+.legal-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.legal-content-wrapper {
+  width: min(100%, 720px);
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.legal-content-wrapper h1,
+.legal-content-wrapper h2 {
+  font-family: 'Inter', sans-serif;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.legal-content-wrapper h1 {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 24px;
+}
+
+.legal-content-wrapper h2 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 40px 0 12px;
+}
+
+.legal-content-wrapper .legal-section:first-of-type h2 {
+  margin-top: 0;
+}
+
+.legal-content-wrapper p,
+.legal-content-wrapper li {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #e5e5e5;
+}
+
+.legal-content-wrapper p + p {
+  margin-top: 12px;
+}
+
+.legal-content-wrapper p + ul,
+.legal-content-wrapper ul + p {
+  margin-top: 12px;
+}
+
+.legal-content-wrapper ul {
+  margin: 12px 0 24px 16px;
+  padding-left: 16px;
+}
+
+.legal-divider {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 32px 0;
+}
+
+@media (min-width: 901px) {
+  .legal-container {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 900px) {
+  .legal-content-wrapper {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .legal-content-wrapper h1 {
+    font-size: 30px;
+  }
+
+  .legal-content-wrapper h2 {
+    font-size: 20px;
+  }
+}
 .highlight-card,.ticket-card,.timeline article { background: linear-gradient(180deg, rgba(20,24,36,.9), rgba(11,14,22,.88)); border:1px solid rgba(255,255,255,.15); border-radius:15px; padding:1rem; }
 .timeline{display:grid;gap:.8rem;}
 .flash{background:rgba(199,255,43,.12); border:1px solid rgba(199,255,43,.6); padding:.7rem .9rem; border-radius:10px;}
