@@ -58,57 +58,15 @@
     } catch (err) { /* ignore */ }
   }
 
-  document.querySelectorAll('.carousel-wrap').forEach((wrap) => {
-    const buttons = Array.from(wrap.querySelectorAll('.carousel-btn[data-scroll]'));
-    if (!buttons.length) return;
-    const target = wrap.querySelector('.' + buttons[0].dataset.scroll);
-    if (!target) return;
-
-    const prevBtns = buttons.filter((b) => b.dataset.direction === 'prev');
-    const nextBtns = buttons.filter((b) => b.dataset.direction !== 'prev');
-
-    const updateVisibility = () => {
-      const maxScroll = target.scrollWidth - target.clientWidth;
-      const noOverflow = maxScroll <= 2;
-      const atStart = target.scrollLeft <= 2;
-      const atEnd = target.scrollLeft >= maxScroll - 2;
-      prevBtns.forEach((b) => b.classList.toggle('is-hidden', noOverflow || atStart));
-      nextBtns.forEach((b) => b.classList.toggle('is-hidden', noOverflow || atEnd));
-    };
-
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        updateVisibility();
-        const maxScroll = Math.max(0, target.scrollWidth - target.clientWidth);
-        const atStart = target.scrollLeft <= 2;
-        const atEnd = target.scrollLeft >= maxScroll - 2;
-        const isPrev = btn.dataset.direction === 'prev';
-        if (maxScroll <= 2 || (isPrev && atStart) || (!isPrev && atEnd)) return;
-
-        const dir = isPrev ? -1 : 1;
-        target.scrollBy({ left: dir * target.clientWidth, behavior: 'smooth' });
-        trackCarouselClick(btn.dataset.direction || 'next');
-        setTimeout(updateVisibility, 0);
-      });
-    });
-
-    let scrollTimer = null;
-    target.addEventListener('scroll', () => {
-      if (scrollTimer) clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(updateVisibility, 60);
-    });
-    window.addEventListener('resize', updateVisibility);
-    updateVisibility();
-  });
-
-
-
   function initSliderDots(config) {
-    const { root, track, slideSelector, dotsWrap, dotClass, prevBtn, nextBtn, hideIfSingle } = config;
+    const { root, track, slideSelector, dotsWrap, dotClass, prevBtn, nextBtn, hideIfSingle, trackClicks } = config;
     if (!root || !track || !dotsWrap) return;
 
     const slides = Array.from(track.querySelectorAll(slideSelector));
     if (!slides.length) return;
+
+    const prevBtns = Array.isArray(prevBtn) ? prevBtn : (prevBtn ? [prevBtn] : []);
+    const nextBtns = Array.isArray(nextBtn) ? nextBtn : (nextBtn ? [nextBtn] : []);
 
     let pages = [];
     let dots = [];
@@ -162,14 +120,16 @@
       dots.forEach((dot, i) => dot.classList.toggle('is-active', i === idx));
       const disablePrev = pages.length <= 1 || idx <= 0;
       const disableNext = pages.length <= 1 || idx >= pages.length - 1;
-      if (prevBtn) {
-        prevBtn.classList.toggle('is-disabled', disablePrev);
-        prevBtn.disabled = disablePrev;
-      }
-      if (nextBtn) {
-        nextBtn.classList.toggle('is-disabled', disableNext);
-        nextBtn.disabled = disableNext;
-      }
+      prevBtns.forEach((btn) => {
+        btn.classList.toggle('is-disabled', disablePrev);
+        btn.classList.remove('is-hidden');
+        btn.disabled = disablePrev;
+      });
+      nextBtns.forEach((btn) => {
+        btn.classList.toggle('is-disabled', disableNext);
+        btn.classList.remove('is-hidden');
+        btn.disabled = disableNext;
+      });
     };
 
     const scrollToPage = (idx) => {
@@ -180,16 +140,18 @@
       updateControls();
     };
 
-    if (prevBtn) prevBtn.addEventListener('click', () => {
+    prevBtns.forEach((btn) => btn.addEventListener('click', () => {
       const idx = currentIndex();
       if (idx <= 0) return;
       scrollToPage(idx - 1);
-    });
-    if (nextBtn) nextBtn.addEventListener('click', () => {
+      if (trackClicks) trackCarouselClick('prev');
+    }));
+    nextBtns.forEach((btn) => btn.addEventListener('click', () => {
       const idx = currentIndex();
       if (idx >= pages.length - 1) return;
       scrollToPage(idx + 1);
-    });
+      if (trackClicks) trackCarouselClick('next');
+    }));
 
     let timer = null;
     track.addEventListener('scroll', () => {
@@ -215,7 +177,10 @@
       slideSelector: '.event-card, .card',
       dotsWrap: wrap.parentElement && wrap.parentElement.querySelector('[data-event-dots]'),
       dotClass: 'event-dot',
-      hideIfSingle: true
+      prevBtn: Array.from(wrap.querySelectorAll('.carousel-btn[data-direction="prev"]')),
+      nextBtn: Array.from(wrap.querySelectorAll('.carousel-btn[data-direction="next"]')),
+      hideIfSingle: true,
+      trackClicks: true
     });
   });
 
