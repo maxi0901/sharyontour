@@ -35,8 +35,8 @@ function getNewsletterMailConfig(): array
     return [
         'host'       => getenv('NEWSLETTER_SMTP_HOST') ?: 'mxe989.netcup.net',
         'port'       => (int) (getenv('NEWSLETTER_SMTP_PORT') ?: 465),
-        'username'   => getenv('NEWSLETTER_SMTP_USER') ?: '',
-        'password'   => getenv('NEWSLETTER_SMTP_PASS') ?: '',
+        'username'   => getenv('NEWSLETTER_SMTP_USER') ?: 'Newsletter@sharyontour.de',
+        'password'   => getenv('NEWSLETTER_SMTP_PASS') ?: 'M4%v25d5u',
         'encryption' => getenv('NEWSLETTER_SMTP_ENCRYPTION') ?: 'ssl',
         'from_email' => getenv('NEWSLETTER_FROM_EMAIL') ?: 'Newsletter@sharyontour.de',
         'from_name'  => getenv('NEWSLETTER_FROM_NAME') ?: 'Shary on Tour',
