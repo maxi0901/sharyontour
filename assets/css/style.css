@@ -576,6 +576,14 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
   transform: translateY(-50%) scale(.85);
 }
 
+.carousel-arrow.is-disabled,
+.carousel-btn.is-disabled,
+.event-slider-nav.is-disabled {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
 .event-dots { display:flex; justify-content:center; gap:.55rem; margin-top:1.2rem; }
 .event-dot {
   width: 10px; height: 10px;
