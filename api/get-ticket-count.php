@@ -9,11 +9,20 @@ if ($eventId <= 0) {
     echo json_encode(['message' => 'Ungültige event_id']);
     exit;
 }
-$event = fetchOne('SELECT id FROM events WHERE id=:id LIMIT 1', ['id' => $eventId]);
+$event = fetchOne('SELECT id, max_tickets FROM events WHERE id=:id LIMIT 1', ['id' => $eventId]);
 if (!$event) {
     http_response_code(404);
     echo json_encode(['message' => 'Event nicht gefunden']);
     exit;
 }
-$count = (int) (fetchOne('SELECT COUNT(*) AS c FROM tickets WHERE event_id=:id AND status="active"', ['id' => $eventId])['c'] ?? 0);
-echo json_encode(['count' => $count]);
+$count = countTicketsForEvent($eventId);
+$max = (int) ($event['max_tickets'] ?? 600);
+if ($max <= 0) {
+    $max = 600;
+}
+echo json_encode([
+    'count'     => $count,
+    'max'       => $max,
+    'threshold' => TICKET_TRACKER_THRESHOLD,
+    'label'     => ticketTrackerLabel($count, $max),
+]);

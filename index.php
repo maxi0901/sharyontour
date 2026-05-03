@@ -47,6 +47,16 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 
 <?php if ($currentEvent):
   $currentIsOpening = (int) ($currentEvent['is_opening'] ?? 0) === 1 || ($currentEvent['slug'] ?? '') === 'container-opening-kassel';
+  if ($currentIsOpening) {
+      $currentSold = countTicketsForEvent((int) $currentEvent['id']);
+      $currentMax  = (int) ($currentEvent['max_tickets'] ?? 600);
+      if ($currentMax <= 0) {
+          $currentMax = 600;
+      }
+      $currentTrackerLabel = ticketTrackerLabel($currentSold, $currentMax);
+      $currentTrackerDanger = $currentSold >= $currentMax
+          || ($currentSold >= TICKET_TRACKER_THRESHOLD && ($currentMax - $currentSold) < 100);
+  }
 ?>
 <section class="section container section-compact reveal" id="current-event">
   <article class="location-strip neon-frame">
@@ -63,6 +73,9 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
           <h2><?= e($currentEvent['title']) ?></h2>
           <p><?= e((string) ($currentEvent['location_name'] ?: $currentEvent['city'])) ?></p>
           <p class="date"><?= formatDate($currentEvent['event_date']) ?></p>
+          <?php if ($currentIsOpening): ?>
+            <p class="ticket-tracker<?= $currentTrackerDanger ? ' text-danger' : '' ?>"><?= e($currentTrackerLabel) ?></p>
+          <?php endif; ?>
         </div>
       </div>
     </div>

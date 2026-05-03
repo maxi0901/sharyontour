@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../config/database.php';
 
+const TICKET_TRACKER_THRESHOLD = 150;
+
 function e(?string $value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
@@ -124,6 +126,17 @@ function countTicketsForEvent(int $eventId): int
 {
     $row = fetchOne('SELECT COUNT(*) AS c FROM tickets WHERE event_id=:e AND status="active"', ['e' => $eventId]);
     return (int) ($row['c'] ?? 0);
+}
+
+function ticketTrackerLabel(int $sold, int $max): string
+{
+    if ($sold >= $max) {
+        return 'Ausverkauft';
+    }
+    if ($sold < TICKET_TRACKER_THRESHOLD) {
+        return 'Maximal ' . $max . ' Tickets';
+    }
+    return 'Noch ' . ($max - $sold) . ' Tickets';
 }
 
 function getTicketByTicketId(string $ticketId): ?array

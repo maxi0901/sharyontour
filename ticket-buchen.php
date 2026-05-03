@@ -201,13 +201,9 @@ require __DIR__ . '/includes/header.php';
           </div>
 
           <div class="summary-stock <?= $soldOut ? 'is-sold' : ($lowStock ? 'is-low' : '') ?>">
-            <?php if ($soldOut): ?>
-              <strong>AUSVERKAUFT</strong>
-            <?php else: ?>
-              <strong>Noch <?= $remaining ?> von <?= $maxTickets ?> verfügbar</strong>
-              <?php if ($lowStock): ?>
-                <span class="warning">Letzte Tickets — sichere dir deinen Platz.</span>
-              <?php endif; ?>
+            <strong><?= e(ticketTrackerLabel($soldTickets, $maxTickets)) ?></strong>
+            <?php if (!$soldOut && $lowStock && $soldTickets >= TICKET_TRACKER_THRESHOLD): ?>
+              <span class="warning">Letzte Tickets — sichere dir deinen Platz.</span>
             <?php endif; ?>
           </div>
 

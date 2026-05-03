@@ -232,9 +232,14 @@
     try {
       const res = await fetch(`/api/get-ticket-count.php?event_id=${encodeURIComponent(id)}`);
       const data = await res.json();
-      const remaining = Math.max(0, 600 - Number(data.count || 0));
-      el.textContent = remaining <= 0 ? 'Ausverkauft' : `Noch ${remaining} Tickets verfügbar`;
-      if (remaining < 100) el.classList.add('text-danger');
+      const count = Number(data.count || 0);
+      const max = Number(data.max || 600);
+      const threshold = Number(data.threshold || 150);
+      const remaining = Math.max(0, max - count);
+      el.textContent = data.label || (remaining <= 0 ? 'Ausverkauft' : `Noch ${remaining} Tickets`);
+      if (remaining <= 0 || (count >= threshold && remaining < 100)) {
+        el.classList.add('text-danger');
+      }
       if (remaining <= 0) {
         const ticketBtn = document.querySelector(`.js-ticket-btn[data-event-id="${id}"]`);
         if (ticketBtn) { ticketBtn.disabled = true; ticketBtn.textContent = 'Ausverkauft'; }
