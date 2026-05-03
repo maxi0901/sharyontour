@@ -38,20 +38,7 @@
   <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse)</p>
 
   <h2>5. Cookies</h2>
-  <p>Unsere Website verwendet Cookies.</p>
-  <p>Dabei handelt es sich um kleine Textdateien, die auf Ihrem Endgerät gespeichert werden.</p>
-
-  <h3>Notwendige Cookies</h3>
-  <p>Diese Cookies sind für den Betrieb der Website erforderlich und können nicht deaktiviert werden.</p>
-  <p>Dazu gehören insbesondere:</p>
-  <ul>
-    <li>Session-Cookies (z. B. für Formulare oder Login)</li>
-    <li>Sicherheitsmechanismen (z. B. CSRF-Schutz)</li>
-    <li>Speicherung Ihrer Cookie-Einstellungen</li>
-  </ul>
-
-  <h3>Optionale Cookies</h3>
-  <p>Aktuell werden keine optionalen Cookies für Tracking oder Marketing eingesetzt.</p>
+  <p>Unsere Website verwendet derzeit keine Cookies.</p>
 
   <h2>6. Ticket-Funktion</h2>
   <p>Über unsere Website können Tickets für Veranstaltungen erstellt werden.</p>

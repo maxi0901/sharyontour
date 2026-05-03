@@ -1994,17 +1994,3 @@ input,textarea,select { width:100%; border-radius:11px; border:1px solid rgba(25
   transition-timing-function: cubic-bezier(.22,.61,.36,1);
 }
 
-.footer-cookie-settings {
-  appearance: none;
-  background: transparent;
-  border: 0;
-  color: inherit;
-  font: inherit;
-  padding: 0;
-  text-align: left;
-  cursor: pointer;
-}
-.footer-cookie-settings:hover,
-.footer-cookie-settings:focus-visible {
-  text-decoration: underline;
-}

@@ -9,7 +9,6 @@
     <div class="footer-links">
       <a href="/impressum.php">Impressum</a>
       <a href="/datenschutz.php">Datenschutz</a>
-      <button type="button" class="footer-cookie-settings" data-open-cookie-settings>Cookie-Einstellungen</button>
       <a href="/booking.php">Kontakt</a>
       <a href="<?= e($siteConfig['shop_url']) ?>" target="_blank" rel="noopener noreferrer">Shop</a>
     </div>
@@ -35,8 +34,6 @@
   </div>
 </div>
 
-<?php require __DIR__ . '/cookie-consent.php'; ?>
-<script src="/assets/js/cookie-consent.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </body>
 </html>
