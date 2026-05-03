@@ -15,6 +15,7 @@ if ($id) {
 }
 
 $error = null;
+$eventImageUploadMaxBytes = 52428800;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verifyCsrf($_POST['csrf_token'] ?? null)) {
         $error = 'CSRF Fehler.';
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $upload = $_FILES['image_file'];
             if ((int) $upload['error'] !== UPLOAD_ERR_OK) {
                 $error = 'Bild-Upload fehlgeschlagen (Code ' . (int) $upload['error'] . ').';
-            } elseif ($upload['size'] > 50 * 1024 * 1024) {
+            } elseif ($upload['size'] > $eventImageUploadMaxBytes) {
                 $error = 'Bild ist größer als 50 MB.';
             } else {
                 $finfo = function_exists('finfo_open') ? finfo_open(FILEINFO_MIME_TYPE) : false;
@@ -109,6 +110,7 @@ require __DIR__ . '/_header.php';
 
 <form method="post" class="admin-form" enctype="multipart/form-data">
   <?= csrfField() ?>
+  <input type="hidden" name="MAX_FILE_SIZE" value="<?= $eventImageUploadMaxBytes ?>">
 
   <div class="form-grid-2">
     <label class="field"><span>Titel *</span><input name="title" required value="<?= e($item['title']) ?>"></label>
@@ -142,7 +144,7 @@ require __DIR__ . '/_header.php';
       <?php endif; ?>
     </div>
     <label class="field">
-      <span>Neues Bild hochladen (JPG, PNG, WEBP, GIF · max. 50 MB)</span>
+      <span>Neues Bild hochladen (JPG, PNG, WEBP, GIF · MAX. 50 MB)</span>
       <input type="file" name="image_file" accept="image/jpeg,image/png,image/webp,image/gif">
     </label>
     <label class="field"><span>oder Bildpfad manuell (optional)</span><input name="image_path" value="<?= e((string) $item['image_path']) ?>" placeholder="/assets/img/events/..."></label>
