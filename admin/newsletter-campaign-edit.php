@@ -99,20 +99,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 } elseif ($action === 'send') {
                     $confirm = $_POST['confirm_send'] ?? '';
+                    $liveConfirmed = hasColumn('newsletter_subscribers', 'status')
+                        ? (int) (fetchOne("SELECT COUNT(*) AS c FROM newsletter_subscribers WHERE status='confirmed'")['c'] ?? 0)
+                        : 0;
                     if ($confirm !== 'SENDEN') {
                         $flash = 'Sicherheits-Bestätigung fehlt. Bitte tippe "SENDEN" in das Bestätigungsfeld, um den Versand auszulösen.';
                         $flashType = 'error';
                     } elseif (!hasColumn('newsletter_subscribers', 'status')) {
                         $flash = 'Datenbank-Migration noch nicht abgeschlossen – status-Spalte fehlt. Bitte Seite einmal neu laden.';
                         $flashType = 'error';
+                    } elseif ($liveConfirmed === 0) {
+                        $flash = 'Es gibt aktuell keine bestätigten Abonnenten in der Datenbank. Versand abgebrochen.';
+                        $flashType = 'error';
+                        logNewsletterEvent('campaign_send_blocked_no_recipients', ['campaign_id' => $id]);
                     } elseif (in_array(($campaign['status'] ?? 'draft'), ['sent', 'sending'], true)) {
                         $flash = 'Diese Kampagne wurde bereits versendet bzw. läuft aktuell.';
                         $flashType = 'error';
                     } else {
-                        logNewsletterEvent('campaign_send_start', ['campaign_id' => $id, 'subject' => $subject]);
+                        logNewsletterEvent('campaign_send_start', [
+                            'campaign_id' => $id,
+                            'subject' => $subject,
+                            'confirmed_count' => $liveConfirmed,
+                        ]);
                         $sendReport = sendNewsletterCampaign($pdo, $id, $subject, $bodyHtml, $bodyTextStored);
                         $campaign = fetchOne('SELECT * FROM newsletter_campaigns WHERE id=:id', ['id' => $id]) ?: $campaign;
-                        $flash = 'Versand abgeschlossen: ' . $sendReport['sent'] . ' gesendet, ' . $sendReport['failed'] . ' fehlgeschlagen.';
+                        $flash = 'Versand abgeschlossen: ' . $sendReport['sent'] . ' gesendet, ' . $sendReport['failed'] . ' fehlgeschlagen (' . $sendReport['total'] . ' Empfänger laut Datenbank).';
                         $flashType = $sendReport['failed'] > 0 ? 'error' : 'success';
                         logNewsletterEvent('campaign_send_done', [
                             'campaign_id' => $id,
@@ -288,19 +299,78 @@ require __DIR__ . '/_header.php';
 
   <fieldset class="campaign-fieldset campaign-fieldset-danger">
     <legend>Versand an alle bestätigten Empfänger</legend>
-    <p>Aktuell <strong><?= $confirmedCount ?></strong> bestätigte Abonnenten. Tippe zur Bestätigung das Wort <strong>SENDEN</strong> in das Feld und klicke auf den Button.</p>
+    <p>
+      Aktuell <strong id="confirmedCountLabel" data-count="<?= $confirmedCount ?>"><?= $confirmedCount ?></strong>
+      <span id="confirmedCountWord"><?= $confirmedCount === 1 ? 'bestätigter Abonnent' : 'bestätigte Abonnenten' ?></span>
+      <span class="muted" style="font-size:.78rem;">(Live aus Datenbank,
+        <a href="#" id="refreshConfirmedCount" class="text-link">↻ aktualisieren</a>,
+        zuletzt: <span id="confirmedCountFetchedAt"><?= date('H:i:s') ?></span>)</span>.
+      Tippe zur Bestätigung das Wort <strong>SENDEN</strong> in das Feld und klicke auf den Button.
+    </p>
+    <?php if ($confirmedCount === 0): ?>
+      <p class="muted" style="font-size:.82rem;">Aktuell keine bestätigten Abonnenten in der Datenbank — der Versand-Button wird erst aktiv, sobald mindestens eine Adresse den Status <code>confirmed</code> hat.</p>
+    <?php endif; ?>
     <div class="field-row">
       <label class="field field-grow">
         <span>Bestätigung (genau "SENDEN")</span>
         <input type="text" name="confirm_send" placeholder="SENDEN" autocomplete="off">
       </label>
-      <button class="btn btn-primary btn-sm" type="submit"
-              onclick="document.getElementById('campaignAction').value='send';return confirm('Newsletter jetzt an <?= $confirmedCount ?> bestätigte Empfänger senden?');">
+      <button class="btn btn-primary btn-sm" type="submit" id="sendCampaignBtn"
+              <?= $confirmedCount === 0 ? 'disabled' : '' ?>
+              onclick="return triggerCampaignSend();">
         Newsletter jetzt senden →
       </button>
     </div>
   </fieldset>
 </form>
+
+<script>
+(function () {
+  var label = document.getElementById('confirmedCountLabel');
+  var word = document.getElementById('confirmedCountWord');
+  var fetchedAt = document.getElementById('confirmedCountFetchedAt');
+  var sendBtn = document.getElementById('sendCampaignBtn');
+  var refreshLink = document.getElementById('refreshConfirmedCount');
+
+  function applyCount(n) {
+    if (!label) return;
+    label.textContent = String(n);
+    label.dataset.count = String(n);
+    if (word) word.textContent = (n === 1) ? 'bestätigter Abonnent' : 'bestätigte Abonnenten';
+    if (sendBtn) sendBtn.disabled = (n === 0);
+  }
+
+  function refreshCount(ev) {
+    if (ev) ev.preventDefault();
+    fetch('/api/get-newsletter-recipient-count.php', { credentials: 'same-origin', cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data && typeof data.confirmed === 'number') {
+          applyCount(data.confirmed);
+          if (fetchedAt) {
+            var d = new Date();
+            fetchedAt.textContent = d.toTimeString().slice(0, 8);
+          }
+        }
+      })
+      .catch(function () { /* keep last known value */ });
+  }
+
+  if (refreshLink) refreshLink.addEventListener('click', refreshCount);
+  refreshCount();
+
+  window.triggerCampaignSend = function () {
+    var action = document.getElementById('campaignAction');
+    if (action) action.value = 'send';
+    var current = label ? parseInt(label.dataset.count || '0', 10) : 0;
+    if (!current || current < 1) {
+      alert('Aktuell keine bestätigten Abonnenten in der Datenbank.');
+      return false;
+    }
+    return confirm('Newsletter jetzt an ' + current + ' bestätigte Empfänger senden?');
+  };
+})();
+</script>
 
 <?php if ($id && $logRows): ?>
   <h2 style="margin-top:2rem;">Versandlog (letzte 100)</h2>
