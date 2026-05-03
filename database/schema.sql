@@ -97,3 +97,15 @@ CREATE TABLE IF NOT EXISTS ticket_logs (
   error_message TEXT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS click_logs (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  event_type VARCHAR(64) NOT NULL,
+  direction VARCHAR(16) NULL,
+  page_path VARCHAR(255) NULL,
+  ip_address VARCHAR(100) NULL,
+  user_agent VARCHAR(500) NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_created (created_at),
+  INDEX idx_type (event_type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
