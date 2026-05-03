@@ -21,7 +21,7 @@ return [
         'postal_city' => '45127 Essen',
         'phone_display' => '+49 175 4443122',
         'phone_href' => '+491754443122',
-        'email' => 'info@sart.work',
+        'email' => 'kontakt@sharyontour.de',
     ],
     'opening_hours' => [
         'Montag bis Freitag' => '08:00 bis 18:30 Uhr',
