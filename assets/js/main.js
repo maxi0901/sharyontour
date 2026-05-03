@@ -78,9 +78,17 @@
 
     buttons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const dir = btn.dataset.direction === 'prev' ? -1 : 1;
+        updateVisibility();
+        const maxScroll = Math.max(0, target.scrollWidth - target.clientWidth);
+        const atStart = target.scrollLeft <= 2;
+        const atEnd = target.scrollLeft >= maxScroll - 2;
+        const isPrev = btn.dataset.direction === 'prev';
+        if (maxScroll <= 2 || (isPrev && atStart) || (!isPrev && atEnd)) return;
+
+        const dir = isPrev ? -1 : 1;
         target.scrollBy({ left: dir * target.clientWidth, behavior: 'smooth' });
         trackCarouselClick(btn.dataset.direction || 'next');
+        setTimeout(updateVisibility, 0);
       });
     });
 
@@ -104,6 +112,8 @@
 
     let pages = [];
     let dots = [];
+
+    const clampIndex = (idx) => Math.max(0, Math.min(idx, pages.length - 1));
 
     const buildPages = () => {
       const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
@@ -144,33 +154,58 @@
         const dist = Math.abs(track.scrollLeft - start);
         if (dist < bestDist) { bestDist = dist; best = idx; }
       });
-      return best;
+      return clampIndex(best);
     };
 
-    const setActive = (idx) => dots.forEach((dot, i) => dot.classList.toggle('is-active', i === idx));
+    const updateControls = () => {
+      const idx = currentIndex();
+      dots.forEach((dot, i) => dot.classList.toggle('is-active', i === idx));
+      const disablePrev = pages.length <= 1 || idx <= 0;
+      const disableNext = pages.length <= 1 || idx >= pages.length - 1;
+      if (prevBtn) {
+        prevBtn.classList.toggle('is-disabled', disablePrev);
+        prevBtn.disabled = disablePrev;
+      }
+      if (nextBtn) {
+        nextBtn.classList.toggle('is-disabled', disableNext);
+        nextBtn.disabled = disableNext;
+      }
+    };
+
     const scrollToPage = (idx) => {
-      const left = pages[idx];
+      const safeIndex = clampIndex(idx);
+      const left = pages[safeIndex];
       if (typeof left !== 'number') return;
       track.scrollTo({ left, behavior: 'smooth' });
-      setActive(idx);
+      updateControls();
     };
 
-    if (prevBtn) prevBtn.addEventListener('click', () => scrollToPage(Math.max(0, currentIndex() - 1)));
-    if (nextBtn) nextBtn.addEventListener('click', () => scrollToPage(Math.min(pages.length - 1, currentIndex() + 1)));
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+      const idx = currentIndex();
+      if (idx <= 0) return;
+      scrollToPage(idx - 1);
+    });
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+      const idx = currentIndex();
+      if (idx >= pages.length - 1) return;
+      scrollToPage(idx + 1);
+    });
 
     let timer = null;
     track.addEventListener('scroll', () => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => setActive(currentIndex()), 80);
+      timer = setTimeout(updateControls, 80);
     });
 
     window.addEventListener('resize', () => {
       buildPages();
-      setActive(currentIndex());
+      scrollToPage(currentIndex());
+      updateControls();
     });
 
     buildPages();
-    setActive(currentIndex());
+    scrollToPage(currentIndex());
+    updateControls();
   }
 
   document.querySelectorAll('.carousel-wrap').forEach((wrap) => {
