@@ -1,7 +1,6 @@
 <?php $pageTitle = 'Datenschutzerklärung'; require __DIR__ . '/includes/header.php'; ?>
 <section class="legal-page">
-  <div class="legal-container">
-    <div class="legal-content-wrapper">
+  <div class="legal-content-wrapper">
       <h1>Datenschutzerklärung</h1>
 
       <div class="legal-section">
@@ -9,8 +8,6 @@
         <p>Der Schutz Ihrer persönlichen Daten ist uns ein wichtiges Anliegen.</p>
         <p>Wir verarbeiten Ihre Daten ausschließlich im Rahmen der gesetzlichen Vorschriften (DSGVO, TTDSG).</p>
       </div>
-
-      <hr class="legal-divider">
 
       <div class="legal-section">
         <h2>2. Verantwortlicher</h2>
@@ -24,8 +21,6 @@
         </p>
       </div>
 
-      <hr class="legal-divider">
-
       <div class="legal-section">
         <h2>3. Hosting</h2>
         <p>Unsere Website wird bei folgendem Anbieter gehostet:</p>
@@ -36,8 +31,6 @@
         </p>
         <p>Beim Aufruf der Website werden durch den Hostinganbieter automatisch Server-Logfiles erhoben.</p>
       </div>
-
-      <hr class="legal-divider">
 
       <div class="legal-section">
         <h2>4. Zugriffsdaten (Server-Logfiles)</h2>
@@ -53,14 +46,10 @@
         <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse)</p>
       </div>
 
-      <hr class="legal-divider">
-
       <div class="legal-section">
         <h2>5. Cookies</h2>
         <p>Unsere Website verwendet derzeit keine Cookies.</p>
       </div>
-
-      <hr class="legal-divider">
 
       <div class="legal-section">
         <h2>6. Ticket-Funktion</h2>
@@ -75,8 +64,6 @@
         <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung)</p>
       </div>
 
-      <hr class="legal-divider">
-
       <div class="legal-section">
         <h2>7. Kontakt / Newsletter</h2>
         <p>Wenn Sie sich für unseren Newsletter anmelden oder uns kontaktieren, verarbeiten wir folgende Daten:</p>
@@ -89,8 +76,6 @@
         <p>Sie können Ihre Einwilligung jederzeit widerrufen.</p>
       </div>
 
-      <hr class="legal-divider">
-
       <div class="legal-section">
         <h2>8. Speicherdauer</h2>
         <p>Ihre personenbezogenen Daten werden nur so lange gespeichert, wie dies für die jeweiligen Zwecke erforderlich ist.</p>
@@ -100,8 +85,6 @@
           <li>Server-Logfiles: in der Regel wenige Tage</li>
         </ul>
       </div>
-
-      <hr class="legal-divider">
 
       <div class="legal-section">
         <h2>9. Ihre Rechte</h2>
@@ -117,20 +100,15 @@
         <p>Zudem haben Sie das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren.</p>
       </div>
 
-      <hr class="legal-divider">
-
       <div class="legal-section">
         <h2>10. SSL-/TLS-Verschlüsselung</h2>
         <p>Diese Seite nutzt aus Sicherheitsgründen eine SSL- bzw. TLS-Verschlüsselung.</p>
       </div>
 
-      <hr class="legal-divider">
-
       <div class="legal-section">
         <h2>11. Änderungen</h2>
         <p>Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen.</p>
       </div>
-    </div>
   </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>
