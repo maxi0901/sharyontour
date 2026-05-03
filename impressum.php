@@ -1,7 +1,6 @@
 <?php $pageTitle = 'Impressum'; require __DIR__ . '/includes/header.php'; ?>
 <section class="legal-page">
-  <div class="legal-container">
-    <div class="legal-content-wrapper">
+  <div class="legal-content-wrapper">
       <h1>Impressum</h1>
 
       <div class="legal-section">
@@ -14,14 +13,10 @@
         </p>
       </div>
 
-      <hr class="legal-divider">
-
       <div class="legal-section">
         <h2>Kontakt</h2>
         <p>E-Mail: <a href="mailto:kontakt@dodidis-media.de">kontakt@dodidis-media.de</a></p>
       </div>
-
-      <hr class="legal-divider">
 
       <div class="legal-section">
         <h2>Umsatzsteuer-ID</h2>
@@ -30,8 +25,6 @@
           DE458587908
         </p>
       </div>
-
-      <hr class="legal-divider">
 
       <div class="legal-section">
         <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
@@ -42,8 +35,6 @@
         </p>
       </div>
 
-      <hr class="legal-divider">
-
       <div class="legal-section">
         <h2>Haftung für Inhalte</h2>
         <p>
@@ -51,8 +42,6 @@
           Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen.
         </p>
       </div>
-
-      <hr class="legal-divider">
 
       <div class="legal-section">
         <h2>Haftung für Links</h2>
@@ -62,8 +51,6 @@
         </p>
       </div>
 
-      <hr class="legal-divider">
-
       <div class="legal-section">
         <h2>Urheberrecht</h2>
         <p>
@@ -71,7 +58,6 @@
           Die Vervielfältigung, Bearbeitung und Verbreitung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung.
         </p>
       </div>
-    </div>
   </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>
