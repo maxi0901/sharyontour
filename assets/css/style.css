@@ -676,6 +676,7 @@ html, body { overflow-x: hidden; }
 
 .legal-page * {
   max-width: 100%;
+  box-sizing: border-box;
 }
 
 .legal-content-wrapper h1,
@@ -748,6 +749,16 @@ html, body { overflow-x: hidden; }
 }
 
 @media (max-width: 768px) {
+  .legal-page,
+  .legal-content,
+  .privacy-page,
+  .imprint-page {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
   .legal-page {
     padding: 32px 18px calc(120px + env(safe-area-inset-bottom));
   }
@@ -757,11 +768,27 @@ html, body { overflow-x: hidden; }
     margin-top: 28px;
   }
 
-  .legal-content-wrapper h1 {
-    font-size: clamp(2.4rem, 11vw, 4.2rem);
+  .legal-page h1,
+  .privacy-page h1,
+  .imprint-page h1 {
+    font-size: clamp(2.1rem, 13vw, 3.4rem);
     line-height: 0.9;
-    letter-spacing: -0.03em;
-    max-width: 100%;
+    max-width: calc(100vw - 36px);
+    width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
+    letter-spacing: -0.04em;
+  }
+
+  .legal-content-wrapper h1 {
+    font-size: clamp(2.1rem, 13vw, 3.4rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    max-width: calc(100vw - 36px);
+    width: 100%;
+    white-space: normal;
     overflow-wrap: break-word;
     hyphens: auto;
   }
@@ -780,6 +807,11 @@ html, body { overflow-x: hidden; }
     font-size: 1rem;
     line-height: 1.65;
     color: rgba(255, 255, 255, 0.88);
+  }
+
+  .legal-page * {
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 .highlight-card,.ticket-card,.timeline article { background: linear-gradient(180deg, rgba(20,24,36,.9), rgba(11,14,22,.88)); border:1px solid rgba(255,255,255,.15); border-radius:15px; padding:1rem; }
