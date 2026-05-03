@@ -88,7 +88,7 @@ try {
 
     try {
         require_once __DIR__ . '/../config/mail.php';
-        $eventForMail = fetchOne('SELECT id, title, event_date FROM events WHERE id = :id LIMIT 1', ['id' => $eventId]);
+        $eventForMail = fetchOne('SELECT id, title, event_date, event_time FROM events WHERE id = :id LIMIT 1', ['id' => $eventId]);
         sendTicketMail($pdo, $email, $ticketId, $name, $eventForMail);
     } catch (Throwable $mailError) {
         error_log('sendTicketMail failed in api/create-ticket.php: ' . $mailError->getMessage());

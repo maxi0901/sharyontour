@@ -10,6 +10,8 @@ if (!$ticket) {
     exit('Ticket nicht gefunden.');
 }
 
+$entryTime = normalizeEventTime($ticket['event_time'] ?? null);
+
 ?><!doctype html>
 <html lang="de">
 <head>
@@ -52,6 +54,12 @@ if (!$ticket) {
         <div class="meta-label">TICKET FÜR</div>
         <strong><?= e($ticket['name'] ?: $ticket['email']) ?></strong>
       </div>
+      <?php if ($entryTime !== null): ?>
+        <div>
+          <div class="meta-label">EINLASS</div>
+          <strong><?= e($entryTime) ?> Uhr</strong>
+        </div>
+      <?php endif; ?>
     </div>
 
     <p class="ticket-id">ID: <?= e($ticket['ticket_id']) ?></p>

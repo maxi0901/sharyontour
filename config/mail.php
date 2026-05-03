@@ -182,6 +182,7 @@ function buildTicketMailBodies(string $ticketIdValue, ?string $name, ?array $eve
 {
     $eventTitle = $event['title'] ?? 'S-ART Event';
     $eventDate  = isset($event['event_date']) ? formatDate($event['event_date']) : '';
+    $entryTime = normalizeEventTime($event['event_time'] ?? null);
     $hello      = $name ? "Hallo {$name}," : 'Hallo,';
 
     $tid = urlencode($ticketIdValue);
@@ -198,14 +199,19 @@ function buildTicketMailBodies(string $ticketIdValue, ?string $name, ?array $eve
           . "→ Kalender (.ics): {$icsUrl}\r\n"
           . "→ PDF: {$pdfUrl}\r\n\r\n"
           . "Datum: {$eventDate}\r\n"
+          . ($entryTime !== null ? "Einlass: {$entryTime} Uhr\r\n" : '')
           . "Ort: Kassel — der genaue Standort wird rechtzeitig bekanntgegeben.\r\n\r\n"
           . "Ticket-ID: {$ticketIdValue}\r\n\r\n"
           . "Bis bald!\r\nS-ART · Shary on Tour";
 
     $eventTitleHtml = e($eventTitle);
     $eventDateHtml  = e($eventDate);
+    $entryTimeHtml  = $entryTime !== null ? e($entryTime) : '';
     $helloHtml      = e($hello);
     $tidHtml        = e($ticketIdValue);
+    $entryTimeRowHtml = $entryTime !== null
+        ? '<p style="margin:0 0 4px 0;font-size:14px;color:#555;"><strong>Einlass:</strong> ' . $entryTimeHtml . ' Uhr</p>'
+        : '';
 
     $html = <<<HTML
 <!doctype html>
@@ -237,6 +243,7 @@ function buildTicketMailBodies(string $ticketIdValue, ?string $name, ?array $eve
       </td></tr>
       <tr><td style="padding:0 32px 24px 32px;border-top:1px solid #eee;">
         <p style="margin:16px 0 4px 0;font-size:14px;color:#555;"><strong>Datum:</strong> {$eventDateHtml}</p>
+{$entryTimeRowHtml}
         <p style="margin:0 0 4px 0;font-size:14px;color:#555;"><strong>Ort:</strong> Kassel — der genaue Standort wird rechtzeitig bekanntgegeben.</p>
         <p style="margin:8px 0 0 0;font-size:12px;color:#888;">Ticket-ID: <code>{$tidHtml}</code></p>
       </td></tr>
