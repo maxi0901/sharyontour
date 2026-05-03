@@ -9,6 +9,7 @@ require __DIR__ . '/includes/header.php';
 
 
 $shortId = $ticket ? strtoupper(substr(preg_replace('/[^a-zA-Z0-9]/', '', (string) $ticket['ticket_id']), 0, 8)) : '';
+$entryTime = $ticket ? normalizeEventTime($ticket['event_time'] ?? null) : null;
 ?>
 
 <section class="section container ticket-show">
@@ -43,10 +44,12 @@ $shortId = $ticket ? strtoupper(substr(preg_replace('/[^a-zA-Z0-9]/', '', (strin
               <span class="ticket-meta-label">Datum</span>
               <strong><?= formatDate($ticket['event_date']) ?></strong>
             </div>
-            <div>
-              <span class="ticket-meta-label">Einlass</span>
-              <strong><?= e($ticket['event_time'] ? substr($ticket['event_time'], 0, 5) : '18:00') ?> Uhr</strong>
-            </div>
+            <?php if ($entryTime !== null): ?>
+              <div>
+                <span class="ticket-meta-label">Einlass</span>
+                <strong><?= e($entryTime) ?> Uhr</strong>
+              </div>
+            <?php endif; ?>
             <div>
               <span class="ticket-meta-label">Ort</span>
               <strong><?= e($ticket['city']) ?></strong>

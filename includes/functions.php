@@ -60,6 +60,21 @@ function formatDateLong(?string $date): string
     return $dt->format('d') . '. ' . $months[(int)$dt->format('n')] . ' ' . $dt->format('Y');
 }
 
+
+function normalizeEventTime(mixed $eventTime): ?string
+{
+    if ($eventTime === null) {
+        return null;
+    }
+
+    $time = trim((string) $eventTime);
+    if ($time == '') {
+        return null;
+    }
+
+    return substr($time, 0, 5);
+}
+
 function isActivePage(string $page): string
 {
     return basename($_SERVER['PHP_SELF']) === $page ? 'is-active' : '';
