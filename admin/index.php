@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/auth.php';
+requireAdminLogin();
 $pageTitle = 'S-ART Admin';
 $adminPage = 'dashboard';
 require __DIR__ . '/_header.php';
