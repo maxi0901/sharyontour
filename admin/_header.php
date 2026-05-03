@@ -26,6 +26,7 @@ $adminPage = $adminPage ?? '';
       <a href="/admin/newsletter.php" class="<?= $adminPage === 'newsletter' ? 'is-active' : '' ?>">Newsletter</a>
       <a href="/admin/newsletter-campaigns.php" class="<?= $adminPage === 'newsletter-campaigns' ? 'is-active' : '' ?>">Kampagnen</a>
       <a href="/admin/clicks.php" class="<?= $adminPage === 'clicks' ? 'is-active' : '' ?>">Klicks</a>
+      <a href="/admin/logout.php" class="muted">Logout</a>
       <a href="/index.php" class="muted">↗ Website</a>
     </nav>
   </div>
