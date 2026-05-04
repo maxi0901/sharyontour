@@ -16,6 +16,7 @@ $entryTime = normalizeEventTime($ticket['event_time'] ?? null);
 <html lang="de">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>S-ART Ticket · <?= e($ticket['event_title']) ?></title>
   <style>
     @page { size: A4; margin: 24mm; }
@@ -27,6 +28,10 @@ $entryTime = normalizeEventTime($ticket['event_time'] ?? null);
     .meta-label { color: #aab1c3; font-size: 11px; letter-spacing: 2px; }
     .ticket-id { font-family: monospace; font-size: 11px; color: #aab1c3; word-break: break-all; }
     .print-btn { display: inline-block; margin: 12px 0; padding: 10px 16px; background: #e2231a; color: #fff; border-radius: 8px; text-decoration: none; }
+    @media screen {
+      body { padding: 20px; }
+      .pdf-ticket { max-width: min(920px, 94vw); padding: clamp(24px, 4vw, 40px); }
+    }
     @media print { .print-btn { display: none; } body { background: #fff; color: #000; } .pdf-ticket { background: #fff; color: #000; } .pdf-logo { color: #e2231a; } h1 { color: #000; } }
   </style>
 </head>

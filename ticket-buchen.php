@@ -209,8 +209,7 @@ require __DIR__ . '/includes/header.php';
 
           <ul class="summary-features">
             <li>Sofortige Ticket-Erstellung</li>
-            <li>QR-Code für schnellen Einlass</li>
-            <li>Apple / Google Wallet · PDF · Kalender (.ics)</li>
+            <li>PDF · Kalender (.ics)</li>
             <li>Versand per E-Mail</li>
           </ul>
         </div>
