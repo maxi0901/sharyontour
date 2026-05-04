@@ -147,8 +147,21 @@ require __DIR__ . '/_header.php';
     </div>
     <label class="field">
       <span>Neues Bild hochladen (JPG, PNG, WEBP, GIF · MAX. 50 MB)</span>
-      <input type="file" name="image_file" accept="image/jpeg,image/png,image/webp,image/gif">
+      <input id="event-image-upload" type="file" name="image_file" accept="image/jpeg,image/png,image/webp,image/gif">
     </label>
+    <div id="event-image-editor" class="event-image-editor" hidden>
+      <p class="muted">Vorschau &amp; Zuschnitt vor dem Veröffentlichen (16:9).</p>
+      <div class="event-image-preview event-image-preview-edit">
+        <img id="event-image-preview-edit" alt="Vorschau des neuen Bildes">
+      </div>
+      <div class="form-grid-3 event-image-adjust-grid">
+        <label class="field"><span>Zoom</span><input id="event-image-zoom" type="range" min="1" max="3" step="0.01" value="1"></label>
+        <label class="field"><span>Horizontal</span><input id="event-image-offset-x" type="range" min="-100" max="100" step="1" value="0"></label>
+        <label class="field"><span>Vertikal</span><input id="event-image-offset-y" type="range" min="-100" max="100" step="1" value="0"></label>
+      </div>
+      <button id="event-image-apply" class="btn btn-ghost" type="button">Bildanpassung übernehmen</button>
+    </div>
+
     <label class="field"><span>oder Bildpfad manuell (optional)</span><input name="image_path" value="<?= e((string) $item['image_path']) ?>" placeholder="/assets/img/events/..."></label>
     <?php if (!empty($item['image_path'])): ?>
       <label class="check check-inline">
@@ -179,5 +192,82 @@ require __DIR__ . '/_header.php';
     <a class="btn btn-ghost" href="/admin/events.php">Abbrechen</a>
   </div>
 </form>
+
+
+<script>
+(() => {
+  const fileInput = document.getElementById('event-image-upload');
+  const editor = document.getElementById('event-image-editor');
+  if (!fileInput || !editor) return;
+
+  const preview = document.getElementById('event-image-preview-edit');
+  const zoom = document.getElementById('event-image-zoom');
+  const offsetX = document.getElementById('event-image-offset-x');
+  const offsetY = document.getElementById('event-image-offset-y');
+  const applyBtn = document.getElementById('event-image-apply');
+
+  let sourceImage = null;
+
+  const updatePreview = () => {
+    preview.style.transform = `scale(${zoom.value}) translate(${offsetX.value / 2}%, ${offsetY.value / 2}%)`;
+  };
+
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files && fileInput.files[0];
+    if (!file || !file.type.startsWith('image/')) {
+      editor.hidden = true;
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      sourceImage = new Image();
+      sourceImage.onload = () => {
+        preview.src = reader.result;
+        zoom.value = '1';
+        offsetX.value = '0';
+        offsetY.value = '0';
+        updatePreview();
+        editor.hidden = false;
+      };
+      sourceImage.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  [zoom, offsetX, offsetY].forEach((input) => input.addEventListener('input', updatePreview));
+
+  applyBtn.addEventListener('click', () => {
+    if (!sourceImage || !fileInput.files || !fileInput.files[0]) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 1600;
+    canvas.height = 900;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const scale = parseFloat(zoom.value);
+    const drawW = canvas.width * scale;
+    const drawH = (sourceImage.height / sourceImage.width) * drawW;
+    const x = ((parseFloat(offsetX.value) / 100) * (drawW - canvas.width)) * -1;
+    const y = ((parseFloat(offsetY.value) / 100) * (drawH - canvas.height)) * -1;
+
+    ctx.fillStyle = '#111';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(sourceImage, x, y, drawW, drawH);
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const originalFile = fileInput.files[0];
+      const ext = originalFile.type.includes('png') ? 'png' : 'jpg';
+      const adjusted = new File([blob], originalFile.name.replace(/\.[^.]+$/, '') + '-adjusted.' + ext, { type: blob.type });
+      const dt = new DataTransfer();
+      dt.items.add(adjusted);
+      fileInput.files = dt.files;
+      preview.src = URL.createObjectURL(adjusted);
+    }, 'image/jpeg', 0.92);
+  });
+})();
+</script>
 
 <?php require __DIR__ . '/_footer.php'; ?>

@@ -1700,6 +1700,18 @@ html, body { overflow-x: hidden; }
 .event-image-preview .media-fallback { position: absolute; inset: 0; }
 .event-image-preview p { position: relative; margin: 0; padding: .4rem .8rem; font-size: .78rem; color: var(--muted); background: rgba(0,0,0,.45); border-radius: 999px; }
 .check-inline { display: flex; align-items: center; gap: .5rem; font-size: .82rem; color: var(--muted); }
+
+.event-image-editor { display: flex; flex-direction: column; gap: .6rem; }
+.event-image-preview-edit { overflow: hidden; }
+.event-image-preview-edit img { transition: transform .15s ease; transform-origin: center; }
+.event-image-adjust-grid { margin-bottom: 0; }
+.check-inline { flex-wrap: wrap; min-width: 0; }
+.check-inline input[type="checkbox"] { flex: 0 0 auto; }
+.check-inline, .check-inline span { overflow-wrap: anywhere; }
+@media (max-width: 768px) {
+  .event-image-field { overflow: hidden; }
+  .admin-form input[type="file"] { font-size: .92rem; }
+}
 .campaign-fieldset { margin-top: 1rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 14px; background: rgba(13, 14, 22, .55); }
 .campaign-fieldset legend { padding: 0 .4rem; color: var(--muted); font-size: .72rem; letter-spacing: 1.5px; text-transform: uppercase; }
 .campaign-fieldset p { font-size: .85rem; margin: 0 0 .8rem 0; color: var(--muted); }
