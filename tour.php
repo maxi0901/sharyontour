@@ -37,7 +37,6 @@ $past = fetchAll("SELECT * FROM events WHERE status='past' OR event_date < :t OR
           <span><?= e($ev['city']) ?></span>
         </div>
         <div class="events-item-body">
-          <?php if ($isOpening): ?><span class="badge badge-opening">HAUPT-EVENT</span><?php endif; ?>
           <h3><?= e($ev['title']) ?></h3>
           <p><?= e($ev['description_short']) ?></p>
 
