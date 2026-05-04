@@ -5,31 +5,61 @@ require __DIR__ . '/../config/bootstrap.php';
 require __DIR__ . '/../includes/csrf.php';
 
 $eventId = (int) ($_GET['event'] ?? 0);
+$flash = $_GET['msg'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && verifyCsrf($_POST['csrf_token'] ?? null)) {
     $action = $_POST['action'] ?? '';
+    $messages = [];
 
     if ($action === 'upload' && $eventId && !empty($_FILES['images']['name'][0])) {
         $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/assets/img/gallery/event-' . $eventId;
         if (!is_dir($uploadDir)) @mkdir($uploadDir, 0775, true);
+
+        $uploadedCount = 0;
+        $skippedUnsupported = 0;
+        $skippedInvalid = 0;
+        $skippedMoveFailed = 0;
 
         foreach ($_FILES['images']['tmp_name'] as $idx => $tmp) {
             if (!$tmp || $_FILES['images']['error'][$idx] !== UPLOAD_ERR_OK) continue;
 
             $original = $_FILES['images']['name'][$idx];
             $ext = strtolower(pathinfo($original, PATHINFO_EXTENSION));
-            if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif'], true)) continue;
+            if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'gif'], true)) {
+                $skippedUnsupported++;
+                continue;
+            }
 
             $info = @getimagesize($tmp);
-            if ($info === false) continue;
+            if ($info === false) {
+                $skippedInvalid++;
+                continue;
+            }
 
             $fileName = bin2hex(random_bytes(6)) . '.' . $ext;
             $target = $uploadDir . '/' . $fileName;
-            if (!move_uploaded_file($tmp, $target)) continue;
+            if (!move_uploaded_file($tmp, $target)) {
+                $skippedMoveFailed++;
+                continue;
+            }
 
             $publicPath = '/assets/img/gallery/event-' . $eventId . '/' . $fileName;
             $stmt = $pdo->prepare('INSERT INTO galleries (event_id, image_path, sort_order) VALUES (:e, :p, :o)');
             $stmt->execute(['e' => $eventId, 'p' => $publicPath, 'o' => $idx]);
+            $uploadedCount++;
+        }
+
+        if ($uploadedCount > 0) {
+            $messages[] = $uploadedCount . ' Bild(er) hochgeladen.';
+        }
+        if ($skippedUnsupported > 0) {
+            $messages[] = $skippedUnsupported . ' Datei(en) übersprungen (nur JPG, PNG, WEBP, GIF erlaubt; z. B. kein HEIC).';
+        }
+        if ($skippedInvalid > 0) {
+            $messages[] = $skippedInvalid . ' Datei(en) waren keine gültigen Bilder.';
+        }
+        if ($skippedMoveFailed > 0) {
+            $messages[] = $skippedMoveFailed . ' Datei(en) konnten nicht gespeichert werden.';
         }
     }
 
@@ -55,7 +85,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && verifyCsrf($_POST['csrf_token'] ?? 
         }
     }
 
-    header('Location: /admin/galleries.php' . ($eventId ? '?event=' . $eventId : ''));
+    $query = [];
+    if ($eventId) {
+        $query['event'] = $eventId;
+    }
+    if (!empty($messages)) {
+        $query['msg'] = implode(' ', $messages);
+    }
+    $target = '/admin/galleries.php' . (!empty($query) ? '?' . http_build_query($query) : '');
+    header('Location: ' . $target);
     exit;
 }
 
@@ -88,11 +126,15 @@ require __DIR__ . '/_header.php';
 <?php if ($current): ?>
   <h2><?= e($current['title']) ?> <span class="muted"><?= count($images) ?> Bilder</span></h2>
 
+  <?php if ($flash): ?>
+    <p class="muted"><?= e($flash) ?></p>
+  <?php endif; ?>
+
   <form method="post" enctype="multipart/form-data" class="admin-form admin-upload">
     <?= csrfField() ?>
     <input type="hidden" name="action" value="upload">
     <label class="field">
-      <span>Bilder hochladen (mehrere möglich)</span>
+      <span>Bilder hochladen (mehrere möglich, nur JPG/PNG/WEBP/GIF)</span>
       <input type="file" name="images[]" accept="image/*" multiple required>
     </label>
     <button class="btn btn-primary" type="submit">Hochladen</button>
