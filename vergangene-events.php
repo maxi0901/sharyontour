@@ -24,7 +24,7 @@ $events = fetchAll("SELECT e.*, COUNT(g.id) AS image_count
     <div class="gallery-overview">
       <?php foreach ($events as $ev):
         $cover = fetchOne('SELECT image_path FROM galleries WHERE event_id=:e ORDER BY sort_order ASC, id ASC LIMIT 1', ['e' => $ev['id']]);
-        $coverImg = $cover['image_path'] ?? $ev['image_path'] ?? null;
+        $coverImg = $ev['image_path'] ?? $cover['image_path'] ?? null;
       ?>
         <a class="gallery-overview-item" href="/galerie.php?event=<?= (int) $ev['id'] ?>">
           <div class="gallery-overview-media">
