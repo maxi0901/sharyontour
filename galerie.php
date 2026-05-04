@@ -24,9 +24,12 @@ require __DIR__ . '/includes/header.php';
 <section class="section container reveal">
   <?php if (!empty($images)): ?>
     <div class="gallery-grid">
-      <?php foreach ($images as $img): ?>
-        <a class="gallery-item" href="<?= e($img['image_path']) ?>" target="_blank" rel="noopener">
-          <img src="<?= e($img['image_path']) ?>" alt="<?= e($img['caption'] ?: $event['title']) ?>" loading="lazy">
+      <?php foreach ($images as $img):
+        $imagePath = normalizePublicPath($img['image_path'] ?? null);
+        if (!$imagePath) continue;
+      ?>
+        <a class="gallery-item" href="<?= e($imagePath) ?>" target="_blank" rel="noopener">
+          <img src="<?= e($imagePath) ?>" alt="<?= e($img['caption'] ?: $event['title']) ?>" loading="lazy">
           <?php if (!empty($img['caption'])): ?><span class="gallery-caption"><?= e($img['caption']) ?></span><?php endif; ?>
         </a>
       <?php endforeach; ?>
