@@ -28,10 +28,10 @@ require __DIR__ . '/includes/header.php';
         $imagePath = normalizePublicPath($img['image_path'] ?? null);
         if (!$imagePath) continue;
       ?>
-        <a class="gallery-item" href="<?= e($imagePath) ?>" target="_blank" rel="noopener">
+        <div class="gallery-item" aria-hidden="true">
           <img src="<?= e($imagePath) ?>" alt="<?= e($img['caption'] ?: $event['title']) ?>" loading="lazy">
           <?php if (!empty($img['caption'])): ?><span class="gallery-caption"><?= e($img['caption']) ?></span><?php endif; ?>
-        </a>
+        </div>
       <?php endforeach; ?>
     </div>
   <?php else: ?>
