@@ -90,6 +90,41 @@ function createSlug(string $text): string
 
 
 
+
+function normalizePublicPath(?string $path): ?string
+{
+    $raw = trim((string) $path);
+    if ($raw === '') {
+        return null;
+    }
+
+    if (preg_match('#^https?://#i', $raw)) {
+        return $raw;
+    }
+
+    $docRoot = rtrim((string) ($_SERVER['DOCUMENT_ROOT'] ?? ''), '/');
+    if ($docRoot !== '' && str_starts_with($raw, $docRoot . '/')) {
+        $raw = substr($raw, strlen($docRoot));
+    }
+
+    return str_starts_with($raw, '/') ? $raw : '/' . ltrim($raw, '/');
+}
+
+function publicFileExists(?string $path): bool
+{
+    $normalized = normalizePublicPath($path);
+    if ($normalized === null || preg_match('#^https?://#i', $normalized)) {
+        return false;
+    }
+
+    $docRoot = rtrim((string) ($_SERVER['DOCUMENT_ROOT'] ?? ''), '/');
+    if ($docRoot === '') {
+        return false;
+    }
+
+    return is_file($docRoot . $normalized);
+}
+
 function eventGoogleMapsUrl(array $event): string
 {
     if (!empty($event['google_maps_url'])) {
