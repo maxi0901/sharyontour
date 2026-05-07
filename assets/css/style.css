@@ -289,11 +289,11 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 .mobile-spraycan-wrap { display: none; align-items: center; gap: .5rem; }
 .mobile-spraycan-btn { display: none; text-decoration: none; isolation: isolate; }
 .mobile-spraycan-btn__text { display: none; }
-.mobile-spraycan-btn__icon { width: 22px; height: 22px; overflow: visible; filter: drop-shadow(0 0 7px rgba(255,20,105,.9)); }
-.mobile-spraycan-btn__body,
-.mobile-spraycan-btn__cap { fill: none; stroke: #ff5ccf; stroke-width: 1.75; stroke-linejoin: round; }
-.mobile-spraycan-btn__nozzle,
-.mobile-spraycan-btn__label { fill: none; stroke: #ffd7f2; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
+.mobile-spraycan-btn__icon { width: 22px; height: 22px; overflow: visible; filter: drop-shadow(0 0 8px rgba(255,20,105,1)) drop-shadow(0 0 2px rgba(255,86,206,.9)); }
+.mobile-spraycan-btn__body { fill: #ff1469; stroke: #ffb3df; stroke-width: 1; stroke-linejoin: round; }
+.mobile-spraycan-btn__cap { fill: #c7126c; stroke: #ffb3df; stroke-width: 1; stroke-linejoin: round; }
+.mobile-spraycan-btn__nozzle { fill: none; stroke: #ffd7f2; stroke-width: 2; stroke-linecap: round; }
+.mobile-spraycan-btn__label { fill: none; stroke: #ffd7f2; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
 @keyframes spray-pulse {
   0%   { box-shadow: 0 0 0 0 rgba(255,20,105,.55); }
   70%  { box-shadow: 0 0 0 14px rgba(255,20,105,0); }
@@ -363,15 +363,6 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
   filter:
     drop-shadow(0 3px 0 rgba(0, 0, 0, .34))
     drop-shadow(0 0 12px rgba(255, 20, 105, .38));
-}
-.hero-brand-title--simple {
-  max-width: none;
-  line-height: .88;
-  background: linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #ff5ccf 100%);
-  -webkit-background-clip: text;
-          background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, .42)) drop-shadow(0 0 22px rgba(255, 20, 105, .35));
 }
 .hero-role {
   margin-bottom: 1rem;
