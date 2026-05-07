@@ -142,7 +142,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
     <div>
       <p class="meta">SHOP</p>
       <h3>Originale & Prints im S-ART Shop</h3>
-      <p>Entdecke limitierte Kunstwerke und sichere dir dein Lieblingsmotiv direkt online.</p>
+      <p>Entdecke limitierte Kunstwerke und sichere dir dein S-Art Original oder Kunstdruck</p>
     </div>
     <a class="btn btn-primary" href="<?= e($siteConfig['shop_url']) ?>" target="_blank" rel="noopener noreferrer">ZUM SHOP &nbsp;→</a>
   </article>
