@@ -268,6 +268,15 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
     inset 0 0 16px rgba(255,20,105,.4);
 }
 .spraycan-btn:hover::before { opacity:.95; transform:scale(1.06); }
+.mobile-spraycan-btn { display: none; text-decoration: none; isolation: isolate; }
+.mobile-spraycan-btn__icon { width: 23px; height: 23px; overflow: visible; filter: drop-shadow(0 0 7px rgba(255,20,105,.75)); }
+.mobile-spraycan-btn__body { stroke: rgba(255,255,255,.9); stroke-width: 1.15; stroke-linejoin: round; }
+.mobile-spraycan-btn__cap,
+.mobile-spraycan-btn__nozzle { fill: rgba(7,9,15,.86); stroke: rgba(255,255,255,.82); stroke-width: 1.1; stroke-linejoin: round; }
+.mobile-spraycan-btn__shine,
+.mobile-spraycan-btn__mist { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.mobile-spraycan-btn__shine { stroke: rgba(255,255,255,.86); stroke-width: 1.05; }
+.mobile-spraycan-btn__mist { stroke: rgba(255,86,206,.96); stroke-width: 1.35; filter: drop-shadow(0 0 5px rgba(255,20,105,.9)); }
 @keyframes spray-pulse {
   0%   { box-shadow: 0 0 0 0 rgba(255,20,105,.55); }
   70%  { box-shadow: 0 0 0 14px rgba(255,20,105,0); }
@@ -999,6 +1008,38 @@ html, body { overflow-x: hidden; }
     gap: .7rem;
   }
   .booking-cta__icon { width: 1.28rem; height: 1.28rem; }
+  .mobile-spraycan-btn {
+    display: grid;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-color: rgba(255,20,105,.86);
+    background:
+      radial-gradient(circle at 24% 20%, rgba(255,255,255,.28), transparent 24%),
+      radial-gradient(circle at 32% 30%, rgba(255,86,206,.45), transparent 58%),
+      radial-gradient(circle at 82% 82%, rgba(199,255,43,.14), transparent 58%),
+      linear-gradient(145deg, rgba(255,255,255,.14), rgba(255,20,105,.08) 42%, rgba(8,10,16,.92));
+    box-shadow:
+      0 0 0 1px rgba(255,20,105,.2),
+      0 0 20px rgba(255,20,105,.48),
+      0 10px 24px rgba(0,0,0,.36),
+      inset 0 1px 0 rgba(255,255,255,.24),
+      inset 0 0 16px rgba(255,20,105,.2);
+    backdrop-filter: blur(14px) saturate(1.25);
+    -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  }
+  .mobile-spraycan-btn:hover,
+  .mobile-spraycan-btn:focus-visible {
+    transform: translateY(-1px) scale(1.07);
+    border-color: rgba(255,86,206,1);
+    box-shadow:
+      var(--glow-red-strong),
+      0 12px 26px rgba(0,0,0,.42),
+      inset 0 1px 0 rgba(255,255,255,.3),
+      inset 0 0 18px rgba(255,20,105,.34);
+    outline: none;
+  }
+  .mobile-spraycan-btn:active { transform: scale(.97); }
   .nav-toggle { display: grid; }
   .icon-btn { width: 40px; height: 40px; }
 }
@@ -1036,6 +1077,7 @@ html, body { overflow-x: hidden; }
     font-size: .8rem;
     letter-spacing: .14em;
   }
+  .mobile-spraycan-btn { display: grid; width: 40px; height: 40px; }
   .nav-toggle { display: grid; }
   .icon-btn { width: 40px; height: 40px; }
 
