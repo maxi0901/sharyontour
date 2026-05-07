@@ -367,7 +367,15 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 .hero-brand-title--simple {
   max-width: none;
   line-height: .88;
-  background: linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #ff5ccf 100%);
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #ffffff 34%,
+    #ff4fb3 56%,
+    #ff7a00 74%,
+    #fff142 88%,
+    #c7ff2b 100%
+  );
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
