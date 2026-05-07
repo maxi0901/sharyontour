@@ -23,6 +23,23 @@ return [
         'phone_href' => '+491754443122',
         'email' => 'kontakt@sharyontour.de',
     ],
+    'event_media' => [
+        'department' => 'Event & Media',
+        'email' => 'kontakt@sharyontour.de',
+        'management' => 'Management by Raphael & Sebastian',
+        'contacts' => [
+            [
+                'name' => 'Sebastian Liebenstein',
+                'phone_display' => '0172 5147207',
+                'phone_href' => '+491725147207',
+                'email' => 'S.Liebenstein@sharyontour.de',
+            ],
+            [
+                'name' => 'Raphael Dodidis',
+                'email' => 'R.Dodidis@sharyontour.de',
+            ],
+        ],
+    ],
     'opening_hours' => [
         'Montag bis Freitag' => '08:00 bis 18:30 Uhr',
         'Samstag' => '10:00 bis 15:30 Uhr',
