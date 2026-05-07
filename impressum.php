@@ -1,4 +1,9 @@
-<?php $pageTitle = 'Impressum'; require __DIR__ . '/includes/header.php'; ?>
+<?php
+$pageTitle = 'Impressum';
+$siteConfig = require __DIR__ . '/includes/site-config.php';
+$eventMedia = $siteConfig['event_media'];
+require __DIR__ . '/includes/header.php';
+?>
 <section class="legal-page imprint-page">
   <div class="legal-content-wrapper legal-content">
       <h1>Impressum</h1>
@@ -6,16 +11,59 @@
       <div class="legal-section">
         <h2>Angaben gemäß § 5 TMG</h2>
         <p>
-          Dodidis Media<br>
-          Inhaber: Raphael Dodidis<br>
-          Meysenbugstraße 6<br>
-          34119 Kassel
+          Galerie S-ART<br>
+          Lindenallee 10<br>
+          45127 Essen / Germany
+        </p>
+        <p>
+          Vertreten durch:<br>
+          Sharyar Azhdari
         </p>
       </div>
 
       <div class="legal-section">
         <h2>Kontakt</h2>
+        <p>
+          Mobil: <a href="tel:<?= e($siteConfig['contact']['phone_href']) ?>"><?= e($siteConfig['contact']['phone_display']) ?></a><br>
+          E-Mail: <a href="mailto:info@sart.work">info@sart.work</a>
+        </p>
+      </div>
+
+      <div class="legal-section">
+        <h2><?= e($eventMedia['department']) ?></h2>
+        <p>
+          E-Mail: <a href="mailto:<?= e($eventMedia['email']) ?>"><?= e($eventMedia['email']) ?></a><br>
+          <?= e($eventMedia['management']) ?>
+        </p>
+        <?php foreach ($eventMedia['contacts'] as $contact): ?>
+          <p>
+            <strong><?= e($contact['name']) ?></strong><br>
+            <?php if (!empty($contact['phone_display']) && !empty($contact['phone_href'])): ?>
+              Telefon: <a href="tel:<?= e($contact['phone_href']) ?>"><?= e($contact['phone_display']) ?></a><br>
+            <?php endif; ?>
+            E-Mail: <a href="mailto:<?= e($contact['email']) ?>"><?= e($contact['email']) ?></a>
+          </p>
+        <?php endforeach; ?>
+      </div>
+
+      <div class="legal-section">
+        <h2>Webseite und Technik</h2>
+        <p>
+          Dodidis Media<br>
+          Inhaber: Raphael Dodidis<br>
+          Meysenbugstraße 6<br>
+          34119 Kassel
+        </p>
         <p>E-Mail: <a href="mailto:kontakt@dodidis-media.de">kontakt@dodidis-media.de</a></p>
+      </div>
+
+      <div class="legal-section">
+        <h2>Online Marketing</h2>
+        <p>
+          lux-marketing<br>
+          Ringstraße 4<br>
+          45527 Hattingen
+        </p>
       </div>
 
       <div class="legal-section">
@@ -32,6 +80,22 @@
           Raphael Dodidis<br>
           Meysenbugstraße 6<br>
           34119 Kassel
+        </p>
+      </div>
+
+      <div class="legal-section">
+        <h2>EU-Streitschlichtung</h2>
+        <p>
+          Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+          <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr/</a>.<br>
+          Unsere E-Mail-Adresse finden Sie oben im Impressum.
+        </p>
+      </div>
+
+      <div class="legal-section">
+        <h2>Verbraucherstreitbeilegung/Universalschlichtungsstelle</h2>
+        <p>
+          Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
         </p>
       </div>
 

@@ -71,6 +71,20 @@ require __DIR__ . '/includes/header.php';
       <a class="contact-link" href="mailto:<?= e($siteConfig['contact']['email']) ?>"><?= e($siteConfig['contact']['email']) ?></a>
     </div>
     <div class="contact-block">
+      <span class="ticket-meta-label"><?= e($siteConfig['event_media']['department']) ?></span>
+      <p><?= e($siteConfig['event_media']['management']) ?></p>
+      <a class="contact-link" href="mailto:<?= e($siteConfig['event_media']['email']) ?>"><?= e($siteConfig['event_media']['email']) ?></a>
+      <?php foreach ($siteConfig['event_media']['contacts'] as $contact): ?>
+        <p>
+          <strong><?= e($contact['name']) ?></strong><br>
+          <?php if (!empty($contact['phone_display']) && !empty($contact['phone_href'])): ?>
+            Telefon: <a class="contact-link" href="tel:<?= e($contact['phone_href']) ?>"><?= e($contact['phone_display']) ?></a><br>
+          <?php endif; ?>
+          E-Mail: <a class="contact-link" href="mailto:<?= e($contact['email']) ?>"><?= e($contact['email']) ?></a>
+        </p>
+      <?php endforeach; ?>
+    </div>
+    <div class="contact-block">
       <span class="ticket-meta-label">SOCIAL & SHOP</span>
       <div class="social-links">
         <a class="contact-link social-link social-link--instagram" href="<?= e($siteConfig['social']['instagram']['url']) ?>" target="_blank" rel="noopener noreferrer">
