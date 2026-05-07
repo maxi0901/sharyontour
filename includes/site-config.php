@@ -19,6 +19,7 @@ return [
         'gallery_name' => 'Galerie S-ART',
         'street' => 'Lindenallee 10',
         'postal_city' => '45127 Essen',
+        'email' => 'kontakt@sharyontour.de',
         'phone_display' => '+49 175 4443122',
         'phone_href' => '+491754443122',
     ],

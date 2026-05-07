@@ -59,6 +59,7 @@ require __DIR__ . '/includes/header.php';
       <span class="ticket-meta-label">GALERIE</span>
       <p><strong><?= e($siteConfig['contact']['gallery_name']) ?></strong></p>
       <p><?= e($siteConfig['contact']['street']) ?><br><?= e($siteConfig['contact']['postal_city']) ?></p>
+      <p>E-Mail: <a class="contact-link" href="mailto:<?= e($siteConfig['contact']['email']) ?>"><?= e($siteConfig['contact']['email']) ?></a></p>
     </div>
     <div class="contact-block">
       <span class="ticket-meta-label"><?= e($siteConfig['event_media']['department']) ?></span>
