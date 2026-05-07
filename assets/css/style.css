@@ -1816,11 +1816,14 @@ html, body { overflow-x: hidden; }
 .booking-services__head .subline {
   margin-top: .75rem;
 }
+.booking-services { overflow: hidden; }
 .booking-service-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
   perspective: 1200px;
+  max-width: 880px;
+  margin-inline: auto;
 }
 .booking-service-card {
   grid-column: 1 / -1;
