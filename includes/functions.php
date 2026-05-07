@@ -125,6 +125,40 @@ function publicFileExists(?string $path): bool
     return is_file($docRoot . $normalized);
 }
 
+function renderEventMedia(array $event, string $altText, ?string $posterOverride = null): string
+{
+    $posterRaw = $posterOverride !== null && trim($posterOverride) !== ''
+        ? $posterOverride
+        : ($event['image_path'] ?? null);
+    $posterPath = normalizePublicPath($posterRaw);
+
+    $videoRaw = array_key_exists('video_path', $event) ? $event['video_path'] : null;
+    $videoPath = normalizePublicPath($videoRaw);
+
+    if ($videoPath !== null) {
+        $ext = strtolower(pathinfo($videoPath, PATHINFO_EXTENSION));
+        $mimeMap = [
+            'mp4'  => 'video/mp4',
+            'webm' => 'video/webm',
+            'mov'  => 'video/quicktime',
+        ];
+        $mime = $mimeMap[$ext] ?? 'video/mp4';
+
+        $posterAttr = $posterPath !== null ? ' poster="' . e($posterPath) . '"' : '';
+        return '<video class="event-media event-video" muted playsinline loop preload="metadata"'
+            . $posterAttr
+            . ' aria-label="' . e($altText) . '">'
+            . '<source src="' . e($videoPath) . '" type="' . e($mime) . '">'
+            . '</video>';
+    }
+
+    if ($posterPath !== null) {
+        return '<img class="event-media" src="' . e($posterPath) . '" alt="' . e($altText) . '" loading="lazy">';
+    }
+
+    return '<div class="media-fallback" aria-hidden="true"></div>';
+}
+
 function eventGoogleMapsUrl(array $event): string
 {
     if (!empty($event['google_maps_url'])) {

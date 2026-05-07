@@ -25,11 +25,13 @@ $events = fetchAll("SELECT e.*, COUNT(g.id) AS image_count
       <?php foreach ($events as $ev):
         $cover = fetchOne('SELECT image_path FROM galleries WHERE event_id=:e ORDER BY sort_order ASC, id ASC LIMIT 1', ['e' => $ev['id']]);
         $coverImg = normalizePublicPath($ev['image_path'] ?? $cover['image_path'] ?? null);
+        $validPoster = ($coverImg && publicFileExists($coverImg)) ? $coverImg : null;
+        $hasVideo = !empty($ev['video_path'] ?? null);
       ?>
         <a class="gallery-overview-item" href="/galerie.php?event=<?= (int) $ev['id'] ?>">
           <div class="gallery-overview-media">
-            <?php if ($coverImg && publicFileExists($coverImg)): ?>
-              <img src="<?= e($coverImg) ?>" alt="<?= e($ev['title']) ?>" loading="lazy">
+            <?php if ($hasVideo || $validPoster): ?>
+              <?= renderEventMedia($ev, $ev['title'] ?? 'Event', $validPoster) ?>
             <?php else: ?>
               <div class="event-slide-placeholder"><span><?= e(strtoupper(substr($ev['title'], 0, 2))) ?></span></div>
             <?php endif; ?>

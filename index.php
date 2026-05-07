@@ -101,11 +101,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
       ?>
         <article class="card event-card reveal <?= $isOpening ? 'is-opening' : '' ?>">
           <div class="card-media">
-            <?php if (!empty($event['image_path'])): ?>
-              <img src="<?= e($event['image_path']) ?>" alt="<?= e($event['title']) ?>" loading="lazy">
-            <?php else: ?>
-              <div class="media-fallback"></div>
-            <?php endif; ?>
+            <?= renderEventMedia($event, $event['title'] ?? 'Event') ?>
           </div>
           <p class="meta"><?= formatDate($event['event_date']) ?> · <?= e($event['city']) ?></p>
           <?php if ($isOpening): ?><span class="badge badge-opening">HAUPT-EVENT</span><?php endif; ?>
