@@ -28,6 +28,16 @@ $siteConfig = require __DIR__ . '/site-config.php';
       <a class="<?= isActivePage('tour.php') ?>" href="/tour.php">Events</a>
       <a class="<?= isActivePage('vergangene-events.php') ?>" href="/vergangene-events.php">Galerie</a>
       <a class="<?= isActivePage('ueber-shary.php') ?>" href="/ueber-shary.php">Über den Künstler</a>
+      <a class="booking-cta <?= isActivePage('booking.php') ?>" href="/booking.php" aria-label="Booking- und Kontaktseite öffnen">
+        <svg class="booking-cta__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path class="booking-cta__spray" d="M8.4 7.9h7.2c1.1 0 2 .9 2 2v8.7c0 1.1-.9 2-2 2H8.4c-1.1 0-2-.9-2-2V9.9c0-1.1.9-2 2-2Z"/>
+          <path class="booking-cta__cap" d="M9.1 4.9h5.8v3H9.1z"/>
+          <path class="booking-cta__nozzle" d="M10.4 3.4h3.2c.5 0 .9.4.9.9v.6H9.5v-.6c0-.5.4-.9.9-.9Z"/>
+          <path class="booking-cta__label" d="M8.6 12.4h6.8M8.6 15.2h4.7"/>
+          <path class="booking-cta__mist" d="M16.4 5.4c1.8-.8 3.3-1.1 4.8-1.1M17.1 7.1c1.6.1 2.8.4 4.1 1M17.2 3.8c1-.9 1.8-1.5 2.8-2"/>
+        </svg>
+        <span>Booking</span>
+      </a>
       <a class="<?= isActivePage('booking.php') ?>" href="/booking.php">Kontakt</a>
     </nav>
 
