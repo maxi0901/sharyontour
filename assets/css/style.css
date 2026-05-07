@@ -131,9 +131,82 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 .logo { display:flex; flex-direction:column; gap:.18rem; }
 .logo-mark { font-family:'Anton',sans-serif; font-size:clamp(2rem,4vw,3rem); color:var(--neon-red); line-height:.8; }
 .logo-art { text-decoration: line-through; text-decoration-thickness: 2px; }
-.main-nav { display:flex; gap:.35rem; }
+.main-nav { display:flex; gap:.35rem; align-items:center; }
 .main-nav a { font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; padding:.5rem .9rem; border-radius:999px; color:#d2d7e5; }
 .main-nav a:hover, .main-nav a.is-active { color:#fff; background: rgba(255,20,105,.17); box-shadow: inset 0 0 0 1px rgba(255,20,105,.42); }
+.main-nav .booking-cta {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .48rem;
+  margin-inline: .22rem;
+  padding: .56rem 1rem .56rem .78rem;
+  overflow: hidden;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .28);
+  background:
+    radial-gradient(circle at 18% 25%, rgba(255, 86, 206, .36), transparent 45%),
+    radial-gradient(circle at 84% 78%, rgba(199, 255, 43, .14), transparent 52%),
+    linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.045) 46%, rgba(6,8,13,.88));
+  box-shadow:
+    0 0 0 1px rgba(255,20,105,.22),
+    0 10px 26px rgba(0,0,0,.34),
+    0 0 22px rgba(255,20,105,.26),
+    inset 0 1px 0 rgba(255,255,255,.24);
+  backdrop-filter: blur(14px) saturate(1.18);
+  -webkit-backdrop-filter: blur(14px) saturate(1.18);
+}
+.main-nav .booking-cta::before {
+  content: '';
+  position: absolute;
+  inset: -42% -24%;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 18% 38%, rgba(255,20,105,.58) 0 4%, transparent 10%),
+    radial-gradient(circle at 34% 68%, rgba(255,86,206,.38) 0 2.8%, transparent 8%),
+    radial-gradient(circle at 82% 48%, rgba(199,255,43,.22) 0 3.6%, transparent 9%),
+    linear-gradient(100deg, transparent 18%, rgba(255,255,255,.22) 40%, transparent 62%);
+  opacity: .62;
+  filter: blur(7px);
+  transform: translateX(-14%) rotate(-8deg);
+  transition: opacity .24s ease, transform .24s ease;
+}
+.main-nav .booking-cta::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  border: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.10), transparent 42%);
+  pointer-events: none;
+}
+.main-nav .booking-cta:hover,
+.main-nav .booking-cta.is-active {
+  color: #fff;
+  border-color: rgba(255,20,105,.76);
+  background:
+    radial-gradient(circle at 18% 25%, rgba(255, 86, 206, .48), transparent 45%),
+    radial-gradient(circle at 84% 78%, rgba(199, 255, 43, .22), transparent 52%),
+    linear-gradient(135deg, rgba(255,255,255,.2), rgba(255,20,105,.13) 46%, rgba(7,9,15,.9));
+  box-shadow:
+    0 0 0 1px rgba(255,20,105,.42),
+    0 13px 30px rgba(0,0,0,.42),
+    var(--glow-red),
+    inset 0 1px 0 rgba(255,255,255,.28);
+  transform: translateY(-1px);
+}
+.main-nav .booking-cta:hover::before,
+.main-nav .booking-cta.is-active::before { opacity: .95; transform: translateX(5%) rotate(-8deg) scale(1.04); }
+.booking-cta__icon { width: 1.12rem; height: 1.12rem; flex: 0 0 auto; overflow: visible; }
+.booking-cta__spray,
+.booking-cta__cap,
+.booking-cta__nozzle { fill: rgba(5,7,12,.72); stroke: currentColor; stroke-width: 1.35; stroke-linejoin: round; }
+.booking-cta__label,
+.booking-cta__mist { fill: none; stroke: var(--acid-green); stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
+.booking-cta__mist { stroke: rgba(255,86,206,.95); }
 .header-actions { display:flex; gap:.55rem; align-items:center; }
 
 .header-social { display:flex; gap:.35rem; }
@@ -886,6 +959,49 @@ html, body { overflow-x: hidden; }
 .shop-teaser h3 { margin-top: .25rem; }
 .shop-teaser p { margin-top: .3rem; color: #cdd2e0; font-size: .92rem; }
 .shop-teaser .btn { white-space: nowrap; }
+
+@media (max-width: 1180px) {
+  .header-social { display: none; }
+}
+
+@media (max-width: 1080px) {
+  .site-header { position: sticky; }
+  .nav-wrap { padding: .65rem 0; gap: .55rem; }
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: .2rem;
+    padding: .8rem;
+    background: rgba(8,10,16,.96);
+    border-top: 1px solid rgba(255,20,105,.42);
+    border-bottom: 1px solid rgba(255,20,105,.32);
+    box-shadow: 0 18px 36px rgba(0,0,0,.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .main-nav.open { display: flex; }
+  .main-nav a {
+    width: 100%;
+    padding: .85rem 1rem;
+    border-radius: 12px;
+    font-size: .8rem;
+    letter-spacing: .14em;
+  }
+  .main-nav .booking-cta {
+    width: 100%;
+    margin: .18rem 0 .28rem;
+    padding: .95rem 1rem;
+    border-radius: 16px;
+    justify-content: flex-start;
+    gap: .7rem;
+  }
+  .booking-cta__icon { width: 1.28rem; height: 1.28rem; }
+  .nav-toggle { display: grid; }
+  .icon-btn { width: 40px; height: 40px; }
+}
 
 /* ==========================================================
    MOBILE — kompakter, optisch stimmiger Aufbau
