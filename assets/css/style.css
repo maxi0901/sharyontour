@@ -269,14 +269,11 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 }
 .spraycan-btn:hover::before { opacity:.95; transform:scale(1.06); }
 .mobile-spraycan-btn { display: none; text-decoration: none; isolation: isolate; }
-.mobile-spraycan-btn__icon { width: 23px; height: 23px; overflow: visible; filter: drop-shadow(0 0 7px rgba(255,20,105,.75)); }
-.mobile-spraycan-btn__body { stroke: rgba(255,255,255,.9); stroke-width: 1.15; stroke-linejoin: round; }
-.mobile-spraycan-btn__cap,
-.mobile-spraycan-btn__nozzle { fill: rgba(7,9,15,.86); stroke: rgba(255,255,255,.82); stroke-width: 1.1; stroke-linejoin: round; }
-.mobile-spraycan-btn__shine,
-.mobile-spraycan-btn__mist { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.mobile-spraycan-btn__shine { stroke: rgba(255,255,255,.86); stroke-width: 1.05; }
-.mobile-spraycan-btn__mist { stroke: rgba(255,86,206,.96); stroke-width: 1.35; filter: drop-shadow(0 0 5px rgba(255,20,105,.9)); }
+.mobile-spraycan-btn__icon { width: 22px; height: 22px; overflow: visible; filter: drop-shadow(0 0 7px rgba(255,20,105,.9)); }
+.mobile-spraycan-btn__body,
+.mobile-spraycan-btn__cap { fill: none; stroke: #ff5ccf; stroke-width: 1.75; stroke-linejoin: round; }
+.mobile-spraycan-btn__nozzle,
+.mobile-spraycan-btn__label { fill: none; stroke: #ffd7f2; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
 @keyframes spray-pulse {
   0%   { box-shadow: 0 0 0 0 rgba(255,20,105,.55); }
   70%  { box-shadow: 0 0 0 14px rgba(255,20,105,0); }
@@ -1007,7 +1004,7 @@ html, body { overflow-x: hidden; }
     justify-content: flex-start;
     gap: .7rem;
   }
-  .booking-cta__icon { width: 1.28rem; height: 1.28rem; }
+  .main-nav .booking-cta .booking-cta__icon { display: none; }
   .mobile-spraycan-btn {
     display: grid;
     flex: 0 0 auto;
@@ -1015,18 +1012,24 @@ html, body { overflow-x: hidden; }
     height: 42px;
     border-color: rgba(255,20,105,.86);
     background:
-      radial-gradient(circle at 24% 20%, rgba(255,255,255,.28), transparent 24%),
-      radial-gradient(circle at 32% 30%, rgba(255,86,206,.45), transparent 58%),
-      radial-gradient(circle at 82% 82%, rgba(199,255,43,.14), transparent 58%),
-      linear-gradient(145deg, rgba(255,255,255,.14), rgba(255,20,105,.08) 42%, rgba(8,10,16,.92));
+      radial-gradient(circle at 50% 45%, rgba(255,20,105,.34), transparent 42%),
+      radial-gradient(circle at 50% 50%, rgba(255,86,206,.18), transparent 62%),
+      linear-gradient(145deg, rgba(32,35,46,.9), rgba(9,11,18,.96));
     box-shadow:
-      0 0 0 1px rgba(255,20,105,.2),
-      0 0 20px rgba(255,20,105,.48),
+      0 0 0 1px rgba(255,20,105,.34),
+      0 0 20px rgba(255,20,105,.62),
+      0 0 36px rgba(255,20,105,.34),
       0 10px 24px rgba(0,0,0,.36),
-      inset 0 1px 0 rgba(255,255,255,.24),
-      inset 0 0 16px rgba(255,20,105,.2);
+      inset 0 1px 0 rgba(255,255,255,.18),
+      inset 0 0 18px rgba(255,20,105,.24);
     backdrop-filter: blur(14px) saturate(1.25);
     -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  }
+  .mobile-spraycan-btn::before {
+    inset: -10px;
+    background: radial-gradient(circle at 50% 50%, rgba(255,20,105,.72) 0 15%, rgba(255,20,105,.28) 38%, transparent 68%);
+    filter: blur(7px);
+    opacity: .76;
   }
   .mobile-spraycan-btn:hover,
   .mobile-spraycan-btn:focus-visible {
