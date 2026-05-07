@@ -21,11 +21,9 @@ return [
         'postal_city' => '45127 Essen',
         'phone_display' => '+49 175 4443122',
         'phone_href' => '+491754443122',
-        'email' => 'kontakt@sharyontour.de',
     ],
     'event_media' => [
         'department' => 'Event & Media',
-        'email' => 'kontakt@sharyontour.de',
         'management' => 'Management by Raphael & Sebastian',
         'contacts' => [
             [
