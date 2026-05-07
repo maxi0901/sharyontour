@@ -250,4 +250,123 @@
       }
     } catch (err) { /* ignore */ }
   });
+
+  // Event-card video autoplay coordinator
+  function initEventVideos() {
+    const videos = Array.from(document.querySelectorAll('video.event-video'));
+    if (!videos.length) return;
+    if (!('IntersectionObserver' in window)) return;
+
+    const visibility = new WeakMap();
+    const carouselActive = new WeakMap();
+    let currentlyPlaying = null;
+
+    const carouselSelector = '.events-scroll, [data-event-slider]';
+
+    videos.forEach((v) => {
+      visibility.set(v, false);
+      // Outside any carousel: always treated as carousel-active.
+      carouselActive.set(v, !v.closest(carouselSelector));
+    });
+
+    const tryPlay = (v) => {
+      if (!visibility.get(v) || !carouselActive.get(v)) return;
+      if (currentlyPlaying && currentlyPlaying !== v) {
+        try { currentlyPlaying.pause(); } catch (_) { /* ignore */ }
+      }
+      currentlyPlaying = v;
+      try {
+        const p = v.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch(() => { /* autoplay blocked, ignore */ });
+        }
+      } catch (_) { /* ignore */ }
+    };
+
+    const pause = (v) => {
+      try { v.pause(); } catch (_) { /* ignore */ }
+      if (currentlyPlaying === v) currentlyPlaying = null;
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const v = entry.target;
+        const visible = entry.intersectionRatio >= 0.6;
+        visibility.set(v, visible);
+        if (visible) tryPlay(v); else pause(v);
+      });
+    }, { threshold: [0, 0.6, 1] });
+
+    videos.forEach((v) => io.observe(v));
+
+    // Carousel coordination: only the active slide's video may play.
+    const tracks = new Set();
+    videos.forEach((v) => {
+      const t = v.closest(carouselSelector);
+      if (t) tracks.add(t);
+    });
+
+    tracks.forEach((track) => {
+      const trackVideos = Array.from(track.querySelectorAll('video.event-video'));
+
+      const evaluate = () => {
+        const trackRect = track.getBoundingClientRect();
+        const trackCenter = trackRect.left + trackRect.width / 2;
+        const slideMap = new Map();
+
+        trackVideos.forEach((v) => {
+          const slide = v.parentElement && v.parentElement.closest(
+            '.event-card, .card, .event-slide, .events-item, .gallery-overview-item'
+          );
+          if (!slide || !track.contains(slide)) return;
+          slideMap.set(v, slide);
+        });
+
+        let activeSlide = null;
+        let bestDist = Infinity;
+        const uniqueSlides = new Set(slideMap.values());
+        uniqueSlides.forEach((slide) => {
+          const r = slide.getBoundingClientRect();
+          const center = r.left + r.width / 2;
+          const dist = Math.abs(center - trackCenter);
+          if (dist < bestDist) { bestDist = dist; activeSlide = slide; }
+        });
+
+        slideMap.forEach((slide, v) => {
+          const isActive = (slide === activeSlide);
+          carouselActive.set(v, isActive);
+          if (!isActive) {
+            pause(v);
+          } else if (visibility.get(v)) {
+            tryPlay(v);
+          }
+        });
+      };
+
+      let scrollTimer = null;
+      track.addEventListener('scroll', () => {
+        if (scrollTimer) clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(evaluate, 80);
+      }, { passive: true });
+
+      window.addEventListener('resize', () => {
+        if (scrollTimer) clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(evaluate, 120);
+      });
+
+      evaluate();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        videos.forEach(pause);
+      } else {
+        videos.forEach((v) => {
+          if (visibility.get(v) && carouselActive.get(v)) tryPlay(v);
+        });
+      }
+    });
+  }
+
+  initEventVideos();
 })();

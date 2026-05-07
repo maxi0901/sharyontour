@@ -9,6 +9,7 @@ $item = [
     'title' => '', 'slug' => '', 'event_date' => '', 'event_time' => '',
     'city' => '', 'location_name' => '', 'address' => '',
     'description_short' => '', 'description_long' => '', 'image_path' => '',
+    'video_path' => '',
     'status' => 'upcoming', 'is_opening' => 0, 'max_tickets' => 0,
     'google_maps_url' => '',
 ];
@@ -18,15 +19,20 @@ if ($id) {
 
 $error = null;
 $eventImageUploadMaxBytes = 52428800;
+$eventVideoUploadMaxBytes = 209715200;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verifyCsrf($_POST['csrf_token'] ?? null)) {
         $error = 'CSRF Fehler.';
     } else {
         $slug = trim($_POST['slug'] ?? '') ?: createSlug($_POST['title'] ?? '');
         $imagePath = trim($_POST['image_path'] ?? '');
+        $videoPath = trim($_POST['video_path'] ?? '');
 
         if (isset($_POST['remove_image']) && $_POST['remove_image'] === '1') {
             $imagePath = '';
+        }
+        if (isset($_POST['remove_video']) && $_POST['remove_video'] === '1') {
+            $videoPath = '';
         }
 
         if (!empty($_FILES['image_file']['name']) && (int) ($_FILES['image_file']['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
@@ -65,6 +71,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         }
+
+        if (($error === null) && !empty($_FILES['video_file']['name']) && (int) ($_FILES['video_file']['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+            $videoUpload = $_FILES['video_file'];
+            if ((int) $videoUpload['error'] !== UPLOAD_ERR_OK) {
+                $error = 'Video-Upload fehlgeschlagen (Code ' . (int) $videoUpload['error'] . ').';
+            } elseif ($videoUpload['size'] > $eventVideoUploadMaxBytes) {
+                $error = 'Video ist größer als 200 MB.';
+            } else {
+                $vfinfo = function_exists('finfo_open') ? finfo_open(FILEINFO_MIME_TYPE) : false;
+                $vmime = $vfinfo ? finfo_file($vfinfo, $videoUpload['tmp_name']) : ($videoUpload['type'] ?? '');
+                if ($vfinfo) finfo_close($vfinfo);
+
+                $videoExtByMime = [
+                    'video/mp4'       => 'mp4',
+                    'video/webm'      => 'webm',
+                    'video/quicktime' => 'mov',
+                ];
+                if (!isset($videoExtByMime[$vmime])) {
+                    $error = 'Videoformat nicht unterstützt (nur MP4, WEBM, MOV).';
+                } else {
+                    $vext = $videoExtByMime[$vmime];
+                    $vbase = $slug !== '' ? $slug : 'event';
+                    $vfilename = $vbase . '-' . date('YmdHis') . '-' . substr(bin2hex(random_bytes(3)), 0, 6) . '.' . $vext;
+                    $vTargetDir = __DIR__ . '/../assets/video/events';
+                    if (!is_dir($vTargetDir)) {
+                        @mkdir($vTargetDir, 0755, true);
+                    }
+                    $vTargetFile = $vTargetDir . '/' . $vfilename;
+                    if (!move_uploaded_file($videoUpload['tmp_name'], $vTargetFile)) {
+                        $error = 'Video konnte nicht gespeichert werden.';
+                    } else {
+                        $videoPath = '/assets/video/events/' . $vfilename;
+                    }
+                }
+            }
+        }
     }
 
     if (!isset($error) || $error === null) {
@@ -79,6 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'description_short' => trim($_POST['description_short'] ?? ''),
             'description_long' => trim($_POST['description_long'] ?? ''),
             'image_path' => $imagePath !== '' ? $imagePath : null,
+            'video_path' => $videoPath !== '' ? $videoPath : null,
             'status' => in_array($_POST['status'] ?? 'upcoming', ['upcoming', 'past', 'draft'], true) ? $_POST['status'] : 'upcoming',
             'is_opening' => isset($_POST['is_opening']) ? 1 : 0,
             'max_tickets' => (int) ($_POST['max_tickets'] ?? 0),
@@ -86,11 +129,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         if ($id) {
-            $stmt = $pdo->prepare('UPDATE events SET title=:title,slug=:slug,event_date=:event_date,event_time=:event_time,city=:city,location_name=:location_name,address=:address,description_short=:description_short,description_long=:description_long,image_path=:image_path,status=:status,is_opening=:is_opening,max_tickets=:max_tickets,google_maps_url=:google_maps_url WHERE id=:id');
+            $stmt = $pdo->prepare('UPDATE events SET title=:title,slug=:slug,event_date=:event_date,event_time=:event_time,city=:city,location_name=:location_name,address=:address,description_short=:description_short,description_long=:description_long,image_path=:image_path,video_path=:video_path,status=:status,is_opening=:is_opening,max_tickets=:max_tickets,google_maps_url=:google_maps_url WHERE id=:id');
             $data['id'] = $id;
             $stmt->execute($data);
         } else {
-            $stmt = $pdo->prepare('INSERT INTO events (title,slug,event_date,event_time,city,location_name,address,description_short,description_long,image_path,status,is_opening,max_tickets,google_maps_url) VALUES (:title,:slug,:event_date,:event_time,:city,:location_name,:address,:description_short,:description_long,:image_path,:status,:is_opening,:max_tickets,:google_maps_url)');
+            $stmt = $pdo->prepare('INSERT INTO events (title,slug,event_date,event_time,city,location_name,address,description_short,description_long,image_path,video_path,status,is_opening,max_tickets,google_maps_url) VALUES (:title,:slug,:event_date,:event_time,:city,:location_name,:address,:description_short,:description_long,:image_path,:video_path,:status,:is_opening,:max_tickets,:google_maps_url)');
             $stmt->execute($data);
         }
         header('Location: /admin/events.php');
@@ -112,7 +155,7 @@ require __DIR__ . '/_header.php';
 
 <form method="post" class="admin-form" enctype="multipart/form-data">
   <?= csrfField() ?>
-  <input type="hidden" name="MAX_FILE_SIZE" value="<?= $eventImageUploadMaxBytes ?>">
+  <input type="hidden" name="MAX_FILE_SIZE" value="<?= $eventVideoUploadMaxBytes ?>">
 
   <div class="form-grid-2">
     <label class="field"><span>Titel *</span><input name="title" required value="<?= e($item['title']) ?>"></label>
@@ -169,6 +212,31 @@ require __DIR__ . '/_header.php';
         Bild entfernen (leeres Feld speichern)
       </label>
     <?php endif; ?>
+  </div>
+
+  <div class="event-video-field">
+    <span class="field-label">Event-Video (optional)</span>
+    <?php if (!empty($item['video_path'])): ?>
+      <div class="event-video-preview">
+        <video class="admin-video-preview" controls preload="metadata" muted playsinline
+               src="<?= e((string) $item['video_path']) ?>" style="max-width:320px;border-radius:8px;display:block;"></video>
+      </div>
+    <?php endif; ?>
+    <label class="field">
+      <span>Neues Video hochladen (MP4, WEBM, MOV · MAX. 200 MB)</span>
+      <input type="file" name="video_file" accept="video/mp4,video/webm,video/quicktime">
+    </label>
+    <label class="field">
+      <span>oder Video-Pfad manuell (optional)</span>
+      <input name="video_path" value="<?= e((string) ($item['video_path'] ?? '')) ?>" placeholder="/assets/video/events/...">
+    </label>
+    <?php if (!empty($item['video_path'])): ?>
+      <label class="check check-inline">
+        <input type="checkbox" name="remove_video" value="1">
+        Video entfernen (leeres Feld speichern)
+      </label>
+    <?php endif; ?>
+    <p class="muted">Wenn ein Video gesetzt ist, wird es auf der Event-Karte angezeigt; das Bild dient als Poster (Vorschaubild).</p>
   </div>
 
   <div class="form-grid-3">

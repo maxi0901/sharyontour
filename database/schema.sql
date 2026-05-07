@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS events (
   description_short TEXT NULL,
   description_long TEXT NULL,
   image_path VARCHAR(500) NULL,
+  video_path VARCHAR(500) NULL,
   status ENUM('upcoming','past','draft') DEFAULT 'upcoming',
   is_opening TINYINT(1) DEFAULT 0,
   max_tickets INT UNSIGNED DEFAULT 600,
