@@ -55,6 +55,7 @@ $siteConfig = require __DIR__ . '/site-config.php';
           <path class="mobile-spraycan-btn__body" d="M10.2 11.2h7.6v10.9c0 .7-.6 1.3-1.3 1.3h-5c-.7 0-1.3-.6-1.3-1.3V11.2Z"/>
           <path class="mobile-spraycan-btn__label" d="M12.3 15.1h3.4M12.3 18.2h3.4"/>
         </svg>
+        <span class="mobile-spraycan-btn__text">Booking</span>
       </a>
       <button class="nav-toggle icon-btn" aria-label="Navigation öffnen" aria-controls="mainNav" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">

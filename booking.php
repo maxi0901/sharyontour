@@ -18,15 +18,8 @@ require __DIR__ . '/includes/header.php';
   </div>
 
   <div class="booking-service-grid">
-    <article class="booking-service-card neon-card" style="--service-index: 0">
+    <article class="booking-service-card neon-card booking-service-card--wide" style="--service-index: 0">
       <span class="booking-service-card__number">01</span>
-      <p class="ticket-meta-label">BOOKING</p>
-      <h3>Shary für dein Event</h3>
-      <p>Persönlicher Auftritt von Shary mit S-ART Energie für Events, Openings, Firmenfeiern und besondere Momente.</p>
-    </article>
-
-    <article class="booking-service-card neon-card booking-service-card--wide" style="--service-index: 1">
-      <span class="booking-service-card__number">02</span>
       <p class="ticket-meta-label">MOBILE GALERIE</p>
       <h3>Mobile Galerie mit 2 Containern</h3>
       <p>Zwei mobile S-ART Container als auffällige Galerie-Installation direkt auf deinem Gelände oder Event.</p>
@@ -36,22 +29,22 @@ require __DIR__ . '/includes/header.php';
       </ul>
     </article>
 
-    <article class="booking-service-card neon-card" style="--service-index: 2">
-      <span class="booking-service-card__number">03</span>
+    <article class="booking-service-card neon-card" style="--service-index: 1">
+      <span class="booking-service-card__number">02</span>
       <p class="ticket-meta-label">LIVE PERFORMANCE</p>
       <h3>Life Action von Shary</h3>
       <p>Shary gestaltet live vor Ort und macht den kreativen Prozess zum Highlight deines Events.</p>
     </article>
 
-    <article class="booking-service-card neon-card" style="--service-index: 3">
-      <span class="booking-service-card__number">04</span>
+    <article class="booking-service-card neon-card" style="--service-index: 2">
+      <span class="booking-service-card__number">03</span>
       <p class="ticket-meta-label">BRAND CUSTOMIZING</p>
       <h3>Personalisierung deiner Marke</h3>
       <p>Individuelle S-ART Veredelung für Produkte und Markenauftritte – z. B. Schaumwein besprühen wie beim Messinghof.</p>
     </article>
 
-    <article class="booking-service-card neon-card" style="--service-index: 4">
-      <span class="booking-service-card__number">05</span>
+    <article class="booking-service-card neon-card" style="--service-index: 3">
+      <span class="booking-service-card__number">04</span>
       <p class="ticket-meta-label">AUTOMATEN VERMIETUNG</p>
       <h3>S-Art Automaten</h3>
       <p>Vermietung von S-ART Automaten für Skull Liquid und S-ART Produkte als interaktiver Blickfang.</p>
