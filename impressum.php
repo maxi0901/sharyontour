@@ -31,10 +31,7 @@ require __DIR__ . '/includes/header.php';
 
       <div class="legal-section">
         <h2><?= e($eventMedia['department']) ?></h2>
-        <p>
-          E-Mail: <a href="mailto:<?= e($eventMedia['email']) ?>"><?= e($eventMedia['email']) ?></a><br>
-          <?= e($eventMedia['management']) ?>
-        </p>
+        <p><?= e($eventMedia['management']) ?></p>
         <?php foreach ($eventMedia['contacts'] as $contact): ?>
           <p>
             <strong><?= e($contact['name']) ?></strong><br>
@@ -57,14 +54,6 @@ require __DIR__ . '/includes/header.php';
         <p>E-Mail: <a href="mailto:kontakt@dodidis-media.de">kontakt@dodidis-media.de</a></p>
       </div>
 
-      <div class="legal-section">
-        <h2>Online Marketing</h2>
-        <p>
-          lux-marketing<br>
-          Ringstraße 4<br>
-          45527 Hattingen
-        </p>
-      </div>
 
       <div class="legal-section">
         <h2>Umsatzsteuer-ID</h2>
