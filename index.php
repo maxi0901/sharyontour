@@ -91,7 +91,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 <section class="section container" id="events">
   <div class="section-heading reveal">
     <h2>AKTUELLE EVENTS</h2>
-    <a href="/tour.php">ALLE EVENTS ANSEHEN →</a>
+    <a href="/tour.php">ALLE EVENTS IM ÜBERBLICK →</a>
   </div>
   <div class="carousel-wrap reveal-group">
     <div class="card-grid events-scroll">
