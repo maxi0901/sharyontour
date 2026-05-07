@@ -25,7 +25,8 @@ require __DIR__ . '/includes/header.php';
         <h2>Kontakt</h2>
         <p>
           Mobil: <a href="tel:<?= e($siteConfig['contact']['phone_href']) ?>"><?= e($siteConfig['contact']['phone_display']) ?></a><br>
-          E-Mail: <a href="mailto:info@sart.work">info@sart.work</a>
+          E-Mail: <a href="mailto:info@sart.work">info@sart.work</a><br>
+          Booking-E-Mail: <a href="mailto:<?= e($siteConfig['contact']['email']) ?>"><?= e($siteConfig['contact']['email']) ?></a>
         </p>
       </div>
 
