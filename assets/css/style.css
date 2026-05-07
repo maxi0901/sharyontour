@@ -95,12 +95,12 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 }
 .text-pink {
   background-image: linear-gradient(
-    180deg,
-    #ffc4dd 0%,
-    #ff7ab3 18%,
-    #ff3690 42%,
+    158deg,
+    #ffd2e4 0%,
+    #ff8fc1 16%,
+    #ff4596 40%,
     #ff1576 68%,
-    #d31464 100%
+    #c70f5a 100%
   );
   filter:
     drop-shadow(0 0 18px rgba(255, 20, 105, .65))
@@ -108,17 +108,18 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 }
 .text-green {
   background-image: linear-gradient(
-    180deg,
+    155deg,
     #ff3a90 0%,
-    #ff5470 18%,
-    #ff7a3d 38%,
-    #ffa820 56%,
-    #ffd400 76%,
-    #f6ff36 100%
+    #ff5fa8 12%,
+    #ffae3e 30%,
+    #ffd400 48%,
+    #f6ff36 66%,
+    #c7ff2b 84%,
+    #8eff3a 100%
   );
   filter:
-    drop-shadow(0 0 20px rgba(255, 130, 40, .55))
-    drop-shadow(0 0 8px rgba(255, 213, 0, .5));
+    drop-shadow(0 0 20px rgba(255, 220, 30, .55))
+    drop-shadow(0 0 8px rgba(180, 255, 60, .5));
 }
 .text-pink::after,
 .text-green::after {
@@ -138,7 +139,7 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
   opacity: .8;
   mix-blend-mode: screen;
 }
-.text-green::after { color: rgba(255, 200, 40, .55); }
+.text-green::after { color: rgba(199, 255, 43, .55); }
 
 .site-header {
   position: sticky; top: 0; z-index: 100;
