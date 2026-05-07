@@ -47,16 +47,18 @@ $siteConfig = require __DIR__ . '/site-config.php';
         <a href="<?= e($siteConfig['social']['tiktok']['url']) ?>" target="_blank" rel="noopener noreferrer">TikTok</a>
       </div>
       <a class="btn btn-ticket-mini" href="/ticket-buchen.php">Gratis Ticket</a>
-      <a class="mobile-spraycan-btn spraycan-btn icon-btn" href="/booking.php" aria-label="Booking- und Kontaktseite öffnen">
-        <span class="spraycan-pulse" aria-hidden="true"></span>
-        <svg class="mobile-spraycan-btn__icon" viewBox="0 0 28 28" aria-hidden="true" focusable="false">
-          <path class="mobile-spraycan-btn__nozzle" d="M12.2 5.4h3.6"/>
-          <path class="mobile-spraycan-btn__cap" d="M11.2 7.2h5.6v4.1h-5.6z"/>
-          <path class="mobile-spraycan-btn__body" d="M10.2 11.2h7.6v10.9c0 .7-.6 1.3-1.3 1.3h-5c-.7 0-1.3-.6-1.3-1.3V11.2Z"/>
-          <path class="mobile-spraycan-btn__label" d="M12.3 15.1h3.4M12.3 18.2h3.4"/>
-        </svg>
-        <span class="mobile-spraycan-btn__text">Booking</span>
-      </a>
+      <span class="mobile-spraycan-wrap">
+        <span class="mobile-spraycan-btn__text" aria-hidden="true">Booking</span>
+        <a class="mobile-spraycan-btn spraycan-btn icon-btn" href="/booking.php" aria-label="Booking- und Kontaktseite öffnen">
+          <span class="spraycan-pulse" aria-hidden="true"></span>
+          <svg class="mobile-spraycan-btn__icon" viewBox="0 0 28 28" aria-hidden="true" focusable="false">
+            <path class="mobile-spraycan-btn__nozzle" d="M12.2 5.4h3.6"/>
+            <path class="mobile-spraycan-btn__cap" d="M11.2 7.2h5.6v4.1h-5.6z"/>
+            <path class="mobile-spraycan-btn__body" d="M10.2 11.2h7.6v10.9c0 .7-.6 1.3-1.3 1.3h-5c-.7 0-1.3-.6-1.3-1.3V11.2Z"/>
+            <path class="mobile-spraycan-btn__label" d="M12.3 15.1h3.4M12.3 18.2h3.4"/>
+          </svg>
+        </a>
+      </span>
       <button class="nav-toggle icon-btn" aria-label="Navigation öffnen" aria-controls="mainNav" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
           <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
