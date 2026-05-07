@@ -1460,6 +1460,133 @@ html, body { overflow-x: hidden; }
 .coming-soon h1 { font-size: clamp(3rem, 11vw, 7rem); }
 
 /* Kontakt */
+.booking-services {
+  padding-top: 1.4rem;
+}
+.booking-services__head {
+  max-width: 860px;
+  margin-bottom: 1.4rem;
+}
+.booking-services__head .subline {
+  margin-top: .75rem;
+}
+.booking-service-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1rem;
+  perspective: 1200px;
+}
+.booking-service-card {
+  grid-column: span 2;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: .72rem;
+  isolation: isolate;
+  opacity: 0;
+  transform: translate3d(var(--start-x, 0), var(--start-y, 32px), 0) rotate(var(--start-rotate, -3deg)) skewY(var(--start-skew, 1.5deg)) scale(.94);
+  filter: blur(8px) saturate(.75);
+  animation: atypic-service-fade .9s cubic-bezier(.16, 1, .3, 1) forwards;
+  animation-delay: calc(.12s + (var(--service-index) * .13s));
+}
+.booking-service-card:nth-child(odd) {
+  --start-x: -28px;
+  --start-y: 42px;
+  --start-rotate: -5deg;
+  --start-skew: 2deg;
+}
+.booking-service-card:nth-child(even) {
+  --start-x: 32px;
+  --start-y: -22px;
+  --start-rotate: 4deg;
+  --start-skew: -2deg;
+}
+.booking-service-card--wide {
+  grid-column: span 4;
+}
+.booking-service-card__number {
+  position: absolute;
+  top: .9rem;
+  right: 1rem;
+  z-index: -1;
+  color: rgba(255, 255, 255, .06);
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(4.5rem, 8vw, 7rem);
+  line-height: .8;
+  letter-spacing: -.03em;
+}
+.booking-service-card h3 {
+  color: #fff;
+  font-size: clamp(1.45rem, 3vw, 2.35rem);
+  line-height: .95;
+  max-width: 680px;
+}
+.booking-service-card p:not(.ticket-meta-label) {
+  color: rgba(247, 248, 255, .82);
+  max-width: 720px;
+}
+.booking-service-card__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  padding: 0;
+  margin: .2rem 0 0;
+  list-style: none;
+}
+.booking-service-card__facts li {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 999px;
+  padding: .42rem .72rem;
+  color: #fff;
+  background: rgba(255, 255, 255, .06);
+  box-shadow: inset 0 0 18px rgba(255, 42, 138, .08);
+  font-size: .82rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+@keyframes atypic-service-fade {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--start-x, 0), var(--start-y, 32px), 0) rotate(var(--start-rotate, -3deg)) skewY(var(--start-skew, 1.5deg)) scale(.94);
+    filter: blur(8px) saturate(.75);
+  }
+  58% {
+    opacity: 1;
+    transform: translate3d(calc(var(--start-x, 0) * -.12), calc(var(--start-y, 32px) * -.12), 0) rotate(calc(var(--start-rotate, -3deg) * -.35)) skewY(0deg) scale(1.025);
+    filter: blur(1px) saturate(1.25);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg) skewY(0deg) scale(1);
+    filter: blur(0) saturate(1);
+  }
+}
+@media (max-width: 980px) {
+  .booking-service-card,
+  .booking-service-card--wide {
+    grid-column: span 3;
+  }
+}
+@media (max-width: 720px) {
+  .booking-services { padding-top: .8rem; }
+  .booking-service-grid { grid-template-columns: 1fr; gap: .85rem; }
+  .booking-service-card,
+  .booking-service-card--wide {
+    grid-column: auto;
+    min-height: 230px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .booking-service-card {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    animation: none;
+  }
+}
+
 .contact-card { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; padding: 1.6rem; background: rgba(13,14,22,.7); border: 1px solid var(--line); border-radius: 16px; }
 .contact-card .contact-link { font-size: 1.1rem; color: #fff; text-decoration: underline; text-decoration-color: rgba(226,35,26,.6); }
 .contact-block { display: flex; flex-direction: column; gap: .35rem; }
