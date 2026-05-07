@@ -26,8 +26,13 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
 
   <div class="container hero-layout">
     <div class="hero-copy reveal">
-      <h1 class="hero-brand-title">Shary on Tour</h1>
-      <p class="hero-role">internationaler eventkalender</p>
+      <p class="hero-role">Shary on Tour</p>
+      <h1 class="hero-brand-title">
+        <span>Pop-Art von</span>
+        <span class="text-pink">Sharyar</span>
+        <span class="text-green">Azhdari</span>
+      </h1>
+      <p class="subline">Pop-Art Energy für Events, Live-Erlebnisse und Sammler mit Anspruch.</p>
 
       <div class="cta-row">
         <a class="btn btn-primary" href="#events">EVENTS ENTDECKEN &nbsp;→</a>
