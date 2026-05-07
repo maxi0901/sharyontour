@@ -29,7 +29,7 @@ $artworks = fetchAll("SELECT * FROM artworks WHERE is_visible=1 ORDER BY sort_or
       <h1 class="hero-brand-title hero-brand-title--simple">
         <span>Shary on Tour</span>
       </h1>
-      <p class="subline">Internationaler Eventkalender</p>
+      <p class="subline hero-subline">Internationaler Eventkalender</p>
 
       <div class="cta-row">
         <a class="btn btn-primary" href="#events">EVENTS ENTDECKEN &nbsp;→</a>

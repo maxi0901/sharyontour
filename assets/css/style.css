@@ -451,6 +451,14 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
   text-shadow: 0 0 14px rgba(255, 20, 105, .48);
 }
 .subline { max-width:42ch; font-size:clamp(1.02rem, 1.8vw, 1.33rem); margin-top:1rem; }
+.hero-subline {
+  color: var(--text-white);
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: .012em;
+  line-height: 1.35;
+  text-shadow: 0 0 14px rgba(255, 255, 255, .18), 0 0 22px rgba(255, 20, 105, .22);
+}
 .cta-row { display:flex; gap:.9rem; margin-top:1.7rem; flex-wrap:wrap; }
 .hero-art {
   height: clamp(380px, 58vh, 620px);
