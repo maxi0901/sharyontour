@@ -367,19 +367,30 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 .hero-brand-title--simple {
   max-width: none;
   line-height: .88;
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #ffffff 34%,
-    #ff4fb3 56%,
-    #ff7a00 74%,
-    #fff142 88%,
-    #c7ff2b 100%
-  );
+  background:
+    radial-gradient(ellipse at 18% 16%, rgba(255, 255, 255, .98) 0%, transparent 30%),
+    radial-gradient(ellipse at 22% 58%, #ff23a8 0%, transparent 32%),
+    radial-gradient(ellipse at 56% 72%, #ff6a00 0%, transparent 28%),
+    radial-gradient(ellipse at 86% 92%, #c7ff2b 0%, transparent 30%),
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #ffffff 30%,
+      #ff2a9f 50%,
+      #ff2bd6 62%,
+      #ff8a00 75%,
+      #fff230 88%,
+      #c7ff2b 100%
+    );
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, .42)) drop-shadow(0 0 22px rgba(255, 20, 105, .35));
+  filter:
+    drop-shadow(0 3px 0 rgba(0, 0, 0, .48))
+    drop-shadow(0 0 10px rgba(255, 255, 255, .28))
+    drop-shadow(0 0 22px rgba(255, 20, 105, .72))
+    drop-shadow(0 0 34px rgba(255, 86, 206, .42))
+    drop-shadow(0 0 20px rgba(199, 255, 43, .24));
 }
 .hero-role {
   margin-bottom: 1rem;
