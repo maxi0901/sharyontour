@@ -67,13 +67,8 @@ require __DIR__ . '/includes/header.php';
       <p><?= e($siteConfig['contact']['street']) ?><br><?= e($siteConfig['contact']['postal_city']) ?></p>
     </div>
     <div class="contact-block">
-      <span class="ticket-meta-label">KONTAKT</span>
-      <a class="contact-link" href="mailto:<?= e($siteConfig['contact']['email']) ?>"><?= e($siteConfig['contact']['email']) ?></a>
-    </div>
-    <div class="contact-block">
       <span class="ticket-meta-label"><?= e($siteConfig['event_media']['department']) ?></span>
       <p><?= e($siteConfig['event_media']['management']) ?></p>
-      <a class="contact-link" href="mailto:<?= e($siteConfig['event_media']['email']) ?>"><?= e($siteConfig['event_media']['email']) ?></a>
       <?php foreach ($siteConfig['event_media']['contacts'] as $contact): ?>
         <p>
           <strong><?= e($contact['name']) ?></strong><br>
