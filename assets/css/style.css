@@ -1818,12 +1818,12 @@ html, body { overflow-x: hidden; }
 }
 .booking-service-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
   perspective: 1200px;
 }
 .booking-service-card {
-  grid-column: span 2;
+  grid-column: 1 / -1;
   min-height: 280px;
   display: flex;
   flex-direction: column;
@@ -1849,7 +1849,7 @@ html, body { overflow-x: hidden; }
   --start-skew: -2deg;
 }
 .booking-service-card--wide {
-  grid-column: span 4;
+  grid-column: 1 / -1;
 }
 .booking-service-card__number {
   position: absolute;
