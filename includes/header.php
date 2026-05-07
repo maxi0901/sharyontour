@@ -27,7 +27,7 @@ $siteConfig = require __DIR__ . '/site-config.php';
       <a class="<?= isActivePage('index.php') ?>" href="/index.php">Home</a>
       <a class="<?= isActivePage('tour.php') ?>" href="/tour.php">Events</a>
       <a class="<?= isActivePage('vergangene-events.php') ?>" href="/vergangene-events.php">Galerie</a>
-      <a class="<?= isActivePage('ueber-shary.php') ?>" href="/ueber-shary.php">Über Shary</a>
+      <a class="<?= isActivePage('ueber-shary.php') ?>" href="/ueber-shary.php">Über den Künstler</a>
       <a class="<?= isActivePage('booking.php') ?>" href="/booking.php">Kontakt</a>
     </nav>
 
