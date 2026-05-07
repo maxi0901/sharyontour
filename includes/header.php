@@ -50,18 +50,10 @@ $siteConfig = require __DIR__ . '/site-config.php';
       <a class="mobile-spraycan-btn spraycan-btn icon-btn" href="/booking.php" aria-label="Booking- und Kontaktseite öffnen">
         <span class="spraycan-pulse" aria-hidden="true"></span>
         <svg class="mobile-spraycan-btn__icon" viewBox="0 0 28 28" aria-hidden="true" focusable="false">
-          <defs>
-            <linearGradient id="mobileSprayBody" x1="7" y1="8" x2="20" y2="24" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#fff2fb"/>
-              <stop offset="0.42" stop-color="#ff56ce"/>
-              <stop offset="1" stop-color="#7a123f"/>
-            </linearGradient>
-          </defs>
-          <path class="mobile-spraycan-btn__mist" d="M18.6 5.2c2.2-1 4-1.3 6-1.2M19.4 7.5c2 .1 3.5 .5 5.2 1.4M19 3.2c1.1-1.1 2.3-1.8 3.7-2.4"/>
-          <path class="mobile-spraycan-btn__nozzle" d="M10.7 3.5h5.1c.7 0 1.2.5 1.2 1.2v1.1H9.5V4.7c0-.7.5-1.2 1.2-1.2Z"/>
-          <path class="mobile-spraycan-btn__cap" d="M9.2 5.8h8.1v3.4H9.2z"/>
-          <path class="mobile-spraycan-btn__body" fill="url(#mobileSprayBody)" d="M8.7 9.2h9.1c1.3 0 2.3 1 2.3 2.3v10.7c0 1.3-1 2.3-2.3 2.3H8.7c-1.3 0-2.3-1-2.3-2.3V11.5c0-1.3 1-2.3 2.3-2.3Z"/>
-          <path class="mobile-spraycan-btn__shine" d="M9.5 11.7c1.4-.6 4.2-.7 5.8-.2M9.3 16.1h7.8M9.3 19.3h5.4"/>
+          <path class="mobile-spraycan-btn__nozzle" d="M12.2 5.4h3.6"/>
+          <path class="mobile-spraycan-btn__cap" d="M11.2 7.2h5.6v4.1h-5.6z"/>
+          <path class="mobile-spraycan-btn__body" d="M10.2 11.2h7.6v10.9c0 .7-.6 1.3-1.3 1.3h-5c-.7 0-1.3-.6-1.3-1.3V11.2Z"/>
+          <path class="mobile-spraycan-btn__label" d="M12.3 15.1h3.4M12.3 18.2h3.4"/>
         </svg>
       </a>
       <button class="nav-toggle icon-btn" aria-label="Navigation öffnen" aria-controls="mainNav" aria-expanded="false">
