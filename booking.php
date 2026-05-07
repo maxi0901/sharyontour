@@ -40,7 +40,7 @@ require __DIR__ . '/includes/header.php';
       <span class="booking-service-card__number">03</span>
       <p class="ticket-meta-label">BRAND CUSTOMIZING</p>
       <h3>Personalisierung deiner Marke</h3>
-      <p>Individuelle S-ART Veredelung für Produkte und Markenauftritte – z. B. Schaumwein besprühen wie beim Messinghof.</p>
+      <p>Individuelle S-ART Veredelungen für Produkte, Events und Markenauftritte – z. B. kunstvolle Schaumwein-Inszenierungen.</p>
     </article>
 
     <article class="booking-service-card neon-card" style="--service-index: 3">
