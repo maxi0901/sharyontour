@@ -9,7 +9,7 @@ $adminPage = $adminPage ?? '';
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= e($pageTitle ?? 'S-ART Admin') ?></title>
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css?v=<?= @filemtime(__DIR__ . '/../assets/css/style.css') ?: time() ?>">
   <link rel="icon" type="image/svg+xml" href="/assets/img/s-art-logo.svg">
 </head>
 <body class="admin-body">
