@@ -109,17 +109,17 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 .text-green {
   background-image: linear-gradient(
     155deg,
-    #ff3a90 0%,
-    #ff5fa8 12%,
-    #ffae3e 30%,
-    #ffd400 48%,
-    #f6ff36 66%,
-    #c7ff2b 84%,
+    #ff8fc1 0%,
+    #ffa84a 14%,
+    #ffc91a 28%,
+    #ffe53b 44%,
+    #f6ff36 60%,
+    #c7ff2b 78%,
     #8eff3a 100%
   );
   filter:
-    drop-shadow(0 0 20px rgba(255, 220, 30, .55))
-    drop-shadow(0 0 8px rgba(180, 255, 60, .5));
+    drop-shadow(0 0 22px rgba(255, 220, 30, .6))
+    drop-shadow(0 0 10px rgba(180, 255, 60, .55));
 }
 .text-pink::after,
 .text-green::after {
@@ -375,8 +375,8 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 .hero-brand-title .text-green {
   letter-spacing: .01em;
   filter:
-    drop-shadow(0 3px 0 rgba(0, 0, 0, .34))
-    drop-shadow(0 0 12px rgba(255, 20, 105, .38));
+    drop-shadow(0 2px 0 rgba(0, 0, 0, .22))
+    drop-shadow(0 0 10px rgba(255, 20, 105, .32));
 }
 .hero-brand-title--simple {
   max-width: min(100%, 10.8ch);
