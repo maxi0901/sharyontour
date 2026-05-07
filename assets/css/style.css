@@ -96,11 +96,11 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 .text-pink {
   background-image: linear-gradient(
     180deg,
-    #ffd0e6 0%,
-    #ff86bb 22%,
-    #ff3a8a 52%,
-    #ff1469 78%,
-    #c41454 100%
+    #ffc4dd 0%,
+    #ff7ab3 18%,
+    #ff3690 42%,
+    #ff1576 68%,
+    #d31464 100%
   );
   filter:
     drop-shadow(0 0 18px rgba(255, 20, 105, .65))
@@ -109,14 +109,15 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 .text-green {
   background-image: linear-gradient(
     180deg,
-    #ffaa00 0%,
-    #ffd400 24%,
-    #ffe935 48%,
-    #d8ff2b 74%,
-    #b3ff00 100%
+    #ff3a90 0%,
+    #ff5470 18%,
+    #ff7a3d 38%,
+    #ffa820 56%,
+    #ffd400 76%,
+    #f6ff36 100%
   );
   filter:
-    drop-shadow(0 0 20px rgba(199, 255, 43, .6))
+    drop-shadow(0 0 20px rgba(255, 130, 40, .55))
     drop-shadow(0 0 8px rgba(255, 213, 0, .5));
 }
 .text-pink::after,
@@ -137,7 +138,7 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
   opacity: .8;
   mix-blend-mode: screen;
 }
-.text-green::after { color: rgba(199, 255, 43, .55); }
+.text-green::after { color: rgba(255, 200, 40, .55); }
 
 .site-header {
   position: sticky; top: 0; z-index: 100;
