@@ -75,6 +75,9 @@ img { max-width: 100%; display: block; }
 .section, section { padding: 3rem 0; }
 .section-compact { padding-top: 1.25rem; }
 h1,h2,h3,h4 { font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: .03em; margin: 0; }
+.hero-brand-title .text-pink,
+.hero-brand-title .text-green,
+.location-main h2 { font-family: 'Anton', sans-serif; }
 h1 { font-size: clamp(2.8rem, 8.5vw, 5.9rem); line-height: .92; }
 h2 { font-size: clamp(1.7rem, 4.6vw, 3.1rem); line-height: .95; }
 h3 { font-size: clamp(1.1rem, 2.6vw, 1.75rem); }
@@ -338,49 +341,36 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
 .kicker { color: var(--neon-red); font-weight:700; letter-spacing:.2em; text-transform:uppercase; margin-bottom:.8rem; }
 .hero-brand-title {
   position: relative;
-  display: inline-block;
+  display: grid;
   isolation: isolate;
-  max-width: 11ch;
+  max-width: 9.6ch;
   font-family: 'Anton', sans-serif;
-  font-size: clamp(3.4rem, 10vw, 7.2rem);
+  font-size: clamp(3.15rem, 8.6vw, 6.8rem);
   font-weight: 400;
-  line-height: .86;
-  letter-spacing: -.015em;
-  text-transform: none;
-  color: transparent;
-  background:
-    radial-gradient(ellipse at 18% 14%, #fff8ff 0 12%, transparent 32%),
-    radial-gradient(ellipse at 72% 30%, rgba(255, 86, 206, .95) 0 18%, transparent 45%),
-    radial-gradient(ellipse at 86% 88%, rgba(199, 255, 43, .92) 0 14%, transparent 40%),
-    linear-gradient(155deg, #ffffff 0%, #ffd7f2 23%, #ff2c77 54%, #ff56ce 74%, #c7ff2b 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter:
-    drop-shadow(0 0 18px rgba(255, 20, 105, .48))
-    drop-shadow(0 0 4px rgba(199, 255, 43, .25));
-}
-.hero-brand-title::after {
-  content: 'Shary on Tour';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  color: rgba(255, 20, 105, .34);
-  -webkit-text-fill-color: rgba(255, 20, 105, .34);
+  line-height: .78;
+  letter-spacing: .018em;
+  text-transform: uppercase;
+  color: #fff;
   text-shadow:
-    2px 2px 0 rgba(199, 255, 43, .18),
-    -2px -1px 0 rgba(255, 86, 206, .22),
-    0 0 32px rgba(255, 20, 105, .68);
-  transform: translate(.035em, .035em);
+    0 2px 0 rgba(0, 0, 0, .42),
+    0 0 18px rgba(255, 255, 255, .16);
+}
+.hero-brand-title span { display: block; }
+.hero-brand-title .text-pink,
+.hero-brand-title .text-green {
+  letter-spacing: .01em;
+  filter:
+    drop-shadow(0 3px 0 rgba(0, 0, 0, .34))
+    drop-shadow(0 0 12px rgba(255, 20, 105, .38));
 }
 .hero-role {
-  margin-top: .9rem;
-  color: #ff75b4;
-  font-size: clamp(.78rem, 1.35vw, 1rem);
-  font-weight: 700;
-  letter-spacing: .26em;
+  margin-bottom: 1rem;
+  color: #ff4f96;
+  font-size: clamp(.76rem, 1.25vw, .98rem);
+  font-weight: 800;
+  letter-spacing: .32em;
   line-height: 1.25;
-  text-transform: lowercase;
+  text-transform: uppercase;
   text-shadow: 0 0 14px rgba(255, 20, 105, .48);
 }
 .subline { max-width:42ch; font-size:clamp(1.02rem, 1.8vw, 1.33rem); margin-top:1rem; }
@@ -1184,8 +1174,8 @@ html, body { overflow-x: hidden; }
     font-size: clamp(2rem, 8.4vw, 3.6rem);
     line-height: .9;
   }
-  .hero-copy .hero-brand-title { font-size: clamp(3rem, 13vw, 5.2rem); line-height: .84; }
-  .hero-role { font-size: .72rem; letter-spacing: .16em; margin-top: .55rem; }
+  .hero-copy .hero-brand-title { font-size: clamp(2.9rem, 11vw, 4.8rem); line-height: .78; }
+  .hero-role { font-size: .72rem; letter-spacing: .22em; margin-bottom: .72rem; }
   .kicker { font-size: .64rem; margin-bottom: .55rem; letter-spacing: .22em; }
   .subline { max-width: 36ch; font-size: .88rem; line-height: 1.5; margin-top: .75rem; }
 
@@ -1371,7 +1361,7 @@ html, body { overflow-x: hidden; }
     border-radius: 14px;
   }
   .hero-copy h1 { font-size: clamp(2rem, 11vw, 3rem); }
-  .hero-copy .hero-brand-title { font-size: clamp(3.25rem, 17vw, 5.6rem); }
+  .hero-copy .hero-brand-title { font-size: clamp(3.1rem, 15.5vw, 5.25rem); }
   .subline { max-width: none; font-size: .85rem; }
 
   .cta-row { flex-direction: column; align-items: stretch; }
@@ -2588,14 +2578,14 @@ html, body { overflow-x: hidden; }
   .hero-art { border-radius: 26px; }
   .location-main h2 { font-size: clamp(1.9rem, 3.15vw, 3rem); }
 
-  /* Desktop: Event-Headlines etwas schlanker für bessere Lesbarkeit */
+  /* Desktop: Event-Headlines bleiben im plakativen Pop-Art-Look. */
   .location-main h2,
   #events .section-heading h2,
   #events .card h3 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 800;
-    letter-spacing: .015em;
-    line-height: 1.02;
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    letter-spacing: .025em;
+    line-height: .98;
   }
 }
 
