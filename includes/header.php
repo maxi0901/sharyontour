@@ -38,7 +38,7 @@ $siteConfig = require __DIR__ . '/site-config.php';
         </svg>
         <span>Booking</span>
       </a>
-      <a class="<?= isActivePage('booking.php') ?>" href="/booking.php">Kontakt</a>
+      <a class="<?= isActivePage('booking.php') ?>" href="/booking.php#kontakt">Kontakt</a>
     </nav>
 
     <div class="header-actions">

@@ -59,7 +59,8 @@ require __DIR__ . '/includes/header.php';
   </div>
 </section>
 
-<section class="section container reveal">
+<section class="section container reveal contact-section" id="kontakt" aria-labelledby="kontakt-title">
+  <h2 class="sr-only" id="kontakt-title">Kontakt</h2>
   <div class="contact-card neon-card">
     <div class="contact-block">
       <span class="ticket-meta-label">GALERIE</span>
