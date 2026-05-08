@@ -392,8 +392,6 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
     drop-shadow(0 0 8px rgba(220, 255, 0, 0.10));
 }
 .hero-brand-title .text-pink {
-  margin-bottom: -.33em;
-  z-index: 2;
   background-image: linear-gradient(
     164deg,
     #ff5ec3 0%,
@@ -404,13 +402,17 @@ p { color: #dbe0ef; line-height: 1.58; margin: 0; }
   );
 }
 .hero-brand-title .text-green {
-  z-index: 1;
   background-image: linear-gradient(
-    180deg,
-    #ffe43a 0%,
-    #f4ff4f 28%,
-    #ddff1f 58%,
-    #bfff00 82%,
+    170deg,
+    #ff2b94 0%,
+    #ff3a98 12%,
+    #ff6a8d 22%,
+    #ff9350 30%,
+    #ffbe2e 40%,
+    #ffe43a 52%,
+    #f4ff4f 66%,
+    #ddff1f 80%,
+    #bfff00 92%,
     #8bdc00 100%
   );
 }
